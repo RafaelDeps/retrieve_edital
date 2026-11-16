@@ -1,0 +1,39 @@
+{
+    "nome": "EIC STEP SCALE UP",
+    "descrição": "Área: The Accelerator; The European Innovation Council (EIC); Innovative Europe. Identificador da chamada no Funding & Tenders Portal: HORIZON-EIC-2027-STEP.",
+    "orgão_fomento": "HORIZON EUROPE",
+    "categoria": "inovação",
+    "status": "aberto",
+    "data_abertura": "2026-11-18",
+    "data_encerramento": "2027-11-24",
+    "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2027-STEP",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-11-18"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2027-11-24"
+        }
+    ],
+    "tags": [
+        "horizon europe",
+        "internacional",
+        "eic",
+        "The Accelerator",
+        "The European Innovation Council (EIC)",
+        "Innovative Europe"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [
+        "pesquisador",
+        "internacional",
+        "empresa"
+    ],
+    "ambito_geografico": "internacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "horizon"
+}
