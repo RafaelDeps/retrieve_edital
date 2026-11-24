@@ -1,0 +1,101 @@
+{
+    "nome": "TERMO DE OUTORGA E ACEITE DE BOLSA - CAPES (PROGRAMA DE BOLSAS NO EXTERIOR)",
+    "descrição": "Concessão de bolsas de apoio financeiro pela CAPES para bolsistas realizarem atividades acadêmicas, de pesquisa ou missão no exterior, vinculadas a propostas aprovadas em processos seletivos específicos. Inclui direitos e deveres das partes, benefícios financeiros, período de vigência da bolsa e obrigações de interstício após o retorno ao Brasil.",
+    "orgão_fomento": "CAPES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "",
+    "data_encerramento": "",
+    "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/estados-unidos/programa-capes-universidade-em-buffalo-capes-ub-professor-visitante",
+    "cronograma": [
+        {
+            "evento": "Vigência da bolsa (período de financiamento para atividades no exterior)",
+            "data": "#INICIOBOLSA# a #FIMBOLSA# (formato a ser preenchido conforme instrumento de seleção)"
+        },
+        {
+            "evento": "Período de interstício (obrigatório após retorno ao Brasil, igual ao tempo de financiamento ou conforme normas do programa)",
+            "data": "texto original conforme normas do programa"
+        },
+        {
+            "evento": "Envio de comprovante de seguro-saúde e apólice à CAPES após chegada ao país de destino",
+            "data": "até 30 dias após chegada ao país de destino"
+        },
+        {
+            "evento": "Retorno ao Brasil após término da bolsa ou conclusão das atividades",
+            "data": "até 60 dias após término da concessão ou conclusão das atividades"
+        },
+        {
+            "evento": "Justificativas para resolução do termo (caso fortuito, força maior ou violação grave)",
+            "data": "até 30 dias corridos após ocorrência da situação"
+        }
+    ],
+    "tags": [
+        "bolsa de pesquisa no exterior",
+        "CAPES",
+        "intercâmbio acadêmico",
+        "financiamento de estudos",
+        "período de interstício",
+        "atividades internacionais",
+        "apoio financeiro",
+        "regulamentação de bolsas",
+        "capes"
+    ],
+    "anexos": [
+        {
+            "titulo": "Termo de Outorga e Aceite de Bolsa - formato, pdf, 280kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/Edital_2799129_2Modelo_Termo_de_Outorga_Bolsista__1_.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital nº 19/2026 - Programa CAPES/Universidade em Buffalo (CAPES/UB) - Professor Visitante - formato, pdf, 139kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/Edital_2843097_SEI_2842333_Edital_n__19_2026.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital nº 19/2026 - Lista de inscritos - Programa CAPES/Universidade em Buffalo (CAPES/UB) - Professor Visitante - formato, pdf, 66,7kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/lista_listagem_2892345_lista_de_inscritos.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Portaria nº 289, de 28 de dezembro de 2018  - formato, pdf, 557kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/copy_of_Edital_2799130_4Portaria_289_de_28_12_2018.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado final do edital nº 16/2025 - formato, pdf, 55kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/20022026_Edital_2770689_SEI_2770040_Edital_16_2025.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração do resultado preliminar do edital nº 16/2025 - formato, pdf, 56kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/02012025_Edital_2746048_SEI_2745845_Edital_N__16_2025___Alteracao_do_RESULTADO_PRELIMINAR.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar do edital nº 16/2025 - formato, pdf, 57kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/29122025_Edital_2744824_SEI_2744199_Edital_16__de_2025.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Lista de inscritos no edital nº 16/2025 - formato, pdf, 207kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/29102025_Lista_Listagem_2693783_SEI___23038.003238_2025_21_buffalo.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital nº 16/2025 - formato, pdf, 360kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/11082025_Edital_2654124.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "file",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/11082025_Edital_2585802_2Modelo_Termo_de_Outorga_Bolsista__1_.pdf/@@display-file/file",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "capes"
+}

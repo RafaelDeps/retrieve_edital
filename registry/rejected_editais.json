@@ -1,113 +1,364 @@
 {
+  "capes": {
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/avaliacao/sistema-nacional-de-pos-graduacao-snpg/pci": {
+      "motivo": "prazo encerrado em 2024-12-10",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/alemanha/probral": {
+      "motivo": "prazo encerrado em 2026-04-01",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/cuba/mes-docentes": {
+      "motivo": "prazo encerrado em 2026-04-23",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/cuba/mes-projetos": {
+      "motivo": "prazo encerrado em 2026-04-23",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/estados-unidos/programa-capes-purdue-para-projetos-conjuntos-de-pesquisa": {
+      "motivo": "prazo encerrado em 2026-03-09",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/franca/cofecub": {
+      "motivo": "prazo encerrado em 2026-03-30",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/franca/programa-capes-brafitec": {
+      "motivo": "prazo encerrado em 2026-04-09",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/franca/programa-catedra-maison-du-bresil": {
+      "motivo": "prazo encerrado em 2026-05-15",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/politica-de-novacao-para-bolsistas-e-ex-bolsistas-no-exterior": {
+      "motivo": "prazo encerrado em 2024-09-11",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-caminhos-amefricanos": {
+      "motivo": "prazo encerrado em 2025-02-24",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-capes-augm": {
+      "motivo": "prazo encerrado em 2026-06-25",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-climat-amsud": {
+      "motivo": "prazo encerrado em 2026-10-22",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-de-doutorado-sanduiche-no-exterior-pdse": {
+      "motivo": "prazo encerrado em 2026-11-18",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-math-amsud": {
+      "motivo": "prazo encerrado em 2026-10-22",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/multinacional/programa-stic-amsud-capes": {
+      "motivo": "prazo encerrado em 2026-10-22",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/desenvolvimento-regional/programa-de-desenvolvimento-academico-indigena-pdai": {
+      "motivo": "prazo encerrado em 2026-10-26",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/desenvolvimento-regional/redes-de-pesquisa-e-desenvolvimento/programa-rede-de-pesquisa-e-desenvolvimento-da-amazonia-legal": {
+      "motivo": "prazo encerrado em 2026-04-10",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/formacao-de-recursos-humanos-em-areas-estrategicas/capes-cnj-apoio-a-pesquisas-judiciarias-constitucionais": {
+      "motivo": "prazo encerrado em 2026-08-31",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/formacao-de-recursos-humanos-em-areas-estrategicas/programa-de-desenvolvimento-da-pos-graduacao-pdpg-formacao-profissional-de-nutricionistas": {
+      "motivo": "prazo encerrado em 2026-06-08",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/observatorio-da-educacao-especial-inclusiva-obeduc-ei": {
+      "motivo": "prazo encerrado em 2026-10-05",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/pe-de-meia-licenciaturas": {
+      "motivo": "prazo encerrado em 2025-02-17",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    }
+  },
+  "conif": {
+    "https://portal.conif.org.br/editais/2026/edital-5-curso-virtual-de-espanhol-anuies": {
+      "motivo": "prazo encerrado em 2026-07-03",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://portal.conif.org.br/editais/2026/edital-6-seminario-forcampo-2": {
+      "motivo": "prazo encerrado em 2026-06-21",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://portal.conif.org.br/editais/2026/edital-7-selecao-da-mascote-oficial-dos-jifs": {
+      "motivo": "prazo encerrado em 2026-07-27",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://portal.conif.org.br/editais/2026/edital-8-captacao-de-patrocinio-e-apoio-ao-evento-reditec-2026": {
+      "motivo": "prazo encerrado em 2026-08-17",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://portal.conif.org.br/editais/2026/edital-9-selecao-de-avaliadores": {
+      "motivo": "prazo encerrado em 2026-09-18",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    }
+  },
   "fapes": {
-    "https://fapes.es.gov.br/Media/fapes/Editais/EDITAL_FAPES_Nº_102026_DR._EMPREENDEDOR_CAPIXABA_-_CORRIGIDO.pdf": {
-      "motivo": "prazo encerrado em 2026-05-04",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://fapes.es.gov.br/media/Portif%C3%B3lios/chamada-sbep-2026-announcement.pdf?v=1791235161000": {
+      "motivo": "prazo encerrado em 2026-11-16",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital%20Fapes%2005_2026%20-%20Visita%20Técnico%20Cientifica%20(1).pdf": {
-      "motivo": "prazo encerrado em 2026-02-09",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital%20Programa%20Gênesis%202026%20-%20Assinado.pdf": {
-      "motivo": "prazo encerrado em 2026-06-30",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital%20Universal%20Extensão%20-%20Assinado.pdf": {
-      "motivo": "prazo encerrado em 2026-06-30",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital_Fapes_02-2026-Participação_Evento_Técnico_Científico.pdf": {
-      "motivo": "prazo encerrado em 2026-02-06",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital_Fapes_03_2026_Organização_Eventos_Técnico-Científicos.pdf": {
-      "motivo": "prazo encerrado em 2026-03-07",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital_Fapes_04_2026_-_Estágio_Técnico_Cientifico.pdf": {
-      "motivo": "prazo encerrado em 2026-03-10",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
-    },
-    "https://fapes.es.gov.br/Media/fapes/Editais/Edital_Fapes_28_2025_Publicação_de_Artigos_Técnico-Científicos.pdf": {
-      "motivo": "prazo encerrado em 2025-12-22",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://fapes.es.gov.br/media/Portif%C3%B3lios/edital_fapes_no_102026_dr-_empreendedor_capixaba_-_corrigido.pdf?v=1791989793000": {
+      "motivo": "prazo encerrado em 2026-07-07",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     }
   },
   "finep": {
+    "https://www.finep.gov.br/e/chamada-publica/222684/1019381": {
+      "motivo": "prazo encerrado em 2026-09-09",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/1132029": {
+      "motivo": "prazo encerrado em 2026-11-23",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
     "https://www.finep.gov.br/e/chamada-publica/222684/753688": {
       "motivo": "prazo encerrado em 2026-05-29",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://www.finep.gov.br/e/chamada-publica/222684/755080": {
-      "motivo": "prazo encerrado em 2026-04-09",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://www.finep.gov.br/e/chamada-publica/222684/754704": {
+      "motivo": "prazo encerrado em 2026-09-18",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/754961": {
+      "motivo": "prazo encerrado em 2026-10-02",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/755485": {
+      "motivo": "prazo encerrado em 2026-10-14",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
     "https://www.finep.gov.br/e/chamada-publica/222684/755727": {
       "motivo": "prazo encerrado em 2026-05-11",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
     "https://www.finep.gov.br/e/chamada-publica/222684/755795": {
       "motivo": "prazo encerrado em 2026-06-08",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
     "https://www.finep.gov.br/e/chamada-publica/222684/755892": {
       "motivo": "prazo encerrado em 2026-07-03",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
     "https://www.finep.gov.br/e/chamada-publica/222684/756012": {
       "motivo": "prazo encerrado em 2026-05-28",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/943682": {
+      "motivo": "prazo encerrado em 2026-09-18",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/945796": {
+      "motivo": "prazo encerrado em 2026-08-06",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/958302": {
+      "motivo": "prazo encerrado em 2026-08-03",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/986129": {
+      "motivo": "prazo encerrado em 2026-08-12",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/991625": {
+      "motivo": "prazo encerrado em 2026-08-14",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     }
   },
-  "horizon": {
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-01": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+  "proex_ifes": {
+    "https://agifes.ifes.edu.br/wp-content/uploads/2026/03/Edital-Premio-Assistec-Inova-EPT-Edital-No-04.2026-1.pdf": {
+      "motivo": "prazo encerrado em 2026-03-31",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-02": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://agifes.ifes.edu.br/wp-content/uploads/2026/03/Edital-Premio-Assistec-Inova-de-Pos-Graduacao-Stricto-Sensu-pos-BSB-Edital-No-05.2026.pdf": {
+      "motivo": "prazo encerrado em 2026-04-10",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-03": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://agifes.ifes.edu.br/wp-content/uploads/2026/03/Modelo-chamada-Boas-praticas-Semana-INOVEPT-2026-Edital-No-03.2026.pdf": {
+      "motivo": "prazo encerrado em 2026-04-06",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-04": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://agifes.ifes.edu.br/wp-content/uploads/2026/04/Edital-06-2026-Chamamento-Publico-Selecao-de-discentes-e-servidores-do-IFB.pdf": {
+      "motivo": "prazo encerrado em 2026-05-03",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-05": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://agifes.ifes.edu.br/wp-content/uploads/2026/05/Edital-PROEX-07_2026-Selecao-de-bolsista.docx.pdf": {
+      "motivo": "prazo encerrado em 2026-05-22",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-OPEN-01": {
-      "motivo": "prazo encerrado em 2025-10-01",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://proex.ifes.edu.br/images/M_images/Proex/Editais/2026/01/Edital_012026_-_Selecao_de_estudantes_Partiu_IF_2026_-_Retificacao_20-01-26.pdf": {
+      "motivo": "prazo encerrado em 2026-03-09",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     },
-    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-JU-CHIPS-2025-IA-LEAI-two-stage": {
-      "motivo": "prazo encerrado em 2025-09-17",
-      "recusado_em": "2026-07-31",
-      "valida_ate": "2026-08-07"
+    "https://proex.ifes.edu.br/images/M_images/Proex/Editais/2026/02/EDITAL_N_02-2026__MAPA-Enagro__Ifes_-_2025-2026_.pdf": {
+      "motivo": "prazo encerrado em 2026-02-23",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    }
+  },
+  "prppg_ifes": {
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=280": {
+      "motivo": "prazo encerrado em 2026-03-10",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=281": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=282": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=283": {
+      "motivo": "prazo encerrado em 2026-07-20",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=284": {
+      "motivo": "prazo encerrado em 2026-03-02",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=288": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=289": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=290": {
+      "motivo": "prazo encerrado em 2026-10-21",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=291": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=292": {
+      "motivo": "prazo encerrado em 2026-05-04",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=293": {
+      "motivo": "prazo encerrado em 2026-04-26",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=294": {
+      "motivo": "prazo encerrado em 2026-06-21",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=295": {
+      "motivo": "prazo encerrado em 2026-06-17",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=296": {
+      "motivo": "prazo encerrado em 2026-08-26",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=297": {
+      "motivo": "prazo encerrado em 2026-08-24",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=298": {
+      "motivo": "prazo encerrado em 2026-09-21",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=299": {
+      "motivo": "prazo encerrado em 2026-10-30",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=300": {
+      "motivo": "prazo encerrado em 2026-11-03",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=301": {
+      "motivo": "prazo encerrado em 2026-11-13",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
+    },
+    "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=302": {
+      "motivo": "prazo encerrado em 2026-11-19",
+      "recusado_em": "2026-11-24",
+      "valida_ate": "2026-12-01"
     }
   }
 }

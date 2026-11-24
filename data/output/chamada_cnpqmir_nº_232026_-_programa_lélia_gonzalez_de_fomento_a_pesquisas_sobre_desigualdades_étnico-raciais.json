@@ -1,0 +1,78 @@
+{
+    "nome": "CHAMADA CNPQ/MIR Nº 23/2026 - PROGRAMA LÉLIA GONZALEZ DE FOMENTO A PESQUISAS SOBRE DESIGUALDADES ÉTNICO-RACIAIS",
+    "descrição": "Fomentar a produção científica sobre processos de formação e reprodução das desigualdades étnico-raciais e suas implicações na ciência, educação e sociedade brasileira. Inclui análise do racismo estrutural, fundamentos históricos e sociais, além de subsidiar políticas públicas de enfrentamento ao racismo e promover divulgação científica dos resultados.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-11-19",
+    "data_encerramento": "2027-03-01",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-23-2026/chamada-publica-cnpq-N-23-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-11-19"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2027-03-01"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-11-19"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-11-19"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-11-30"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2027-03-01"
+        },
+        {
+            "evento": "Período de Julgamento",
+            "data": "2027-04-05"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "data": "2027-05-11"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "2027-05-21"
+        },
+        {
+            "evento": "Divulgação da decisão final no Diário Oficial da União e na página do CNPq",
+            "data": "2027-06-23"
+        }
+    ],
+    "tags": [
+        "desigualdades étnico-raciais",
+        "pesquisa científica",
+        "racismo estrutural",
+        "políticas públicas",
+        "divulgação científica",
+        "CNPq",
+        "MIR",
+        "educação",
+        "sociedade brasileira",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-23-2026/Chamada_Lelia_Gonzalez_23_2026.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

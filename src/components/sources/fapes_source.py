@@ -190,14 +190,15 @@ class FapesSource(ISource[RawEdital]):
                         # Based on browser analysis: Documents are grouped within a specific table relevant to each notice.
                         # The tables are often preceded by a header or within an accordion.
                         
-                        # Find notice groups (e.g., accordions or panels)
-                        # FAPES often uses elements with specific classes for their notice lists.
-                        notice_blocks = page.locator('div.accordion-group, div.panel-group, div.item-edital, div.view-editais tr.edital-row').all()
+                        # Find notice groups (e.g., Bootstrap 5 accordion-item or legacy panels/tables)
+                        notice_blocks = page.locator(
+                            'div.accordion-item, div.accordion-group, div.panel-group, div.item-edital, div.view-editais tr.edital-row'
+                        ).all()
                         
                         if not notice_blocks:
                             # If no structural blocks, try to find tables and use their preceding headers
                             # Or just treat the whole content as one group if necessary
-                            notice_blocks = page.locator('table:has(a[href$=".pdf"])').all()
+                            notice_blocks = page.locator('table:has(a[href*=".pdf"])').all()
 
                         if not notice_blocks:
                             logger.warning(f"No document groups found on {url}.")
@@ -205,9 +206,16 @@ class FapesSource(ISource[RawEdital]):
 
                         for block in notice_blocks:
                             # Try to find a descriptive group title
-                            # Look for h1-h4 or specific classes nearby
-                            group_title_el = block.locator('h3, h4, .title, strong, td.col-titulo').first
-                            group_id = group_title_el.inner_text().strip() if group_title_el.count() > 0 else "Grupo desconhecido"
+                            # Look for accordion header/button, h2-h4 or specific classes nearby
+                            group_title_el = block.locator(
+                                '.accordion-button, .accordion-header, h2, h3, h4, .title, strong, td.col-titulo'
+                            ).first
+                            group_id = (
+                                (group_title_el.text_content() or "").strip()
+                                if group_title_el.count() > 0
+                                else "Grupo desconhecido"
+                            )
+                            group_id = re.sub(r"\s+", " ", group_id) or "Grupo desconhecido"
                             
                             logger.info(f"Processing document group: {group_id}")
                             
@@ -217,7 +225,7 @@ class FapesSource(ISource[RawEdital]):
                             
                             found_any_pdf = False
                             for el in links_elements:
-                                title = el.inner_text().strip()
+                                title = re.sub(r"\s+", " ", (el.text_content() or "")).strip()
                                 href = el.get_attribute("href")
                                 if not href:
                                     continue
@@ -236,8 +244,9 @@ class FapesSource(ISource[RawEdital]):
                                     if not title or title.lower() in ["baixar", "clique aqui", "download", "pdf", "docx"]:
                                         # But only if we don't already have a better title for this href
                                         if href not in unique_docs or unique_docs[href].lower() in ["baixar", "clique aqui"]:
-                                            # Try to extract from URL segments
-                                            url_title = href.split("/")[-1].replace(".pdf", "").replace(".docx", "").replace("_", " ")
+                                            # Try to extract from URL segments (strip query string like ?v=...)
+                                            clean_href = href.split("?", 1)[0]
+                                            url_title = clean_href.split("/")[-1].replace(".pdf", "").replace(".docx", "").replace("_", " ")
                                             title = url_title
                                     
                                     is_generic = title.lower() in ["baixar", "clique aqui", "download", "pdf"]

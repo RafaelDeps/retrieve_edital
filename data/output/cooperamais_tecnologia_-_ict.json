@@ -1,11 +1,11 @@
 {
     "nome": "COOPERAMAIS TECNOLOGIA - ICT",
-    "descrição": "EDITAL DE SELEÇÃO PÚBLICA DE PROJETOS PARA O DESENVOLVIMENTO DE SOLUÇÕES TECNOLÓGICAS PARA A AGRICULTURA FAMILIAR, EM PARCERIA COM COOPERATIVAS DA AGRICULTURA FAMILIAR A chamada tem por objetivo selecionar projetos de P,D&I apresentados por ICTs públicas e privadas para desenvolvimento de soluções tecnológicas voltadas à agricultura familiar brasileira, obrigatoriamente em parceria com cooperativas da agricultura familiar. Orçamento total R$ 100 milhões em recursos não reembolsáveis do FNDCT/CT-Agro. Pelo menos 30% dos recursos deverão ser destinados às regiões Norte, Nordeste e Centro-Oeste, desde que existam projetos meritórios. Linhas Temáticas 1- Comercialização, acesso a mercados e logística cooperativa. 2 - Desenvolvimento de cadeias produtivas e agroindustrialização cooperativa. 3 - Gestão da inovação, transformação digital e absorção tecnológica. 4 - Economia circular. 5 - Eficiência energética e resiliência climática. Quem Pode Participar São elegíveis ICTs públicas e privadas com experiência comprovada em: pesquisa; desenvolvimento tecnológico; extensão tecnológica; transferência de tecnologia; capacitação ou assistência tecnológica voltadas à agricultura familiar ou ao PNRA. Exigência Central do Edital A ICT deve comprovar parceria formal prévia com pelo menos uma cooperativa da agricultura familiar estabelecida há pelo menos 1 ano antes da publicação do edital. Além disso: a cooperativa deve possuir CAF ativo; e pelo menos 70% dos cooperados devem possuir CAF Pessoa Física ativo. A comprovação deve ocorrer mediante instrumento jurídico válido, contendo identificação das partes, assinaturas e vigência mínima de um ano. Características dos Projetos - Valor solicitado Mínimo: R$ 3 milhões. Máximo: R$ 15 milhões. - Prazo: Até 36 meses. - Maturidade Tecnológica: O projeto deve partir de TRL 3 ou superior. Esse é um critério eliminatório tanto na habilitação quanto na avaliação de mérito. - Participação Cada ICT pode apresentar apenas uma proposta como executora principal. Pode participar de outras propostas como coexecutora. A proposta deve incluir, entre outros: - Carta de Manifestação de Interesse da Cooperativa. - Extrato CAF Pessoa Jurídica. - Documento que demonstre a parceria prévia de 1 ano. - Política de Inovação (para ICTs públicas). - Relação da equipe vinculada ao cronograma físico. - Justificativa do TRL inicial e final. - Metodologia detalhada. - Avaliação dos riscos tecnológicos.",
+    "descrição": "A chamada tem por objetivo selecionar projetos de P,D&I apresentados por ICTs públicas e privadas para desenvolvimento de soluções tecnológicas voltadas à agricultura familiar brasileira, obrigatoriamente em parceria com cooperativas da agricultura familiar. Orçamento total R$ 100 milhões em recursos não reembolsáveis do FNDCT/CT-Agro. Pelo menos 30% dos recursos deverão ser destinados às regiões Norte, Nordeste e Centro-Oeste, desde que existam projetos meritórios. Linhas Temáticas 1- Comercialização, acesso a mercados e logística cooperativa. 2 - Desenvolvimento de cadeias produtivas e agroindustrialização cooperativa. 3 - Gestão da inovação, transformação digital e absorção tecnológica. 4 - Economia circular. 5 - Eficiência energética e resiliência climática. Quem Pode Participar São elegíveis ICTs públicas e privadas com experiência comprovada em: pesquisa; desenvolvimento tecnológico; extensão tecnológica; transferência de tecnologia; capacitação ou assistência tecnológica voltadas à agricultura familiar ou ao PNRA. Exigência Central do Edital A ICT deve comprovar parceria formal prévia com pelo menos uma cooperativa da agricultura familiar estabelecida há pelo menos 1 ano antes da publicação do edital. Além disso: a cooperativa deve possuir CAF ativo; e pelo menos 70% dos cooperados devem possuir CAF Pessoa Física ativo. A comprovação deve ocorrer mediante instrumento jurídico válido, contendo identificação das partes, assinaturas e vigência mínima de um ano. Características dos Projetos - Valor solicitado Mínimo: R$ 3 milhões. Máximo: R$ 15 milhões. - Prazo: Até 36 meses. - Maturidade Tecnológica: O projeto deve partir de TRL 3 ou superior. Esse é um critério eliminatório tanto na habilitação quanto na avaliação de mérito. - Participação Cada ICT pode apresentar apenas uma proposta como executora principal. Pode participar de outras propostas como coexecutora. A proposta deve incluir, entre outros: - Carta de Manifestação de Interesse da Cooperativa. - Extrato CAF Pessoa Jurídica. - Documento que demonstre a parceria prévia de 1 ano. - Política de Inovação (para ICTs públicas). - Relação da equipe vinculada ao cronograma físico. - Justificativa do TRL inicial e final. - Metodologia detalhada. - Avaliação dos riscos tecnológicos.   As dúvidas sobre o conteúdo da Chamada deverão ser encaminhadas exclusivamente para:  cp_cooperamaisict@finep.gov.br    Para apresentar sua proposta através da Plataforma de Apoio e Financiamento (Sistema SISGON), verifique abaixo os tutoriais de cadastro no sistema e preenchimento do formulário: Tutorial para efetuar o cadastro  (pdf) Tutorial para preenchimento de propostas (pdf) Tutorial para preenchimento de propostas  (Vídeo)   Em caso de dúvidas e orientações sobre CADASTRO, por gentileza, enviar e-mail para Equipe: cp_dact@finep.gov.br",
     "orgão_fomento": "FINEP",
     "categoria": "inovação",
     "status": "aberto",
     "data_abertura": "2026-09-22",
-    "data_encerramento": "2026-12-01",
+    "data_encerramento": "2026-12-08",
     "link": "https://www.finep.gov.br/e/chamada-publica/222684/1060260",
     "cronograma": [
         {
@@ -14,14 +14,15 @@
         },
         {
             "evento": "Prazo para envio de propostas",
-            "data": "2026-12-01"
+            "data": "2026-12-08"
         }
     ],
     "tags": [
         "ICT",
+        "Cooperativa",
         "Não reembolsável",
         "Todo Brasil",
-        "chamada pública"
+        "inovação"
     ],
     "anexos": [
         {
@@ -78,11 +79,17 @@
             "titulo": "Anexo X: Minuta de Convênio - Cláusulas Padrão",
             "link": "https://www.finep.gov.br/documents/20120/758476/Anexo+10+-+Minuta+padr%C3%A3o+de+conv%C3%AAnio.pdf/90408079-06b4-1a6a-f1ae-c7735c1fef72?version=1.0&t=1790106218957&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=36681b2c-8509-417d-1ff5-aec702435d7b",
             "tipo": "pdf"
+        },
+        {
+            "titulo": "FAQ",
+            "link": "https://www.finep.gov.br/documents/20120/758476/faq_cooperamaisict.pdf/488702b6-ec7a-9702-a0a4-89486d91e179?version=1.0&t=1793724001664&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=88a7b56e-57d1-18f9-7fee-b80c9a7cbddc",
+            "tipo": "pdf"
         }
     ],
     "modalidade": "",
     "publico_alvo": [
-        "ict-empresa"
+        "ict-empresa",
+        "empresa"
     ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,

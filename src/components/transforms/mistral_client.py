@@ -1,9 +1,12 @@
 import os
+import io
 import logging
 import base64
 import json
 import time
 from typing import Optional, Dict, Any, List, Callable, TypeVar
+
+import pdfplumber
 
 try:
     from mistralai import Mistral  # type: ignore[attr-defined]
@@ -32,9 +35,62 @@ RATE_LIMIT_BACKOFF_FACTOR = 2.0
 RATE_LIMIT_MAX_TOTAL_WAIT_SEC = 15 * 60
 
 
+DEFAULT_OCR_MODEL = "mistral-ocr-latest"
+DEFAULT_LLM_MODEL = "ministral-14b-latest"
+
+
+def _get_response_headers(exc: Exception) -> Dict[str, str]:
+    """Extrai headers HTTP de uma exceção do SDK Mistral (quando disponíveis)."""
+    raw_headers = getattr(exc, "headers", None)
+    if not raw_headers:
+        raw_response = getattr(exc, "raw_response", None) or getattr(exc, "response", None)
+        raw_headers = getattr(raw_response, "headers", None)
+    if not raw_headers:
+        return {}
+    try:
+        return {str(k).lower(): str(v).strip() for k, v in dict(raw_headers).items()}
+    except Exception:
+        return {}
+
+
+def _is_non_retryable_quota_or_tier_error(exc: Exception) -> bool:
+    """
+    Detecta bloqueios permanentes do plano/tier em que esperar não resolve:
+    - HTTP 403 / `tier_not_allowed` / `code: 1910` (modelo indisponível no plano)
+    - HTTP 429 com header `x-ratelimit-limit-*` igual a `0` (limite zerado no plano)
+    """
+    status_code = getattr(exc, "status_code", None)
+    if status_code is None:
+        raw_response = getattr(exc, "raw_response", None) or getattr(exc, "response", None)
+        status_code = getattr(raw_response, "status_code", None)
+
+    text = str(exc).lower()
+    if status_code == 403 or "tier_not_allowed" in text or '"code":"1910"' in text:
+        return True
+
+    headers = _get_response_headers(exc)
+    for key, value in headers.items():
+        if key.startswith("x-ratelimit-limit-") and value == "0":
+            return True
+    return False
+
+
 def _is_rate_limit_error(exc: Exception) -> bool:
+    if _is_non_retryable_quota_or_tier_error(exc):
+        return False
     s = str(exc).lower()
     return "429" in s or "rate" in s and "limit" in s or "rate_limited" in s
+
+
+def _extract_text_with_pdfplumber(pdf_bytes: bytes) -> str:
+    """Extrai texto localmente de um PDF via pdfplumber (fallback quando OCR da API está indisponível)."""
+    pages_text: List[str] = []
+    with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text() or ""
+            if text.strip():
+                pages_text.append(text)
+    return "\n\n".join(pages_text).strip()
 
 
 def _call_with_rate_limit_retry(
@@ -56,6 +112,13 @@ def _call_with_rate_limit_retry(
             return fn()
         except Exception as e:
             last_exc = e
+            if _is_non_retryable_quota_or_tier_error(e):
+                logger.error(
+                    "Erro permanente de tier/limite zerado na Mistral (sem retry). Contexto: %s | Erro: %s",
+                    context or "Mistral API",
+                    e,
+                )
+                raise
             if not _is_rate_limit_error(e) or attempt == RATE_LIMIT_MAX_RETRIES - 1:
                 raise
 
@@ -101,57 +164,88 @@ class MistralExtractionService:
         if not self.api_key:
             raise ValueError("MISTRAL_API_KEY is not set.")
         self.client = Mistral(api_key=self.api_key)
-        self.ocr_model = "mistral-ocr-latest"
-        self.llm_model = "mistral-large-latest"
+        self.ocr_model = os.getenv("MISTRAL_OCR_MODEL", DEFAULT_OCR_MODEL)
+        self.llm_model = os.getenv("MISTRAL_LLM_MODEL", DEFAULT_LLM_MODEL)
+        self._ocr_unavailable = False
+
+    def _extract_pdf_text(self, pdf_bytes: bytes, filename: str, attempt: int) -> str:
+        """
+        Extrai texto do PDF via Mistral OCR; se o OCR estiver bloqueado no plano
+        (ex.: x-ratelimit-limit-req-minute: 0 ou 403 tier_not_allowed), faz
+        fallback imediato para extração local com pdfplumber.
+        """
+        if self._ocr_unavailable:
+            logger.info("Mistral OCR indisponível neste plano; extraindo texto de %s via pdfplumber.", filename)
+            return _extract_text_with_pdfplumber(pdf_bytes)
+
+        uploaded_file_id = None
+        try:
+            logger.info(f"Uploading PDF {filename} to Mistral for OCR (Attempt {attempt})...")
+            uploaded_file = _call_with_rate_limit_retry(
+                lambda: self.client.files.upload(
+                    file={
+                        "file_name": filename,
+                        "content": pdf_bytes,
+                    },
+                    purpose="ocr",
+                ),
+                context=f"upload {filename}",
+            )
+            uploaded_file_id = uploaded_file.id
+
+            logger.info(f"File uploaded with ID: {uploaded_file_id}. Processing OCR...")
+            ocr_response = _call_with_rate_limit_retry(
+                lambda: self.client.ocr.process(
+                    model=self.ocr_model,
+                    document={
+                        "type": "file",
+                        "file_id": uploaded_file_id,
+                    },
+                ),
+                context=f"OCR {filename}",
+            )
+
+            full_ocr_text = ""
+            for page in ocr_response.pages:
+                full_ocr_text += f"\n{page.markdown}"
+            return full_ocr_text
+        except Exception as exc:
+            if _is_non_retryable_quota_or_tier_error(exc):
+                self._ocr_unavailable = True
+                logger.warning(
+                    "Mistral OCR bloqueado/limite 0 no plano atual (%s). "
+                    "Usando fallback local com pdfplumber para %s.",
+                    exc,
+                    filename,
+                )
+                return _extract_text_with_pdfplumber(pdf_bytes)
+            raise
+        finally:
+            if uploaded_file_id:
+                try:
+                    self.client.files.delete(file_id=uploaded_file_id)
+                except Exception as cleanup_err:
+                    logger.warning(f"Failed to delete uploaded file {uploaded_file_id}: {cleanup_err}")
 
     def extract_from_pdf(self, pdf_bytes: bytes, filename: str) -> Optional[EditalDomain]:
         """
-        Processes PDF bytes through Mistral OCR and extracts structured data using LLM.
+        Processes PDF bytes through Mistral OCR (or local pdfplumber fallback) and
+        extracts structured data using LLM.
         """
         max_retries = 3
         for attempt in range(1, max_retries + 1):
-            uploaded_file_id = None
             try:
-                logger.info(f"Uploading PDF {filename} to Mistral for OCR (Attempt {attempt})...")
-                
-                # 1. Upload file for OCR (with rate-limit retry)
-                uploaded_file = _call_with_rate_limit_retry(
-                    lambda: self.client.files.upload(
-                        file={
-                            "file_name": filename,
-                            "content": pdf_bytes,
-                        },
-                        purpose="ocr",
-                    ),
-                    context=f"upload {filename}",
-                )
-                uploaded_file_id = uploaded_file.id
-                
-                logger.info(f"File uploaded with ID: {uploaded_file_id}. Processing OCR...")
-                
-                # 2. Process OCR (with rate-limit retry)
-                ocr_response = _call_with_rate_limit_retry(
-                    lambda: self.client.ocr.process(
-                        model=self.ocr_model,
-                        document={
-                            "type": "file",
-                            "file_id": uploaded_file_id,
-                        },
-                    ),
-                    context=f"OCR {filename}",
-                )
-                
-                # Concatenate all pages text
-                full_ocr_text = ""
-                for page in ocr_response.pages:
-                    full_ocr_text += f"\n{page.markdown}"
-                
-                logger.info("OCR completed. Extracting structured data...")
-                
-                # 3. Extract structured data via LLM (with rate-limit retry)
+                full_ocr_text = self._extract_pdf_text(pdf_bytes, filename, attempt)
+                if not full_ocr_text.strip():
+                    logger.warning("Nenhum texto extraído do PDF %s.", filename)
+                    return None
+
+                logger.info("Text extraction completed. Extracting structured data...")
+
+                # Extract structured data via LLM (with rate-limit retry)
                 time.sleep(2)
                 prompt = self._get_extraction_prompt(full_ocr_text)
-                
+
                 response = _call_with_rate_limit_retry(
                     lambda: self.client.chat.complete(
                         model=self.llm_model,
@@ -163,25 +257,19 @@ class MistralExtractionService:
                     ),
                     context=f"extract LLM {filename}",
                 )
-                
+
                 raw_json = response.choices[0].message.content
                 extracted_data = json.loads(raw_json)
-                
-                # Cleanup: Delete the uploaded file to save space/cost
-                try:
-                    self.client.files.delete(file_id=uploaded_file_id)
-                except Exception as cleanup_err:
-                    logger.warning(f"Failed to delete uploaded file {uploaded_file_id}: {cleanup_err}")
-    
                 return self._map_to_domain(extracted_data)
-    
+
             except Exception as e:
                 logger.error("Mistral extraction failed for %s on attempt %s: %s", filename, attempt, e)
-                if uploaded_file_id:
-                    try:
-                        self.client.files.delete(file_id=uploaded_file_id)
-                    except Exception:
-                        pass
+                if _is_non_retryable_quota_or_tier_error(e):
+                    logger.error(
+                        "Erro permanente de tier/limite zerado para %s. Abortando sem novas tentativas.",
+                        filename,
+                    )
+                    return None
                 if attempt >= max_retries:
                     logger.error("Max retries reached for %s. Returning None.", filename)
                     return None

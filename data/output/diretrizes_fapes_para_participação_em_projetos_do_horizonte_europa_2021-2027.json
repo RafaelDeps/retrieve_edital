@@ -1,0 +1,70 @@
+{
+    "nome": "DIRETRIZES FAPES PARA PARTICIPAÇÃO EM PROJETOS DO HORIZONTE EUROPA (2021-2027)",
+    "descrição": "Edital que estabelece diretrizes para pesquisadores do Espírito Santo participarem de propostas colaborativas do Horizonte Europa, programa de pesquisa e inovação da União Europeia. A FAPES apoia co-Pesquisadores Principais (co-PIs) do estado, desde que atendam critérios de elegibilidade e relevância científica, com financiamento limitado a €50.000 por projeto, vinculado à aprovação prévia no Horizonte Europa.",
+    "orgão_fomento": "FAPES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2021-11-19",
+    "data_encerramento": "",
+    "link": "https://fapes.es.gov.br/media/Editais/Diretrizes%20Fapes%20Horizon%20Europe%202021-2027-1.pdf?v=1758063154000",
+    "cronograma": [
+        {
+            "evento": "Consulta de elegibilidade ao Horizonte Europa",
+            "data": "A qualquer momento (consulta prévia obrigatória)"
+        },
+        {
+            "evento": "Submissão de propostas à FAPES",
+            "data": "A qualquer momento, respeitando os prazos do Horizonte Europa"
+        },
+        {
+            "evento": "Avaliação interna pela FAPES (mínimo 2 consultores ad hoc)",
+            "data": "Após submissão da proposta à FAPES"
+        },
+        {
+            "evento": "Aprovação final da proposta pelo Horizonte Europa (condição para financiamento FAPES)",
+            "data": "Após submissão do Acordo de Subvenção da UE"
+        },
+        {
+            "evento": "Assinatura do Termo de Outorga pela FAPES (caso aprovado)",
+            "data": "Após aprovação no Horizonte Europa"
+        }
+    ],
+    "tags": [
+        "Horizonte Europa",
+        "pesquisa colaborativa internacional",
+        "financiamento europeu",
+        "co-Pesquisador Principal (co-PI)",
+        "FAPES",
+        "elegibilidade",
+        "projetos de inovação",
+        "União Europeia"
+    ],
+    "anexos": [
+        {
+            "titulo": "DIRETRIZES FAPES PARA HORIZON EUROPE 2021-2027 (1ª ALTERAÇÃO)",
+            "link": "https://fapes.es.gov.br/media/Editais/Diretrizes_Fapes_Horizon_Europe_2021-2027-DITEC_-_16-09-25.pdf?v=1758735781000",
+            "tipo": "alteração"
+        },
+        {
+            "titulo": "PUBLICAÇÃO CONFAP",
+            "link": "https://fapes.es.gov.br/media/Editais/Publica%C3%A7%C3%A3o%20CONFAP-12.pdf?v=1758735787000",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "FICHA INFORMATIVA HORIZON EUROPE",
+            "link": "https://fapes.es.gov.br/media/Editais/Ficha%20Informativa%20%20Horizon%20Europe%20%28Em%20ingl%C3%AAs%29-1.pdf?v=1758063157000",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "ARRANJO ADMINISTRATIVO",
+            "link": "https://fapes.es.gov.br/media/Editais/AA_EC_BRAZIL_PT-1.pdf?v=1758063159000",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "fapes"
+}

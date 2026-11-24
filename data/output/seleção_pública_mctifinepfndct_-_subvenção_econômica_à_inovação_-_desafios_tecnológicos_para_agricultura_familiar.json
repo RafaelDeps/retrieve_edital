@@ -17,6 +17,7 @@
         "Agro - Bioeconomia e Alimentos",
         "Meio Ambiente - Água e Clima",
         "Cooperativa",
+        "Não reembolsável",
         "Todo Brasil",
         "inovação"
     ],
@@ -102,7 +103,7 @@
             "tipo": "pdf"
         }
     ],
-    "modalidade": "fluxo-contínuo",
+    "modalidade": "",
     "publico_alvo": [
         "empresa"
     ],

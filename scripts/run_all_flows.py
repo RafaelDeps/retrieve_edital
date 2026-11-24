@@ -57,7 +57,7 @@ LOW_VOLUME_FLOWS = frozenset()
 # Teto de duração por fonte. Um fluxo que trava — portal pendurado, backoff longo
 # do Mistral — não pode consumir a janela do job inteiro. Ao estourar, o processo
 # é encerrado, a falha é registrada e os fluxos seguintes continuam.
-DEFAULT_FLOW_TIMEOUT_SEC = 20 * 60
+DEFAULT_FLOW_TIMEOUT_SEC =2* 60 * 60
 
 DELTA_REGEX = re.compile(r"\(delta (-?\d+)\)")
 LOG_SEPARATOR = "| :-- | :-- | :-- | :-- |\n"

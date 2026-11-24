@@ -1,0 +1,78 @@
+{
+    "nome": "CHAMADA PÚBLICA MCTI/CNPQ/ANR Nº 32/2026 - COOPERAÇÃO BRASIL-FRANÇA EM PESQUISA CIENTÍFICA E INOVAÇÃO",
+    "descrição": "Seleção de até 4 projetos conjuntos de pesquisa entre grupos brasileiros e franceses, visando o desenvolvimento científico, tecnológico e inovação em duas áreas prioritárias: **Saúde/Uma Só Saúde (One Health)**, com ênfase em imunologia, doenças infecciosas e meio ambiente; e **Contínuo Digital**, abrangendo Computação de Alto Desempenho (HPC), Inteligência Artificial (IA) e Ciências Quânticas. A chamada busca fortalecer a cooperação bilateral, agregar valor à pesquisa estratégica e promover ações de divulgação científica para a sociedade.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-09-03",
+    "data_encerramento": "2027-03-31",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-32-2026/chamada-publica-cnpq-N-32-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-09-03"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2027-03-31"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-09-03"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-09-03"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-09-14"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2027-03-31"
+        },
+        {
+            "evento": "Período de Julgamento",
+            "data": "2027-04-01"
+        },
+        {
+            "evento": "Divulgação do resultado do julgamento no Diário Oficial da União e na página do CNPq",
+            "data": "2027-10-01"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "10 dias corridos após divulgação do resultado preliminar"
+        },
+        {
+            "evento": "Contratação das propostas aprovadas",
+            "data": "2028-01-01"
+        }
+    ],
+    "tags": [
+        "cooperação internacional",
+        "pesquisa científica",
+        "saúde pública",
+        "inteligência artificial",
+        "computação quântica",
+        "inovação tecnológica",
+        "One Health",
+        "HPC (High-Performance Computing)",
+        "financiamento bilateral",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-32-2026/ChamadaPblicaANR322026_2766435.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

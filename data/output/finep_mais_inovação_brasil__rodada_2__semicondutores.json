@@ -1,62 +1,123 @@
 {
     "nome": "FINEP MAIS INOVAÇÃO BRASIL – RODADA 2 – SEMICONDUTORES",
-    "descrição": "Esta Seleção Pública objetiva conceder recursos de subvenção econômica para o desenvolvimento de produtos ou processos inovadores que atendam as finalidades definidas neste regulamento e em seus anexos. Orçamento da chamada: R$ 100.000.000,00 Público-alvo: Empresas Em caso de dúvidas e orientações sobre a seleção pública: cp_mib_sbv_semicondutores_2@finep.gov.br Para apresentar sua proposta através da Plataforma de Apoio e Financiamento, verifique abaixo os materiais de orientação para cadastro e preenchimento do formulário no sistema: Manuais Manual do Cliente - Cadastro Manual do Cliente - Formulário de Apresentação de Proposta - FAP Manual do Cliente - Recursos Vídeos Tutorial geral Como se vincular a uma empresa já cadastrada Problemas de acesso à Plataforma da Finep Em caso de dúvida e orientações sobre CADASTRO: cp_cadastroempresas@finep.gov.br",
+    "descrição": "Esta Seleção Pública objetiva conceder recursos de subvenção econômica para o desenvolvimento de produtos ou processos inovadores que atendam as finalidades definidas neste regulamento e em seus anexos. Orçamento da chamada: R$ 100.000.000,00 Público-alvo: Empresas    Em caso de dúvidas e orientações sobre a seleção pública: cp_mib_sbv_semicondutores_2@finep.gov.br   Para apresentar sua proposta através da Plataforma de Apoio e Financiamento, verifique abaixo os materiais de orientação para cadastro e preenchimento do formulário no sistema: Manuais  Manual do Cliente - Cadastro      Manual do Cliente - Formulário de Apresentação de Proposta - FAP       Manual do Cliente - Recursos Vídeos  Tutorial geral      Como se vincular a uma empresa já cadastrada     Problemas de acesso à Plataforma da Finep Em caso de dúvidas e para orientações sobre cadastro (como CPF, CNPJ, vinculação, segmentos cadastrais e pendências cadastrais), clique aqui.",
     "orgão_fomento": "FINEP",
     "categoria": "inovação",
-    "status": "encerrado",
+    "status": "aberto",
     "data_abertura": "2026-03-12",
-    "data_encerramento": "2026-09-30",
-    "link": "http://www.finep.gov.br/chamadas-publicas/chamadapublica/780",
+    "data_encerramento": "2026-11-25",
+    "link": "https://www.finep.gov.br/e/chamada-publica/222684/755605",
     "cronograma": [
         {
             "evento": "Data de publicação",
             "data": "2026-03-12"
         },
         {
-            "evento": "Prazo de envio da proposta",
-            "data": "2026-09-30"
+            "evento": "Prazo para envio de propostas",
+            "data": "2026-11-25"
         }
     ],
     "tags": [
-        "TICs - Tecnologia de Informação e Comunicação",
+        "Subvenção Econômica",
+        "Startup",
+        "Cooperativa",
+        "Receita: até R$ 4,8 Mi",
+        "Receita: R$ 4,8 Mi - R$ 16,0 Mi",
+        "Receita: R$ 16,0 Mi - R$ 90,0 Mi",
+        "Receita: R$ 90,0 Mi - R$ 300,0 Mi",
+        "Receita: maior que R$ 300,0 Mi",
+        "Não reembolsável",
+        "Todo Brasil",
         "inovação"
     ],
     "anexos": [
         {
             "titulo": "Regulamento",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_Regulamento.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_Regulamento.pdf/801b7b26-1ba1-ca30-eafb-98416a5e7507?version=1.0&t=1778033645679&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=bab62a0b-f252-9a8b-608b-66e66e965939",
+            "tipo": "pdf"
         },
         {
             "titulo": "Anexo 1: Características Específicas da Seleção Pública",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_A1.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_A1.pdf/cde6bfd0-b848-0ef1-f0d8-7ebb8f9de291?version=1.0&t=1778033647347&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=1dce3539-06b4-1d7a-b02a-4bc8a3b05551",
+            "tipo": "pdf"
         },
         {
             "titulo": "Anexo 2: Minuta de Termo de Outorga de Subvenção Econômica",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_A2.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_A2.pdf/1874f011-c37f-0de3-3867-eac9368e698e?version=1.0&t=1778033648763&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=86954620-876b-c802-2c86-85fadbd807b6",
+            "tipo": "pdf"
         },
         {
             "titulo": "Anexo 3: Declaração de ações coletivas",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_A3.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_A3.pdf/407f7b69-8e68-a3a7-398e-2792d14a4b88?version=1.0&t=1778033650172&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=bc503005-38c5-72e7-250a-d5ce362443be",
+            "tipo": "pdf"
         },
         {
             "titulo": "Anexo 4: Declaração ambiental e outros aspectos regulatórios",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_A4.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_A4.pdf/68c14c35-6344-75ea-7a87-db83f58b915f?version=1.0&t=1778033651581&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=612ffe5d-6293-ebb7-7bdc-e094a185f484",
+            "tipo": "pdf"
         },
         {
             "titulo": "Anexo 5: Definição do Nível de Maturidade Tecnológica",
-            "link": "http://www.finep.gov.br/images/chamadas-publicas/2026/12_03_2026_S_A5.pdf",
-            "tipo": "Documentos"
+            "link": "https://www.finep.gov.br/documents/20117/206285/12_03_2026_S_A5.pdf/79ed3585-6cc6-46b7-f90b-dcddf3c009e1?version=1.0&t=1778033652865&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=68406444-6233-a1b0-87d4-cd1ff2dd3a9b",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultados parciais - até 10/04/2026",
+            "link": "https://www.finep.gov.br/documents/20117/206285/10_04_2026_Resultado_parcial_Semicondutores.pdf/be68871f-e929-52dd-9f0d-5d41414b015d?version=1.0&t=1778033655651&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=c1909ddf-71b1-93f9-a1bc-c5c4f7dba2ae",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultado parcial até 10/05/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/202605_relatorioSemicondutores.pdf/905a9183-7f14-9d06-a00d-66dfce8d12d4?version=1.0&t=1778613854816&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=da5211b7-b07a-ddfd-72a7-f8f9ec735f1e",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "FAQ atualizado em 03/06/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/FAQ_semicondutores_20260602.pdf/2c6a6f70-57e3-a6f4-5900-6d8937095733?version=1.0&t=1780494226858&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=bfc71ff3-8479-357c-de75-e849d6fd6c18",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultado parcial até 10/06/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Resultados+parciais+10-06-26+-+semicondutores.pdf/0f280c42-3465-7936-43f1-e5141dbe773c?version=1.0&t=1781210998843&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=4db28f8d-a030-4caf-2ed1-602e172e8ddd",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultados parciais - até 10/07/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Resultados+parciais+10-07-26+-+semicondutores.pdf/7757c8d5-7edd-cf42-e53e-b0843e0190f3?version=1.0&t=1783993301811&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=3b798211-ffb5-c307-973f-83283aefa80d",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultado parcial até 10/08/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Relatorio_Mais_Inova%C3%A7%C3%A3o_-_Semicondutores.pdf/80dc77f2-65fa-74a6-7cf2-7e303b7a559d?version=1.0&t=1786444479103&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=25978c93-0bc8-df5f-d65e-339e2de5d7f5",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultado parcial até 10/09/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Relatorio_Mais_Inova%C3%A7%C3%A3o_-_Semicondutores+2.pdf/7e540b69-0e15-3958-e00c-00d6b47c64d0?version=1.0&t=1789126622540&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=5ee69c58-5a61-abf5-8c5d-8393b2f35393",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Rerratificação do Regulamento",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Regulamento+-+Mais+Inova%C3%A7%C3%A3o+Semicondutores+Rodada+2__Rerratificado.pdf/d05ac978-a5e3-a6aa-54fb-484c2a0adb92?version=1.0&t=1790617794693&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=ad03ab25-70b0-ea16-80e3-72d44100c686",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Aviso de rerratificação do Regulamento",
+            "link": "https://www.finep.gov.br/documents/20120/758476/28_09_2026_Semicondutores+Rodada+2_Aviso_Rerratificacao_VF+%281%29.pdf/820c0d96-9f65-5be0-a6e0-8e611e05450a?version=1.0&t=1790617839532&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=6c6b3085-8874-64d3-3758-66c9374adcb1",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Resultado parcial - até 13/10/2026",
+            "link": "https://www.finep.gov.br/documents/20120/758476/Relatorio_Mais_Inovacao_-_Semicondutores+-+Outubro+2026.pdf/37a4ea27-13d1-665c-17cd-27eb231cbd9f?version=1.0&t=1791948076261&download=true&objectDefinitionExternalReferenceCode=5c06f88d-cc8a-003f-94e4-d9ed8cb642f3&objectEntryExternalReferenceCode=629ea24c-b744-2678-478d-9617e8d0aea6",
+            "tipo": "pdf"
         }
     ],
+    "modalidade": "",
+    "publico_alvo": [
+        "empresa"
+    ],
     "ambito_geografico": "nacional",
-    "fonte_key": "finep",
-    "publico_alvo": [],
     "valor_estimado": null,
     "trl_exigido": "",
-    "modalidade": ""
+    "fonte_key": "finep"
 }

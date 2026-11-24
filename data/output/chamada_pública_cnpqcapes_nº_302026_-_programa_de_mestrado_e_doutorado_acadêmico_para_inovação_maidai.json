@@ -1,0 +1,107 @@
+{
+    "nome": "CHAMADA PÚBLICA CNPQ/CAPES Nº 30/2026 - PROGRAMA DE MESTRADO E DOUTORADO ACADÊMICO PARA INOVAÇÃO (MAI/DAI)",
+    "descrição": "O edital visa apoiar Instituições Científicas, Tecnológicas e de Inovação (ICTs) na execução do Programa de Mestrado e Doutorado Acadêmico para Inovação (MAI/DAI), fortalecendo a pesquisa aplicada, desenvolvimento tecnológico e inovação. O programa busca fomentar parcerias entre ICTs e setores empresarial, governamental e terceiro setor, promovendo a formação de recursos humanos em níveis de graduação e pós-graduação, além de gerar produtos e processos inovadores com relevância econômica e social para o país. São duas linhas de submissão: Linha 1 para ICTs com histórico consolidado de parcerias em PD&I, e Linha 2 para ICTs com trajetória inicial de parcerias.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-08-19",
+    "data_encerramento": "2026-12-11",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/chamada-publica-cnpq-N-30-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-08-19"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2026-12-11"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-08-19"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e nas páginas do CNPq e CAPES",
+            "data": "2026-08-19"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-08-29"
+        },
+        {
+            "evento": "Data de início do período de submissão das propostas",
+            "data": "2026-08-20"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2026-12-11"
+        },
+        {
+            "evento": "Julgamento",
+            "data": "2027-01"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq e CAPES",
+            "data": "2027-01"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "texto original: 10 dias após a divulgação do resultado preliminar"
+        },
+        {
+            "evento": "Divulgação da decisão final no Diário Oficial da União e nas páginas do CNPq e CAPES",
+            "data": "2027-02"
+        },
+        {
+            "evento": "Prazo limite para implementação das bolsas de doutorado pela Instituição Executora",
+            "data": "texto original: 6 meses após a divulgação do resultado final"
+        }
+    ],
+    "tags": [
+        "bolsas de mestrado",
+        "bolsas de doutorado",
+        "instituições científicas e tecnológicas",
+        "inovação",
+        "parcerias empresariais",
+        "pesquisa aplicada",
+        "desenvolvimento tecnológico",
+        "CAPES",
+        "CNPq",
+        "PD&I",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/chamadapublica30_2026_MAIDAI_2766773.pdf",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Anexo II: Plano de Trabalho Programa MAI/DAI",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/Anexo_IIChamada30_2026MAIDAI.docx",
+            "tipo": "docx"
+        },
+        {
+            "titulo": "Anexo III: Declaração Institucional do Representante MAI/DAI",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/Anexo_IIIChamada30_2026MAIDAI.docx",
+            "tipo": "docx"
+        },
+        {
+            "titulo": "Anexo IV: Carta de Concordância da Instituição Parceira",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/Anexo_IVChamada30_2026MAIDAI.docx",
+            "tipo": "docx"
+        },
+        {
+            "titulo": "FAQ",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-30-2026/FAQ30_2026MAIDAI_2822516ATUALIZADO.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

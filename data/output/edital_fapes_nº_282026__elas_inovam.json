@@ -1,0 +1,105 @@
+{
+    "nome": "EDITAL FAPES Nº 28/2026 – ELAS INOVAM",
+    "descrição": "O edital visa apoiar o desenvolvimento de soluções inovadoras e a estruturação de negócios liderados por mulheres no Espírito Santo. Dividido em dois ciclos, o Ciclo 1 (Ideação) seleciona até 50 propostas para desenvolvimento de um Produto Mínimo Viável (MVP) e elaboração de um plano de ação, com até R$ 30 mil de subvenção por projeto e bolsa BCO. O Ciclo 2 (Consolidação) seleciona até 20 projetos para aprimorar as soluções, com até R$ 50 mil de subvenção e nova bolsa BCO. Os temas abrangem saúde, sustentabilidade, energias renováveis, transformação digital, educação e economia criativa. Inclui oficinas e mentorias em parceria com o Sebrae-ES e ações afirmativas para grupos específicos.",
+    "orgão_fomento": "FAPES",
+    "categoria": "inovação",
+    "status": "aberto",
+    "data_abertura": "2027-05-01",
+    "data_encerramento": "2027-05-01",
+    "link": "https://fapes.es.gov.br/media/Editais/edital_fapes_n_28-2026_-_elas_inovam_-lancamento.pdf?v=1794337738000",
+    "cronograma": [
+        {
+            "evento": "Publicação do edital",
+            "data": "2026-11-10"
+        },
+        {
+            "evento": "Submissão para o Ciclo 1 (Ideação)",
+            "data": "2026-11-13"
+        },
+        {
+            "evento": "Resultado preliminar da seleção do Ciclo 1",
+            "data": "2027-01-29"
+        },
+        {
+            "evento": "Recurso administrativo para o Ciclo 1",
+            "data": "2027-02-05"
+        },
+        {
+            "evento": "Resultado final do Ciclo 1",
+            "data": "2027-03-01"
+        },
+        {
+            "evento": "Constituição da empresa (quando necessária)",
+            "data": "2027-03-21"
+        },
+        {
+            "evento": "Contratação dos projetos selecionados no Ciclo 1",
+            "data": "2027-03-22"
+        },
+        {
+            "evento": "Início da vigência dos projetos do Ciclo 1",
+            "data": "2027-05-01"
+        },
+        {
+            "evento": "Abertura do Ciclo 2 (Consolidação)",
+            "data": "2028-01-12"
+        },
+        {
+            "evento": "Submissão para o Ciclo 2 (Consolidação)",
+            "data": "2028-01-12"
+        },
+        {
+            "evento": "Resultado preliminar da seleção do Ciclo 2",
+            "data": "2028-03-06"
+        },
+        {
+            "evento": "Recurso administrativo para o Ciclo 2",
+            "data": "2027-02-05"
+        },
+        {
+            "evento": "Resultado final do Ciclo 2",
+            "data": "2028-03-30"
+        },
+        {
+            "evento": "Contratação dos projetos selecionados no Ciclo 2",
+            "data": "2028-04-03"
+        },
+        {
+            "evento": "Início da vigência dos projetos do Ciclo 2",
+            "data": "2028-05-01"
+        }
+    ],
+    "tags": [
+        "empreendedorismo feminino",
+        "inovação tecnológica",
+        "subvenção econômica",
+        "produto mínimo viável (MVP)",
+        "ações afirmativas",
+        "sustentabilidade",
+        "transformação digital",
+        "negócios sociais"
+    ],
+    "anexos": [
+        {
+            "titulo": "ANEXO I - FORMULÁRIO DE SUBMISSÃO - CICLO 1",
+            "link": "https://fapes.es.gov.br/media/Editais/anexo-i-formulario-submissao-ciclo1.docx?v=1794338025000",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "ANEXO II - FORMULÁRIO DE SUBMISSÃO - CICLO 2",
+            "link": "https://fapes.es.gov.br/media/Editais/anexo-ii-formulario-submissao-ciclo2.docx?v=1794338026000",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "ANEXO III - AUTODECLARAÇÃO DE AÇÕES AFIRMATIVAS",
+            "link": "https://fapes.es.gov.br/media/Editais/anexo-iiii-autodeclaracao-acoes-afirmativas.docx?v=1794338026000",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "fapes"
+}

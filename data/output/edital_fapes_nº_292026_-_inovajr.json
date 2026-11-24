@@ -1,0 +1,83 @@
+{
+    "nome": "EDITAL FAPES Nº 29/2026 - INOVAJR",
+    "descrição": "Programa que fomenta o desenvolvimento de soluções tecnológicas para desafios prioritários do Espírito Santo, envolvendo instituições de ensino superior, pesquisa, ensino médio e técnico. O edital é dividido em duas chamadas: a 1ª para apresentação de desafios tecnológicos por IES e instituições de pesquisa, e a 2ª para apresentação de soluções por instituições de ensino médio ou técnico. Os projetos selecionados recebem auxílio financeiro de R$ 10 mil por desafio e solução, além de bolsas para tutores, cotutores e estudantes participantes. O prazo de execução é de até 8 meses.",
+    "orgão_fomento": "FAPES",
+    "categoria": "inovação",
+    "status": "aberto",
+    "data_abertura": "2027-06-01",
+    "data_encerramento": "2027-06-01",
+    "link": "https://fapes.es.gov.br/media/Editais/edital_fapes_n_29-2026_-_programa_inovajr_-_lancamento.pdf?v=1793993618000",
+    "cronograma": [
+        {
+            "evento": "Publicação da 1ª Chamada – Desafios Tecnológicos",
+            "data": "2026-11-06"
+        },
+        {
+            "evento": "Submissão dos desafios tecnológicos",
+            "data": "2026-11-06"
+        },
+        {
+            "evento": "Resultado preliminar da seleção dos desafios",
+            "data": "2026-12-30"
+        },
+        {
+            "evento": "Recurso administrativo para desafios",
+            "data": "2027-01-06"
+        },
+        {
+            "evento": "Resultado final dos desafios selecionados",
+            "data": "2027-01-29"
+        },
+        {
+            "evento": "Abertura da 2ª Chamada – Soluções",
+            "data": "2027-02-12"
+        },
+        {
+            "evento": "Submissão das propostas de solução",
+            "data": "2027-02-12"
+        },
+        {
+            "evento": "Resultado preliminar da seleção das soluções",
+            "data": "2027-04-02"
+        },
+        {
+            "evento": "Recurso administrativo para soluções",
+            "data": "2027-01-06"
+        },
+        {
+            "evento": "Resultado final das soluções selecionadas",
+            "data": "2027-04-29"
+        },
+        {
+            "evento": "Contratação dos projetos selecionados",
+            "data": "2027-05-03"
+        },
+        {
+            "evento": "Início da vigência dos projetos de desafios e soluções",
+            "data": "2027-06-01"
+        },
+        {
+            "evento": "Apresentação dos resultados",
+            "data": "2027-12-01"
+        }
+    ],
+    "tags": [
+        "ensino médio",
+        "ensino técnico",
+        "desafios tecnológicos",
+        "inovação",
+        "Espírito Santo",
+        "FAPES",
+        "prova de conceito",
+        "bolsas de pesquisa",
+        "educação",
+        "tecnologia"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "fapes"
+}

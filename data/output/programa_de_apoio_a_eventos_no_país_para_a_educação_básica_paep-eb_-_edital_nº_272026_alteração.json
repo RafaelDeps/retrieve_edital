@@ -1,0 +1,206 @@
+{
+    "nome": "PROGRAMA DE APOIO A EVENTOS NO PAÍS PARA A EDUCAÇÃO BÁSICA (PAEP-EB) - EDITAL Nº 27/2026 (ALTERAÇÃO)",
+    "descrição": "Programa de fomento da CAPES voltado para o apoio financeiro a eventos no país relacionados à educação básica, visando promover a formação, atualização e discussão de temas relevantes para o ensino fundamental e médio.",
+    "orgão_fomento": "CAPES",
+    "categoria": "extensão",
+    "status": "aberto",
+    "data_abertura": "2026-10-01",
+    "data_encerramento": "2026-12-22",
+    "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/programa-de-apoio-a-eventos-no-pais-para-a-educacao-basica-paep-eb",
+    "cronograma": [
+        {
+            "evento": "Lançamento do Edital",
+            "data": "2026-10-01"
+        },
+        {
+            "evento": "Prazo para impugnação do Edital",
+            "data": "2026-10-06"
+        },
+        {
+            "evento": "Solicitação de cadastro de instituição (para instituições sem cadastro prévio)",
+            "data": "2026-10-13"
+        },
+        {
+            "evento": "Submissão de propostas",
+            "data": "2026-10-13"
+        },
+        {
+            "evento": "Análise Técnica das propostas",
+            "data": "2026-11-05"
+        },
+        {
+            "evento": "Divulgação do resultado da Análise Técnica",
+            "data": "2026-12-01"
+        },
+        {
+            "evento": "Interposição de recurso administrativo contra resultado da Análise Técnica",
+            "data": "2026-12-01"
+        },
+        {
+            "evento": "Divulgação do resultado dos recursos da Análise Técnica",
+            "data": "2026-12-04"
+        },
+        {
+            "evento": "Análise de Mérito das propostas",
+            "data": "2026-12-07"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar da Análise de Mérito",
+            "data": "2026-12-15"
+        },
+        {
+            "evento": "Interposição de recurso administrativo contra resultado da Análise de Mérito",
+            "data": "2026-12-15"
+        },
+        {
+            "evento": "Divulgação do resultado final",
+            "data": "2026-12-22"
+        },
+        {
+            "evento": "Realização dos eventos",
+            "data": "2027-01-18"
+        }
+    ],
+    "tags": [
+        "educação básica",
+        "eventos acadêmicos",
+        "fomento CAPES",
+        "ensino fundamental e médio",
+        "formação de professores",
+        "extensão universitária",
+        "capes"
+    ],
+    "anexos": [
+        {
+            "titulo": "Anexo I - Manual de Utilização de Recursos AUXPE, formato, pdf, 331kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/29072024_5_AnexoIManualdeUtilizaodeRecursosAUXPE.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Anexo II - Manual de Prestação de Contas AUXPE SIPREC, formato, pdf, 196kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/29072024_6_AnexoIIManualdePrestaodeContasAUXPESIPREC.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "SCBA - AUXPE - Manual do Beneficiário, formato, pdf, 3mb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/29072024_7_SCBAAUXPEManualdoBeneficiario.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Manual Cartão BB Pesquisa - CAPES",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/09042024_manual-cartao-pesquisador-capes-2024-v04.pdf",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração - Edital PAEP-EB nº 27/2026 - formato, pdf, 57,0kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2930533_sei_2930334_edital_27_2026___alteracao_de_cronograma.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração - Edital PAEP-EB nº 27/2026 - formato, pdf, 155kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2920795_edital_27_2026___alteracao___site.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital PAEP-EB nº 27/2026 - formato, pdf, 160kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2905712_sei_2905378_edital_27_2026.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração do resultado final de análise de mérito do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 259kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/05122025_Edital_2733985_EDITAL_PAEPEB.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado final de análise de mérito do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 147kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/10112025_Edital_2717644_SEI_2716408_Edital_15_2025.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Prorrogação do edital PAEP-EB nº 15/2025 - formato, pdf, 575kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/05112025_EDITAL152025PRORROGAO.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar de análise de mérito do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 64kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/22102025_Edital_2706094_SEI_2705834_Edital_15_2025___Resultado_Preliminar.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado final do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 65kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/08102025_Edital_2696963_SEI_2696382_Edital_15_2025__.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Prorrogação do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 52kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/02102025_Edital_2693356_SEI_2692240_Edital_15_2025___Prorrogacao.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar do edital n° 15/2025 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 65kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/26092025_Edital_2689682_SEI_2689428_Edital_15_2025___RESULTADO_PRELIMINAR.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração do edital PAEP-EB nº 15/2025 - formato, pdf, 51,5kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/13082025_Edital_2656357_SEI_2655350_Edital_15_2025.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado Final do Edital nº 14/2024 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 2021kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/18092024_SEI_2461670_Edital__N__14_2024.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar do edital n° 14/2024 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 109kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/05092024_Edital_2454495_SEI_2454344_Edital_EDITAL_N__14_2024.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital n° 14/2024 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 102kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/14062024_Edital_2396954_SEI_2395820_Edital_14_2024.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado final do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 175kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/04092023_EDITAL132023SITE.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 1mb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/15082023_Edital_2037388_Edital_13.2023_site.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado final da análise técnica do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 826kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/07082023_Edital_2032127_Edital_13_2023_site.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 128kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/27072023_Edital_2025391_Edital_13_2023_Alteracao_site.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Resultado preliminar do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 834kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/26072023_Edital_2024682_EDITAL_13_2023_RESULTADO_PRELIMINAR.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Alteração do edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 99kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/02062023_Edital_1989851_Edital_13_2023.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital n° 13/2023 - Programa de Apoio a Eventos no País para a Educação Básica (PAEP-EB) - formato, pdf, 262kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/24052023_Edital_1982772_SEI_CAPES___1981022___Edital_13.2023.pdf/@@display-file/file",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "capes"
+}

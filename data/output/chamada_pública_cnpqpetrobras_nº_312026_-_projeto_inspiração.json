@@ -1,0 +1,103 @@
+{
+    "nome": "CHAMADA PÚBLICA CNPQ/PETROBRAS Nº 31/2026 - PROJETO INSPIRAÇÃO",
+    "descrição": "Apoio a instituições científicas, tecnológicas e de inovação (ICT) e instituições de ensino superior (IES) para concessão de bolsas de Apoio Técnico em Extensão no País (ATP-B) a jovens negras estudantes do ensino médio, com duração de 36 meses em três ciclos. Objetiva integrar estudantes em atividades de pesquisa científica, tecnológica e inovação, com ênfase em petróleo, energia, tecnologias sociais e sustentabilidade, promovendo inclusão racial, equidade de gênero e divulgação científica em escolas públicas nos territórios de atuação da Petrobras.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "extensão",
+    "status": "aberto",
+    "data_abertura": "2026-10-26",
+    "data_encerramento": "2026-12-08",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/chamada-publica-cnpq-N-31-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-10-26"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2026-12-08"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-10-26"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-10-26"
+        },
+        {
+            "evento": "Prazo final para impugnação da Chamada (10 dias corridos após o lançamento)",
+            "data": "2026-10-26"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2026-12-08"
+        },
+        {
+            "evento": "Julgamento das propostas",
+            "data": "2027-01-01"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "data": "2027-01-01"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo (10 dias corridos após divulgação do resultado preliminar)",
+            "data": "texto original: 10 dias corridos após divulgação do resultado preliminar"
+        },
+        {
+            "evento": "Divulgação do resultado final e publicação no Diário Oficial da União",
+            "data": "2027-02-01"
+        },
+        {
+            "evento": "Início da implementação das bolsas",
+            "data": "2027-03-01"
+        }
+    ],
+    "tags": [
+        "bolsas de extensão",
+        "inclusão racial",
+        "ensino médio",
+        "pesquisa científica",
+        "energias renováveis",
+        "diversidade de gênero",
+        "educação pública",
+        "tecnologias sociais",
+        "Petrobras",
+        "CNPq",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/chamadapublica31_2026_CNPq_Petrobras_projetoinspirAO_2825317.pdf",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "Anexo I - Formulário de Proposta Institucional",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/Anexo_I_chamada_312026_2830333.xls",
+            "tipo": "xls"
+        },
+        {
+            "titulo": "Anexo II - Documento de indicação do Representante Institucional nomeado pelo(a) Pró- Reitor(a) de Extensão ou cargo equivalente da IES/ICT",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/Anexo_II_Chamada31_2026_2828156.docx",
+            "tipo": "docx"
+        },
+        {
+            "titulo": "Anexo III - Lista de",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/Anexo_III___Territorios_Atualizado_2830358._.xls",
+            "tipo": "xls"
+        },
+        {
+            "titulo": "FAQ",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-31-2026/FAQ_chamada31_2026_2830387.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

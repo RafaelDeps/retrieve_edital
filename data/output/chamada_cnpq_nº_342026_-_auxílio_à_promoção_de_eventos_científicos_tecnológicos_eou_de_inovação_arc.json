@@ -1,0 +1,81 @@
+{
+    "nome": "CHAMADA CNPQ Nº 34/2026 - AUXÍLIO À PROMOÇÃO DE EVENTOS CIENTÍFICOS, TECNOLÓGICOS E/OU DE INOVAÇÃO (ARC)",
+    "descrição": "Apoiar a realização de eventos científicos, tecnológicos e de inovação de grande porte, com abrangência mundial, internacional ou nacional, que contribuam significativamente para o desenvolvimento científico, tecnológico e de inovação do Brasil. Inclui eventos promovidos por sociedades científicas mundiais, associações tradicionais ou não tradicionais, com foco em educação, divulgação científica e alinhamento aos eixos da Estratégia Nacional de Ciência, Tecnologia e Inovação (ENCTI) 2024-2034.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "extensão",
+    "status": "aberto",
+    "data_abertura": "2026-10-14",
+    "data_encerramento": "2026-12-04",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-34-2026/chamada-publica-cnpq-N-34-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-10-14"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2026-12-04"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-10-14"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-10-14"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-10-26"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2026-12-04"
+        },
+        {
+            "evento": "Período de Julgamento",
+            "data": "2027-02-01"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "data": "2027-03-15"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "2027-03-25"
+        },
+        {
+            "evento": "Divulgação da decisão final no Diário Oficial da União e na página do CNPq",
+            "data": "2027-04-30"
+        }
+    ],
+    "tags": [
+        "eventos científicos",
+        "inovação tecnológica",
+        "fomento CNPq",
+        "divulgação científica",
+        "Estratégia Nacional de CT&I",
+        "auxílio a eventos",
+        "presencial e híbrido",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-34-2026/Chamada_ARC_34_2026.pdf",
+            "tipo": "pdf"
+        },
+        {
+            "titulo": "FAQ",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-34-2026/FAQ_Chamada_ARC_34_2026.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

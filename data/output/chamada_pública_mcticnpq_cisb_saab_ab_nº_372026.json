@@ -1,0 +1,87 @@
+{
+    "nome": "CHAMADA PÚBLICA MCTI/CNPQ CISB SAAB AB Nº 37/2026",
+    "descrição": "Seleção de bolsistas para desenvolvimento de pesquisas doutorais ou pós-doutorais na Suécia em áreas estratégicas como redes de comunicação, sistemas autônomos, engenharia aeronáutica, propulsão, materiais e desempenho humano, com foco em colaboração científica e tecnológica entre Brasil e Suécia.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-11-11",
+    "data_encerramento": "2027-03-12",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-37-2026/chamada-publica-cnpq-N-37-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-11-11"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2027-03-12"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-11-11"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-11-11"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-11-23"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2027-03-12"
+        },
+        {
+            "evento": "Período de Julgamento",
+            "data": "2027-03-01"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento",
+            "data": "2027-06-01"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "2027-06-11"
+        },
+        {
+            "evento": "Divulgação da decisão final do julgamento",
+            "data": "2027-07-01"
+        },
+        {
+            "evento": "Início da implementação das bolsas",
+            "data": "2027-08"
+        },
+        {
+            "evento": "Início das atividades no país estrangeiro (Suécia)",
+            "data": "2028-01"
+        }
+    ],
+    "tags": [
+        "bolsa de doutorado",
+        "bolsa de pós-doutorado",
+        "cooperação internacional",
+        "pesquisa aeronáutica",
+        "cibersegurança",
+        "sistemas autônomos",
+        "Suécia",
+        "CNPq",
+        "inovação tecnológica",
+        "defesa e aerospace",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-37-2026/chamadapublica372026_2829991.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq"
+}

@@ -1,0 +1,49 @@
+{
+    "nome": "EDITAL 10/2026 - PRODIF",
+    "descrição": "EDITAL PRPPG No 10/2026, DE 30 DE MARÇO DE 2026 - Auxílio para Publicações Científicas - Prodif\n\nApoiar a publicação de artigos científicos em periódicos de elevado impacto para aumentar a produção qualificada dos pesquisadores, consequentemente fortalecendo os Grupos de Pesquisa e a Pós-Graduação do Ifes.",
+    "orgão_fomento": "PRPPG/IFES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-03-31",
+    "data_encerramento": "2026-12-15",
+    "link": "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=286",
+    "cronograma": [
+        {
+            "evento": "início do período do edital",
+            "data": "2026-03-31"
+        },
+        {
+            "evento": "fim do período do edital",
+            "data": "2026-12-15"
+        },
+        {
+            "evento": "Lançamento do edital",
+            "data": "2026-03-30"
+        },
+        {
+            "evento": "Envio das inscrições pelo SIGPESq (http://sigpesq.ifes.edu.br)",
+            "data": "2026-03-31"
+        },
+        {
+            "evento": "Análise das solicitações recebidas. Fluxo contínuo, até 30 de novembro de 2025 ou até que se atinja o valor máximo destinado no edital",
+            "data": "2026-04-01"
+        },
+        {
+            "evento": "Abertura do processo de ressarcimento realizado pelo coordenador do PRODIF",
+            "data": "2026-04-02"
+        }
+    ],
+    "tags": [
+        "prppg",
+        "ifes",
+        "2026",
+        "pesquisa"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "prppg_ifes"
+}

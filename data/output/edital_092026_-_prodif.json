@@ -1,0 +1,48 @@
+{
+    "nome": "EDITAL 09/2026 - PRODIF",
+    "descrição": "EDITAL PRPPG No 09/2026, DE 30 DE MARÇO DE 2026 - Versão e Revisão de Artigos Científicos - Prodif\n\nPrograma Institucional de Difusão Científica - (PRODIF), visando ao apoio para tradução e revisão de artigos científicos originais do Ifes para publicação em periódicos científicos especializados que exijam artigos redigidos em língua inglesa e nas próprias Revistas Científicas do Ifes.",
+    "orgão_fomento": "PRPPG/IFES",
+    "categoria": "outros",
+    "status": "aberto",
+    "data_abertura": "2026-03-31",
+    "data_encerramento": "2026-11-30",
+    "link": "https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=287",
+    "cronograma": [
+        {
+            "evento": "início do período do edital",
+            "data": "2026-03-31"
+        },
+        {
+            "evento": "fim do período do edital",
+            "data": "2026-11-30"
+        },
+        {
+            "evento": "Lançamento do edital\t31/03/2026",
+            "data": "2026-03-30"
+        },
+        {
+            "evento": "Período de inscrição dos artigos originais para versão e tradução. Fluxo contínuo ou até que se atinja o valor máximo disponibilizado ao edital.",
+            "data": "2026-03-31"
+        },
+        {
+            "evento": "Período de avaliação das inscrições pelo Comitê Gestor do Edital. Fluxo contínuo ou até que se atinja o valor máximo disponibilizado ao edital.",
+            "data": "2026-04-01"
+        },
+        {
+            "evento": "Prestação de contas após a realização do serviço de versão e tradução de artigos - Fluxo contínuo, até 45 dias após a aprovação pelo Comitê Gestor do Edital",
+            "data": "2026-04-30"
+        }
+    ],
+    "tags": [
+        "prppg",
+        "ifes",
+        "2026"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "prppg_ifes"
+}
