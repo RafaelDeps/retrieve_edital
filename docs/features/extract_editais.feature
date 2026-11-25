@@ -7,12 +7,14 @@ Feature: Extração de Editais (Source)
     Given the FAPES website at "https://fapes.es.gov.br/difusao-do-conhecimento" is accessible
     And the Playwright scraping engine is initialized
 
+  @integration
   Scenario: Successfully extract a list of open editais
     When the scraper navigates to the open editais page
     Then it should identify the HTML containers holding the editais
     And it should extract a raw list containing title and hyperlink
     And the extracted list should not be empty
 
+  @integration
   Scenario: Handle pagination across multiple pages
     Given there are multiple pages of open editais available
     When the scraper processes the first page

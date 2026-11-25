@@ -1,3 +1,4 @@
+from datetime import date
 from unittest.mock import MagicMock
 
 from src.components.transforms.edital_normalizer import EditalNormalizer
@@ -7,7 +8,9 @@ from src.domain.models import RawEdital
 def test_process_uses_raw_status_and_period_fallback_dates():
     mock_service = MagicMock()
     mock_service.extract_from_pdf.return_value = None
-    normalizer = EditalNormalizer(extraction_service=mock_service)
+    # Dentro do período (2026-03-30 → 2026-11-01): o caso é a origem declarar
+    # encerrado antes do fim do período, não o prazo vencido.
+    normalizer = EditalNormalizer(extraction_service=mock_service, today=date(2026, 6, 1))
     raw = RawEdital(
         title="Edital 04/2026 - Propop-Ciência",
         url="https://sigpesq.ifes.edu.br/publico/Editais.aspx?cod=290",

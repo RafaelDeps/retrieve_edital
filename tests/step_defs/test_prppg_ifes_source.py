@@ -209,7 +209,7 @@ def test_extract_detail_page_uses_cronograma_fallback_when_listing_date_is_missi
         </tr>
         """,
     )
-    source = PrppgIfesSource()
+    source = PrppgIfesSource(current_year=2026)
     source._download_attachment_bytes = lambda detail_url, detail_html, event_target: b"%PDF-1.4 fake"
 
     raw = source._extract_detail_page(

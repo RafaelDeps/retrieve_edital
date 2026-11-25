@@ -57,6 +57,25 @@ Variável opcional para FINEP: **`REFERENCE_YEAR`** (ano de referência para fil
 - **Novo fluxo** `ingest_finep_flow`: orquestra Source FINEP + Transform + Sink; parâmetro `max_pages` (ex.: 1 para teste).
 - **Documentação**: [docs/finep_source.md](docs/finep_source.md), [docs/agents_and_skills.md](docs/agents_and_skills.md), e este README atualizado.
 
+## Testes
+
+```bash
+# Suíte padrão: offline e independente da data. Os testes de integração aparecem como "skipped".
+pytest
+
+# Testes de integração: acessam o site real (FAPES) com o navegador do Playwright.
+playwright install chromium
+pytest -m integration
+
+# Simular outra data: a suíte deve dar o mesmo resultado em qualquer dia.
+pytest --fake-date=2030-06-15
+```
+
+Teste não pode depender da data real: quem compara com "hoje" ou com o ano corrente recebe a data
+explicitamente (`today=` no `EditalNormalizer` e nas regras de publicação, `current_year=` nas
+fontes). O CI roda a suíte duas vezes, com a data real e com `--fake-date=2030-06-15`, para pegar
+testes que só passam hoje.
+
 ## Estrutura do repositório
 
 ```text

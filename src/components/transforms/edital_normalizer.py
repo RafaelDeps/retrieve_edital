@@ -157,8 +157,15 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
     Applies regex cleaning on metadata and uses Mistral for high-accuracy extraction.
     """
     
-    def __init__(self, extraction_service: Optional[MistralExtractionService] = None):
+    def __init__(
+        self,
+        extraction_service: Optional[MistralExtractionService] = None,
+        today: Optional[date] = None,
+    ):
         self.extraction_service = extraction_service or MistralExtractionService()
+        # Data de referência das regras de publicação (prazo vencido, status).
+        # `None` usa o dia real; os testes a fixam para não depender de quando rodam.
+        self.today = today
         # Recusas desta execução, como {url: motivo}. O fluxo as registra no
         # índice de recusados para não repetir OCR de um edital que o portão já
         # rejeitou — sem isso, ele volta como novo em toda execução.
@@ -346,7 +353,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
 
         Item não publicável volta como `None`; os fluxos já o ignoram.
         """
-        verdict = publication_rules.evaluate(edital, raw_data)
+        verdict = publication_rules.evaluate(edital, raw_data, today=self.today)
         if not verdict.publishable:
             logger.info(
                 "Edital não publicado (%s): %s", verdict.reason, edital.nome[:70]
@@ -354,7 +361,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             if raw_data.url:
                 self.rejections[raw_data.url] = verdict.reason
             return None
-        edital.status = publication_rules.resolve_status(edital)
+        edital.status = publication_rules.resolve_status(edital, today=self.today)
         edital.categoria = publication_rules.canonical_category(
             edital.categoria, publication_rules.category_hint_text(edital)
         )

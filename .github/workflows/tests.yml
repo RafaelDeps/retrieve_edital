@@ -2,7 +2,7 @@ name: BDD Tests
 
 on:
   push:
-    branches: [ "main", "development" ]
+    branches: [ "**" ]
   pull_request:
     branches: [ "main", "development" ]
 
@@ -26,6 +26,11 @@ jobs:
     - name: Install Playwright browsers
       run: playwright install chromium --with-deps
         
-    - name: Run pytest-bdd
+    - name: Run pytest-bdd (data real)
       run: |
         pytest tests/
+
+    # Mesma suíte com o relógio em 2030: pega testes que só passam na data de hoje.
+    - name: Run pytest-bdd (data simulada 2030)
+      run: |
+        pytest tests/ --fake-date=2030-06-15

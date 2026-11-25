@@ -98,6 +98,9 @@ graph TB
   - mapeamento de `raw_cronograma` para `cronograma`, `data_abertura` e `data_encerramento`
   - OCR e extração estruturada com Mistral quando `pdf_content` está disponível
   - fallback por descrição/título quando não há extração completa
+- **Data de referência**: `EditalNormalizer(today=...)` fixa o "hoje" usado pelas regras de publicação
+  (prazo vencido e `status`). Sem o parâmetro, vale o dia real; os testes sempre o informam, para não
+  depender da data em que rodam.
 
 ### Component 3: Sink (Load)
 

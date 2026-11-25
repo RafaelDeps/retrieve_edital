@@ -136,7 +136,7 @@ def test_extract_detail_page_collects_description_anexos_and_main_pdf():
         """
     }
 
-    source = CapesSource()
+    source = CapesSource(current_year=2026)
     source._download_file_bytes = lambda url: b"%PDF-1.4 fake"
     raw = source._extract_detail_page(FakePage(html_by_url), detail_url, "Fallback")
 
