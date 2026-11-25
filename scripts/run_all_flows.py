@@ -1,8 +1,11 @@
 import argparse
 import json
+import os
 import re
+import signal
 import subprocess
 import sys
+import threading
 import time
 from datetime import date, datetime
 from pathlib import Path
@@ -24,6 +27,12 @@ FLOW_COMMANDS = (
     ("CAPES", [sys.executable, "-m", "src.flows.ingest_capes_flow"]),
     ("CNPQ", [sys.executable, "-m", "src.flows.ingest_cnpq_flow"]),
 )
+# Fontes que só rodam quando citadas em --only. O Horizon Europe tem cadência
+# semanal (dataset de ~126 MB que muda pouco) e roda no workflow próprio com
+# `--only HORIZON`; fica fora da execução diária padrão.
+OPTIONAL_FLOW_COMMANDS = (
+    ("HORIZON", [sys.executable, "-m", "src.flows.ingest_horizon_flow"]),
+)
 REGISTRY_KEYS = {
     "FAPES": "fapes",
     "FINEP": "finep",
@@ -32,6 +41,7 @@ REGISTRY_KEYS = {
     "PROEX_IFES": "proex_ifes",
     "CAPES": "capes",
     "CNPQ": "cnpq",
+    "HORIZON": "horizon",
 }
 LOG_PATH = Path("docs/flow_processing_log.md")
 REGISTRY_PATH = Path("registry/processed_editais.json")
@@ -57,7 +67,12 @@ LOW_VOLUME_FLOWS = frozenset()
 # Teto de duração por fonte. Um fluxo que trava — portal pendurado, backoff longo
 # do Mistral — não pode consumir a janela do job inteiro. Ao estourar, o processo
 # é encerrado, a falha é registrada e os fluxos seguintes continuam.
-DEFAULT_FLOW_TIMEOUT_SEC =2* 60 * 60
+# 7 fontes × 40 min = 280 min, abaixo das 6 h de um job do GitHub Actions.
+# Para teste local mais longo: FLOW_TIMEOUT_SEC=7200 ou --timeout 7200.
+DEFAULT_FLOW_TIMEOUT_SEC = 40 * 60
+FLOW_TIMEOUT_ENV = "FLOW_TIMEOUT_SEC"
+# Espera entre o SIGTERM e o SIGKILL ao encerrar uma fonte que estourou o teto.
+TERMINATE_GRACE_SEC = 5
 
 DELTA_REGEX = re.compile(r"\(delta (-?\d+)\)")
 LOG_SEPARATOR = "| :-- | :-- | :-- | :-- |\n"
@@ -246,6 +261,24 @@ def append_flow_log_row(
     return result
 
 
+def _kill_process_group(process: subprocess.Popen) -> None:
+    """
+    Encerra o fluxo e todos os processos que ele abriu (ex.: o Chromium do Playwright).
+
+    Primeiro SIGTERM, para o fluxo poder limpar; se não sair a tempo, SIGKILL.
+    """
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.killpg(process.pid, sig)
+        except ProcessLookupError:
+            return
+        try:
+            process.wait(timeout=TERMINATE_GRACE_SEC)
+            return
+        except subprocess.TimeoutExpired:
+            continue
+
+
 def run_command_capturing_output(
     command: list[str],
     workdir: Path,
@@ -254,9 +287,11 @@ def run_command_capturing_output(
     """
     Executa o fluxo repassando a saída ao console e guardando-a para análise.
 
-    O teto de duração é aplicado por leitura: cada linha recebida renova a
-    verificação do prazo total, e ao estourar o processo é encerrado. Sem isso um
-    portal pendurado consome a janela do job inteiro.
+    O teto vale pelo relógio, mesmo que o fluxo não escreva nada: uma thread lê a
+    saída enquanto a principal espera o processo com prazo. Antes o prazo só era
+    conferido a cada linha recebida, e um fluxo travado em silêncio segurava o job
+    até a plataforma matá-lo, sem commit. Ao estourar, o grupo de processos
+    inteiro é encerrado, para não deixar navegador órfão.
     """
     process = subprocess.Popen(
         command,
@@ -265,22 +300,28 @@ def run_command_capturing_output(
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
+        start_new_session=True,
     )
     captured: list[str] = []
-    limite = time.monotonic() + timeout_sec
     assert process.stdout is not None
-    for line in process.stdout:
-        print(line, end="")
-        captured.append(line)
-        if time.monotonic() > limite:
-            captured.append(
-                f"[run_all_flows] Teto de {timeout_sec}s excedido; encerrando o fluxo.\n"
-            )
-            print(captured[-1], end="")
-            process.kill()
-            process.wait()
-            return TIMEOUT_RETURN_CODE, "".join(captured)
-    process.wait()
+
+    def relay_output() -> None:
+        for line in process.stdout:
+            print(line, end="")
+            captured.append(line)
+
+    reader = threading.Thread(target=relay_output, daemon=True)
+    reader.start()
+    try:
+        process.wait(timeout=timeout_sec)
+    except subprocess.TimeoutExpired:
+        _kill_process_group(process)
+        reader.join(timeout=TERMINATE_GRACE_SEC)
+        aviso = f"[run_all_flows] Teto de {timeout_sec}s excedido; encerrando o fluxo.\n"
+        print(aviso, end="")
+        captured.append(aviso)
+        return TIMEOUT_RETURN_CODE, "".join(captured)
+    reader.join()
     return process.returncode, "".join(captured)
 
 
@@ -319,21 +360,24 @@ def run_flow(
 
 def select_flows(only: Optional[str]) -> list:
     """
-    Fluxos a executar. Sem `--only`, todos; com, apenas os nomeados.
+    Fluxos a executar. Sem `--only`, as fontes diárias; com, apenas as nomeadas.
 
-    Nome desconhecido é erro explícito em vez de silenciosamente nada rodar.
+    Fontes opcionais (HORIZON) só entram quando citadas. A ordem é sempre a
+    canônica: diárias primeiro, depois opcionais. Nome desconhecido é erro
+    explícito em vez de silenciosamente nada rodar.
     """
     if not only:
         return list(FLOW_COMMANDS)
+    todos = FLOW_COMMANDS + OPTIONAL_FLOW_COMMANDS
     pedidos = [nome.strip().upper() for nome in only.split(",") if nome.strip()]
-    conhecidos = {nome for nome, _ in FLOW_COMMANDS}
+    conhecidos = {nome for nome, _ in todos}
     desconhecidos = [nome for nome in pedidos if nome not in conhecidos]
     if desconhecidos:
         raise SystemExit(
             f"[run_all_flows] Fluxo desconhecido: {', '.join(desconhecidos)}. "
             f"Disponíveis: {', '.join(sorted(conhecidos))}."
         )
-    return [(nome, cmd) for nome, cmd in FLOW_COMMANDS if nome in pedidos]
+    return [(nome, cmd) for nome, cmd in todos if nome in pedidos]
 
 
 def refresh_edital_status(workdir: Path) -> None:
@@ -350,6 +394,54 @@ def refresh_edital_status(workdir: Path) -> None:
     curate(workdir=workdir, apply=True, refresh_status_only=True, today=date.today())
 
 
+def resolve_flow_timeout(cli_value: Optional[int], environ=os.environ) -> int:
+    """
+    Teto por fonte, em segundos: opção de linha de comando > FLOW_TIMEOUT_SEC > padrão.
+
+    Valor inválido é erro, não silêncio: um teto zerado mataria toda fonte e um
+    texto qualquer cairia no padrão sem ninguém perceber.
+    """
+    if cli_value is not None:
+        if cli_value <= 0:
+            raise ValueError(f"--timeout precisa ser um inteiro positivo; recebeu {cli_value}.")
+        return cli_value
+    raw = environ.get(FLOW_TIMEOUT_ENV, "").strip()
+    if not raw:
+        return DEFAULT_FLOW_TIMEOUT_SEC
+    try:
+        value = int(raw)
+    except ValueError:
+        value = 0
+    if value <= 0:
+        raise ValueError(
+            f"{FLOW_TIMEOUT_ENV} precisa ser um inteiro positivo (segundos); recebeu {raw!r}."
+        )
+    return value
+
+
+STEP_SUMMARY_ENV = "GITHUB_STEP_SUMMARY"
+
+
+def write_step_summary(resultados: dict, environ=os.environ) -> None:
+    """
+    Publica o resultado de cada fonte no resumo da execução do GitHub Actions.
+
+    O passo de commit roda mesmo com falha parcial, então o job vermelho sozinho
+    não diz o que falhou; o resumo diz. Fora do GitHub (variável ausente), nada
+    é escrito.
+    """
+    summary_path = environ.get(STEP_SUMMARY_ENV)
+    if not summary_path:
+        return
+    falhas = [nome for nome, r in resultados.items() if r == RESULT_FAILURE]
+    linhas = ["### Resultado por fonte", "", "| Fonte | Resultado |", "| :-- | :-- |"]
+    linhas += [f"| {nome} | {resultado} |" for nome, resultado in resultados.items()]
+    if falhas:
+        linhas += ["", f"**Falha em:** {', '.join(falhas)}"]
+    with open(summary_path, "a", encoding="utf-8") as summary:
+        summary.write("\n".join(linhas) + "\n")
+
+
 def main(argv: Optional[list] = None) -> int:
     parser = argparse.ArgumentParser(description="Runner unificado dos fluxos ETL.")
     parser.add_argument(
@@ -359,17 +451,24 @@ def main(argv: Optional[list] = None) -> int:
     parser.add_argument(
         "--timeout",
         type=int,
-        default=DEFAULT_FLOW_TIMEOUT_SEC,
-        help=f"teto de duração por fluxo, em segundos (default {DEFAULT_FLOW_TIMEOUT_SEC})",
+        default=None,
+        help=(
+            "teto de duração por fluxo, em segundos; sobrepõe a variável "
+            f"{FLOW_TIMEOUT_ENV} (padrão: {DEFAULT_FLOW_TIMEOUT_SEC}s = 40 min)"
+        ),
     )
     args = parser.parse_args(argv)
+    try:
+        timeout_sec = resolve_flow_timeout(args.timeout)
+    except ValueError as erro:
+        parser.error(str(erro))
 
     repo_root = Path(__file__).resolve().parents[1]
     selecionados = select_flows(args.only)
 
     resultados: dict[str, str] = {}
     for name, command in selecionados:
-        resultados[name] = run_flow(name, command, repo_root, args.timeout)
+        resultados[name] = run_flow(name, command, repo_root, timeout_sec)
 
     refresh_edital_status(repo_root)
 
@@ -382,6 +481,7 @@ def main(argv: Optional[list] = None) -> int:
     )
     if avisos:
         print(f"[run_all_flows] Atenção em: {', '.join(avisos)}")
+    write_step_summary(resultados)
     if falhas:
         print(f"[run_all_flows] Falha em: {', '.join(falhas)}")
         return 1

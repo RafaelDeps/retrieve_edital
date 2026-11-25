@@ -1,7 +1,8 @@
 name: Weekly Horizon Europe Scraper
 
 # Cadência semanal, e não diária: o dataset de origem tem ~126 MB e muda pouco de
-# um dia para o outro. Por isso este fluxo fica fora de scripts/run_all_flows.py.
+# um dia para o outro. Por isso o HORIZON é fonte opcional do runner: a execução
+# diária não o inclui, e este workflow o roda com `--only HORIZON`.
 on:
   schedule:
     # Segundas às 04:00 UTC (01:00 em Brasília), depois do scraper diário.
@@ -11,16 +12,22 @@ on:
 permissions:
   contents: write
 
+# Diário e semanal commitam nos mesmos arquivos: no mesmo branch, um espera o
+# outro terminar (sem cancelar), para o segundo push não ser recusado.
+concurrency:
+  group: data-commit-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   scrape-horizon:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.12'
 
@@ -29,7 +36,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Horizon Europe Flow
+    - name: Run Horizon Europe Flow (runner)
       env:
         MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
         # Divisões do Horizon Europe a indexar. `HORIZON` cobre o programa
@@ -37,17 +44,26 @@ jobs:
         # 2026-07-31. Para restringir, defina a variável de repositório
         # HORIZON_DIVISIONS com os códigos separados por vírgula.
         HORIZON_DIVISIONS: ${{ vars.HORIZON_DIVISIONS || 'HORIZON' }}
+      # Pelo runner: ganha linha no flow_processing_log.md, teto de duração e o
+      # realinhamento de status ao prazo (antes era um passo separado).
       run: |
-        python -m src.flows.ingest_horizon_flow
-
-    - name: Realign edital status with deadlines
-      run: |
-        python scripts/curate_output.py --refresh-status
+        python scripts/run_all_flows.py --only HORIZON
 
     - name: Commit and Push JSON Results
+      # Roda mesmo se a coleta falhou (falha parcial): o que as outras fontes
+      # coletaram não pode se perder. Só não roda se a execução foi cancelada.
+      if: ${{ !cancelled() }}
       run: |
+        set -euo pipefail
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/output registry/processed_editais.json || true
-        git diff --staged --quiet || git commit -m "chore: atualiza chamadas do Horizon Europe [skip ci]"
-        git push
+        # Diretórios, não arquivos: um caminho ausente faria o git add falhar inteiro.
+        # registry/ leva o índice de processados e o de recusados.
+        git add -- data/output registry docs/flow_processing_log.md
+        if git diff --staged --quiet; then
+          echo "Nada a commitar."
+          exit 0
+        fi
+        git commit -m "chore: atualiza chamadas do Horizon Europe [skip ci]"
+        git pull --rebase origin "$GITHUB_REF_NAME"
+        git push origin "HEAD:$GITHUB_REF_NAME"

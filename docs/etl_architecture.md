@@ -66,7 +66,7 @@ graph TB
   - `valor_estimado` e `trl_exigido` existem no schema e ficam vazios: só podem vir do texto do PDF, e ajustar a extração exige avaliá-la contra os documentos que hoje falham.
 - `registry/rejected_editais.json`: editais recusados pelas regras de publicação, com motivo e validade de sete dias. Sem ele, um edital recusado volta como novo em toda execução, com PDF baixado e OCR refeito.
 - `docs/flow_processing_log.md`: log operacional da última execução de cada fluxo.
-- `scripts/run_all_flows.py`: runner unificado. Aceita `--only FINEP,CNPQ` para execução seletiva e `--timeout` para o teto de duração por fluxo (default 20 min).
+- `scripts/run_all_flows.py`: runner unificado. Aceita `--only FINEP,CNPQ` para execução seletiva (o `HORIZON` só roda quando citado) e `--timeout` para o teto de duração por fluxo (padrão 40 min, ou a variável `FLOW_TIMEOUT_SEC`).
 
 ## Components
 
@@ -121,20 +121,22 @@ graph TB
 
 - `scripts/run_all_flows.py` executa os fluxos na ordem:
   `FAPES` → `FINEP` → `CONIF` → `PRPPG_IFES` → `PROEX_IFES` → `CAPES` → `CNPQ`.
+  O `HORIZON` é fonte opcional: fica fora da execução padrão e roda com `--only HORIZON` no workflow semanal.
 - O runner captura a saída de cada fluxo e classifica o resultado em três estados:
   - **Sucesso** — a origem respondeu e o fluxo terminou bem (mesmo sem editais novos);
   - **Atenção** — a origem devolveu **zero itens brutos**, ou o fluxo está há `ZERO_DELTA_ALERT_THRESHOLD` (7) execuções seguidas sem nada novo;
   - **Falha** — exit code diferente de zero.
   Fontes de baixo volume declaradas em `LOW_VOLUME_FLOWS` ficam isentas da regra de sequência.
 - **Falha de um fluxo não interrompe os demais.** Antes o runner fazia `raise SystemExit` na primeira falha: com oito fontes, uma indisponível zerava a coleta de todas as outras. Agora o erro é registrado, os fluxos seguintes rodam, e o exit code final reflete que houve falha — a informação não se perde. O realinhamento de status roda de todo modo.
-- **Teto de duração por fluxo** (`--timeout`, default 20 min). Um fluxo travado — portal pendurado, backoff longo do Mistral — consumia a janela do job inteiro. Ao estourar, o processo é encerrado com exit code 124 e registrado como falha.
+- **Teto de duração por fluxo**: `--timeout` > variável `FLOW_TIMEOUT_SEC` > padrão de 40 min (7 fontes × 40 min = 280 min, abaixo das 6 h do job). Valor inválido é erro de uso. O teto vale pelo relógio, mesmo que o fluxo não escreva nada, e ao estourar o grupo de processos inteiro (inclusive o navegador) recebe `SIGTERM` e, 5 s depois, `SIGKILL`; o fluxo sai com exit code 124 e é registrado como falha.
 - **Sem paralelismo, deliberadamente.** O limite de requisições do Mistral é por chave de API, então rodar fluxos em paralelo multiplicaria os `429` em vez de acelerar. O ganho de tempo viria à custa de mais espera em backoff. Ver [mistral_usage.md](mistral_usage.md).
 - **Evidência prevalece sobre proxy**: havendo `[flow-stats]`, a saúde da origem é fato — zero itens brutos é scraper quebrado, qualquer item prova que a origem respondeu. A regra de sequência só vale na ausência desse dado. Os oito fluxos publicam as estatísticas.
 - Os parsers de listagem devolvem **tudo** o que a origem trouxe; a comparação com o registry acontece no `read()`. Com a deduplicação dentro do parser, a contagem bruta mediria "quantos são novos" e um portal saudável sem novidade pareceria quebrado.
-- `.github/workflows/run_scraper.yml` chama o runner unificado e deve persistir:
-  - `data/output/*.json`
-  - `registry/processed_editais.json`
-  - `docs/flow_processing_log.md`
+- **Resumo no GitHub Actions**: com `GITHUB_STEP_SUMMARY` definida, o runner publica uma tabela com o resultado de cada fonte e destaca as falhas.
+- Workflows de dados: `run_scraper.yml` (diário, runner sem filtro; o disparo manual aceita o input `only`) e `run_horizon_weekly.yml` (semanal, `--only HORIZON`). Os dois:
+  - commitam `data/output/`, `registry/` (índices de processados **e de recusados**) e `docs/flow_processing_log.md`;
+  - rodam o passo de commit mesmo quando a coleta falha (`!cancelled()`): o job fica vermelho, mas o que as outras fontes coletaram é salvo;
+  - compartilham o grupo de concorrência `data-commit-<ref>` (um espera o outro) e fazem `git pull --rebase` antes do push.
 
 ## Key Design Decisions
 

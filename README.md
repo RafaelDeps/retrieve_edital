@@ -42,6 +42,26 @@ python -m src.flows.ingest_finep_flow --all
 python -m src.flows.ingest_conif_flow
 ```
 
+### Runner unificado e CI
+
+```bash
+# Todas as fontes diárias, em sequência (o HORIZON fica de fora)
+python scripts/run_all_flows.py
+
+# Só algumas fontes; o HORIZON só roda quando citado
+python scripts/run_all_flows.py --only FINEP,CONIF
+python scripts/run_all_flows.py --only HORIZON
+
+# Teto por fonte: --timeout > FLOW_TIMEOUT_SEC > 40 min (teste local longo: 2 h)
+FLOW_TIMEOUT_SEC=7200 python scripts/run_all_flows.py
+```
+
+O workflow diário (`run_scraper.yml`) roda as fontes diárias; o semanal (`run_horizon_weekly.yml`) roda
+`--only HORIZON`. Os dois commitam `data/output/`, `registry/` (processados e recusados) e
+`docs/flow_processing_log.md`. Se uma fonte falhar, o job fica vermelho, mas o que as outras coletaram é
+salvo, e o resumo da execução mostra o resultado de cada fonte. No disparo manual do diário, o campo
+`only` permite rodar só algumas fontes.
+
 Variável opcional para FINEP: **`REFERENCE_YEAR`** (ano de referência para filtrar por prazo de envio). Ver [docs/finep_source.md](docs/finep_source.md) e `.env.example`.
 
 ## O que foi modificado / novidades

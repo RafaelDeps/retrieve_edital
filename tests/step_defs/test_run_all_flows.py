@@ -1,7 +1,163 @@
+import os
+import sys
+import time
+
 import pytest
+from pytest_bdd import given, parsers, scenarios, then, when
 
 from scripts import run_all_flows
 from src.flow_health import FlowStats
+
+scenarios("../../docs/features/run_all_flows.feature")
+
+DAILY_FLOWS = ["FAPES", "FINEP", "CONIF", "PRPPG_IFES", "PROEX_IFES", "CAPES", "CNPQ"]
+
+
+@pytest.fixture(autouse=True)
+def isolated_runner_env(monkeypatch):
+    """No CI essas variáveis existem de verdade: os testes não podem herdá-las."""
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    monkeypatch.delenv("FLOW_TIMEOUT_SEC", raising=False)
+
+
+@pytest.fixture
+def runner_context(monkeypatch):
+    """Estado compartilhado pelos steps BDD: fluxos simulados, chamadas e exit code."""
+    context = {"failing": set(), "invoked": [], "exit_code": None}
+
+    def fake_run_flow(name, command, workdir, timeout_sec=None):
+        context["invoked"].append(name)
+        if name in context["failing"]:
+            return run_all_flows.RESULT_FAILURE
+        return run_all_flows.RESULT_SUCCESS
+
+    monkeypatch.setattr(run_all_flows, "run_flow", fake_run_flow)
+    monkeypatch.setattr(run_all_flows, "refresh_edital_status", lambda workdir: None)
+    return context
+
+
+@given("every flow finishes successfully")
+def every_flow_succeeds(runner_context):
+    runner_context["failing"] = set()
+
+
+@given(parsers.parse('the flow "{flow}" fails and every other flow succeeds'))
+def one_flow_fails(runner_context, flow):
+    runner_context["failing"] = {flow}
+
+
+@when("the runner executes without a flow filter")
+def runner_executes(runner_context):
+    runner_context["exit_code"] = run_all_flows.main([])
+
+
+@then(
+    "it should invoke FAPES, FINEP, CONIF, PRPPG_IFES, PROEX_IFES, CAPES and CNPQ in this order"
+)
+def invoked_in_order(runner_context):
+    assert runner_context["invoked"] == DAILY_FLOWS
+
+
+@then("all seven daily flows should have been invoked")
+def all_daily_invoked(runner_context):
+    assert sorted(runner_context["invoked"]) == sorted(DAILY_FLOWS)
+
+
+@given("the job summary file is available")
+def job_summary_available(runner_context, monkeypatch, tmp_path):
+    summary_path = tmp_path / "summary.md"
+    monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary_path))
+    runner_context["summary_path"] = summary_path
+
+
+@then("the job summary should have one row per daily flow")
+def summary_has_rows(runner_context):
+    summary = runner_context["summary_path"].read_text(encoding="utf-8")
+    assert "| Fonte | Resultado |" in summary
+    for flow in DAILY_FLOWS:
+        assert f"| {flow} |" in summary
+
+
+@then(parsers.parse('the job summary should highlight "{flow}" as failed'))
+def summary_highlights_failure(runner_context, flow):
+    summary = runner_context["summary_path"].read_text(encoding="utf-8")
+    assert f"| {flow} | {run_all_flows.RESULT_FAILURE} |" in summary
+    assert f"**Falha em:** {flow}" in summary
+
+
+@given("a flow that sleeps for 30 seconds without printing anything")
+def silent_hanging_flow(runner_context):
+    runner_context["command"] = [sys.executable, "-c", "import time; time.sleep(30)"]
+
+
+@when("the runner executes it with a time limit of 1 second")
+def run_with_short_limit(runner_context, tmp_path):
+    started = time.monotonic()
+    return_code, _ = run_all_flows.run_command_capturing_output(
+        runner_context["command"], tmp_path, timeout_sec=1
+    )
+    runner_context["elapsed"] = time.monotonic() - started
+    runner_context["return_code"] = return_code
+
+
+@then("the flow should be killed with the timeout exit code")
+def killed_with_timeout_code(runner_context):
+    assert runner_context["return_code"] == run_all_flows.TIMEOUT_RETURN_CODE
+
+
+@then(parsers.parse("it should take less than {seconds:d} seconds"))
+def finished_quickly(runner_context, seconds):
+    assert runner_context["elapsed"] < seconds
+
+
+@given(
+    parsers.parse(
+        'the time limit option is "{cli}" and the environment variable is "{env}"'
+    )
+)
+def time_limit_inputs(runner_context, cli, env):
+    # "none" nos exemplos = valor não informado.
+    runner_context["cli"] = None if cli == "none" else int(cli)
+    runner_context["environ"] = (
+        {} if env == "none" else {run_all_flows.FLOW_TIMEOUT_ENV: env}
+    )
+
+
+@when("the runner resolves the time limit")
+def resolve_time_limit(runner_context):
+    runner_context["timeout"] = run_all_flows.resolve_flow_timeout(
+        runner_context["cli"], runner_context["environ"]
+    )
+
+
+@then(parsers.parse("the time limit should be {expected:d} seconds"))
+def time_limit_is(runner_context, expected):
+    assert runner_context["timeout"] == expected
+
+
+@when("the flows are selected without a filter")
+def select_without_filter(runner_context):
+    runner_context["selected"] = [nome for nome, _ in run_all_flows.select_flows(None)]
+
+
+@when(parsers.parse('the flows are selected with the filter "{only}"'))
+def select_with_filter(runner_context, only):
+    runner_context["selected"] = [nome for nome, _ in run_all_flows.select_flows(only)]
+
+
+@then(parsers.parse('"{flow}" should not be selected'))
+def flow_not_selected(runner_context, flow):
+    assert flow not in runner_context["selected"]
+
+
+@then(parsers.parse('the selected flows should be "{flows}"'))
+def selected_flows_are(runner_context, flows):
+    assert runner_context["selected"] == flows.split(",")
+
+
+@then(parsers.parse("the runner should exit with code {code:d}"))
+def runner_exit_code(runner_context, code):
+    assert runner_context["exit_code"] == code
 
 
 def test_flow_commands_include_capes_and_cnpq_in_expected_order():
@@ -25,7 +181,14 @@ def test_registry_keys_include_new_integrated_flows():
         "PROEX_IFES": "proex_ifes",
         "CAPES": "capes",
         "CNPQ": "cnpq",
+        "HORIZON": "horizon",
     }
+
+
+def test_horizon_e_opcional_e_roda_o_fluxo_do_horizon():
+    assert run_all_flows.select_flows("HORIZON") == [
+        ("HORIZON", [sys.executable, "-m", "src.flows.ingest_horizon_flow"])
+    ]
 
 
 def test_main_runs_all_flows_in_sequence(monkeypatch, tmp_path):
@@ -283,3 +446,61 @@ class TestBuildObservations:
 )
 def test_parse_log_row(line, expected):
     assert run_all_flows._parse_log_row(line) == expected
+
+
+class TestResumoDoJob:
+    def test_sem_variavel_nada_e_escrito(self, tmp_path):
+        run_all_flows.write_step_summary(
+            {"FINEP": run_all_flows.RESULT_FAILURE}, environ={}
+        )
+        assert list(tmp_path.iterdir()) == []
+
+    def test_sem_falhas_nao_ha_destaque(self, tmp_path):
+        summary_path = tmp_path / "summary.md"
+        run_all_flows.write_step_summary(
+            {"FINEP": run_all_flows.RESULT_SUCCESS},
+            environ={"GITHUB_STEP_SUMMARY": str(summary_path)},
+        )
+        summary = summary_path.read_text(encoding="utf-8")
+        assert "| FINEP | Sucesso |" in summary
+        assert "Falha em" not in summary
+
+
+class TestTetoPeloRelogio:
+    def test_processo_neto_tambem_e_encerrado(self, tmp_path):
+        """O Chromium do Playwright é neto do runner: não pode ficar órfão."""
+        codigo = (
+            "import subprocess, sys, time\n"
+            "neto = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
+            "print(neto.pid, flush=True)\n"
+            "time.sleep(60)\n"
+        )
+        return_code, saida = run_all_flows.run_command_capturing_output(
+            [sys.executable, "-c", codigo], tmp_path, timeout_sec=1
+        )
+        assert return_code == run_all_flows.TIMEOUT_RETURN_CODE
+        pid_neto = int(saida.split()[0])
+        limite = time.monotonic() + 5
+        while time.monotonic() < limite:
+            try:
+                os.kill(pid_neto, 0)
+            except ProcessLookupError:
+                return
+            time.sleep(0.1)
+        pytest.fail(f"o processo neto {pid_neto} continua vivo após o teto")
+
+
+class TestTetoInvalido:
+    @pytest.mark.parametrize("valor", ["abc", "0", "-5"])
+    def test_variavel_invalida_e_erro_de_uso(self, monkeypatch, valor):
+        monkeypatch.setenv("FLOW_TIMEOUT_SEC", valor)
+        monkeypatch.setattr(run_all_flows, "run_flow", lambda *a, **k: pytest.fail("rodou fluxo"))
+        with pytest.raises(SystemExit) as erro:
+            run_all_flows.main([])
+        assert erro.value.code == 2
+
+    def test_opcao_zero_e_erro_de_uso(self, monkeypatch):
+        monkeypatch.setattr(run_all_flows, "run_flow", lambda *a, **k: pytest.fail("rodou fluxo"))
+        with pytest.raises(SystemExit) as erro:
+            run_all_flows.main(["--timeout", "0"])
+        assert erro.value.code == 2

@@ -5,9 +5,21 @@ on:
     # Roda todos os dias às 03:00 UTC (meia-noite no horário de Brasília, UTC-3)
     - cron: '0 3 * * *'
   workflow_dispatch: # Permite disparo manual pela UI do GitHub
+    inputs:
+      only:
+        description: "Fontes separadas por vírgula (vazio = todas as diárias)"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
+
+# Diário e semanal commitam nos mesmos arquivos: no mesmo branch, um espera o
+# outro terminar (sem cancelar), para o segundo push não ser recusado.
+concurrency:
+  group: data-commit-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   scrape-editais:
@@ -15,10 +27,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.12'
 
@@ -33,13 +45,30 @@ jobs:
     - name: Run Scraper (Extract, Transform, Sink)
       env:
         MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        # O input vai por variável de ambiente, nunca interpolado direto no shell.
+        ONLY: ${{ inputs.only }}
       run: |
-        python scripts/run_all_flows.py
+        if [ -n "$ONLY" ]; then
+          python scripts/run_all_flows.py --only "$ONLY"
+        else
+          python scripts/run_all_flows.py
+        fi
 
     - name: Commit and Push JSON Results
+      # Roda mesmo se a coleta falhou (falha parcial): o que as outras fontes
+      # coletaram não pode se perder. Só não roda se a execução foi cancelada.
+      if: ${{ !cancelled() }}
       run: |
+        set -euo pipefail
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/output registry/processed_editais.json docs/flow_processing_log.md || true
-        git diff --staged --quiet || git commit -m "chore: atualiza dados raspados dos editais [skip ci]"
-        git push
+        # Diretórios, não arquivos: um caminho ausente faria o git add falhar inteiro.
+        # registry/ leva o índice de processados e o de recusados.
+        git add -- data/output registry docs/flow_processing_log.md
+        if git diff --staged --quiet; then
+          echo "Nada a commitar."
+          exit 0
+        fi
+        git commit -m "chore: atualiza dados raspados dos editais [skip ci]"
+        git pull --rebase origin "$GITHUB_REF_NAME"
+        git push origin "HEAD:$GITHUB_REF_NAME"

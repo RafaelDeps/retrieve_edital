@@ -7,8 +7,10 @@ import pytest
 # um teste que só passa "hoje" vira falha quando rodado com uma data futura.
 FAKE_DATE_OPTION = "--fake-date"
 FAKE_DATE_FORMAT = "AAAA-MM-DD"
-# Módulos que continuam vendo o relógio real (durações e timeouts do próprio pytest).
-FREEZE_IGNORED_MODULES = ["_pytest", "pluggy"]
+# Módulos que continuam vendo o relógio real: durações do próprio pytest e os
+# prazos de espera de processos/threads (o teto do runner usa process.wait com
+# timeout; com o relógio congelado, ele estouraria na hora).
+FREEZE_IGNORED_MODULES = ["_pytest", "pluggy", "subprocess", "threading"]
 
 _active_freezer = None
 
