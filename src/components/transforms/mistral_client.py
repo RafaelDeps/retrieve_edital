@@ -390,20 +390,30 @@ O JSON deve seguir exatamente esta estrutura:
     "data_abertura": "YYYY-MM-DD",
     "data_encerramento": "YYYY-MM-DD ou \"\"",
     "cronograma": [
-        {{"evento": "Descrição da etapa", "data": "ISO YYYY-MM-DD ou texto original caso seja data relativa (ex: '5 dias úteis após...')"}}
+        {{"evento": "Descrição da etapa", "data": "ISO YYYY-MM-DD ou texto original caso seja data relativa (ex: '5 dias úteis após...')", "chamada": "1ª chamada, ou \"\" se o edital não tiver chamadas"}}
     ],
     "tags": ["lista", "de", "palavras-chave", "(MÍNIMO 3 TAGS)"]
 }}
 
 IMPORTANTE para o CRONOGRAMA:
 1. Priorize o formato ISO YYYY-MM-DD.
-2. Se houver um intervalo (ex: '10/11/2025 a 16/12/2025'), use apenas a primeira data no formato ISO ('2025-11-10').
+2. Se houver um intervalo (ex: 'Submissão: 10/11/2025 a 16/12/2025'), crie DOIS eventos: 'Início de <etapa>' com a primeira data e 'Encerramento de <etapa>' com a última, ambas em ISO (ex: 'Início da submissão' = '2025-11-10' e 'Encerramento da submissão' = '2025-12-16'). Nunca descarte a data final de um intervalo: ela costuma ser o prazo.
 3. Se o texto disser 'A partir de 26/10/2026', use '2026-10-26'.
 4. Se a data for relativa (ex: '5 dias úteis após o resultado preliminar'), mantenha o texto original para processamento posterior.
+5. Cada etapa deve ter o campo "chamada" com o nome da chamada, fase, ciclo ou etapa do processo a que pertence (ex: '1ª chamada', '2ª chamada', 'Ciclo 2'). Use "" quando o edital não dividir o processo seletivo em chamadas. Inclua TODAS as etapas de TODAS as chamadas.
 
 Texto do Edital:
 {ocr_text}
 """
+
+    @staticmethod
+    def _map_schedule_item(item: Dict[str, Any]) -> Dict[str, str]:
+        """Etapa do cronograma; `chamada` só entra quando a IA a informou."""
+        mapped = {"evento": item.get("evento") or item.get("etapa", ""), "data": item.get("data") or ""}
+        chamada = (item.get("chamada") or "").strip()
+        if chamada:
+            mapped["chamada"] = chamada
+        return mapped
 
     def _map_to_domain(self, data: Dict[str, Any]) -> EditalDomain:
         # Basic mapping and defaults
@@ -416,6 +426,6 @@ Texto do Edital:
             data_abertura=data.get("data_abertura") or "2026-01-01", # Default if missing
             data_encerramento=data.get("data_encerramento") or "",
             link="", # This will be set by the normalizer who has the URL
-            cronograma=[{"evento": item.get("evento") or item.get("etapa", ""), "data": item.get("data") or ""} for item in data.get("cronograma", [])],
+            cronograma=[self._map_schedule_item(item) for item in data.get("cronograma", [])],
             tags=data.get("tags") if data.get("tags") and len(data.get("tags")) > 0 else ["fapes", "edital", "inovação"]
         )

@@ -42,6 +42,8 @@ from src.components.transforms.publication_rules import (  # noqa: E402
     canonical_category,
 )
 
+from src.components.transforms import schedule_rules  # noqa: E402
+
 OUTPUT_DIR = Path("data/output")
 REGISTRY_PATH = Path("registry/processed_editais.json")
 
@@ -174,6 +176,53 @@ def expected_opening_date(edital: dict) -> str:
     return ""
 
 
+def _closing_from_loose_start(edital: dict) -> bool:
+    """
+    O prazo gravado é a data de uma etapa só de início, sem intervalo.
+
+    Era o plano B antigo da derivação: sem etapa de encerramento, a data de
+    "Início da vigência dos projetos" virava prazo. Não é prazo (Princípio II).
+    """
+    deadline = (edital.get("data_encerramento") or "").strip()
+    if not deadline:
+        return False
+    return any(
+        schedule_rules.is_start_event(event)
+        and not schedule_rules._is_interval(event.get("data"))
+        and deadline in schedule_rules._all_dates(event.get("data"))
+        for event in edital.get("cronograma") or []
+    )
+
+
+def expected_schedule_fields(edital: dict, today: date) -> dict:
+    """
+    Prazo, abertura, chamadas e próxima etapa recalculados do cronograma salvo.
+
+    Cada edital é processado uma vez; sem este recálculo, o prazo de uma chamada
+    que já passou ficaria gravado e o edital seria marcado encerrado com a próxima
+    chamada ainda por vir. Devolve só os campos que mudam. Sem etapas de
+    encerramento no cronograma, o prazo atual é mantido (pode ter vindo da página
+    da fonte), exceto quando ele é a data de uma etapa solta de início.
+    """
+    events = edital.get("cronograma") or []
+    derived = schedule_rules.derive_schedule_fields(events, today)
+    # Campos novos do contrato: sempre recalculados (não dependem de prazo declarado).
+    wanted: dict = {
+        "chamadas": derived["chamadas"],
+        "proxima_etapa": derived["proxima_etapa"],
+    }
+    if schedule_rules.end_event_candidates(events):
+        wanted["data_encerramento"] = derived["data_encerramento"]
+        wanted["data_abertura"] = derived["data_abertura"]
+    elif _closing_from_loose_start(edital):
+        wanted["data_encerramento"] = ""
+    return {
+        campo: valor
+        for campo, valor in wanted.items()
+        if campo not in edital or edital[campo] != valor
+    }
+
+
 def expected_category(edital: dict) -> str:
     """
     Categoria reduzida ao vocabulário canônico.
@@ -263,6 +312,7 @@ def curate(
     category_changes: List[Tuple[Path, str, str]] = []
     agency_changes: List[Tuple[Path, str, str]] = []
     opening_changes: List[Tuple[Path, str, str]] = []
+    schedule_changes: List[Tuple[Path, list]] = []
     profile_changes: List[Tuple[Path, list]] = []
     removals: Dict[str, List[Path]] = {}
     shell_keys: List[str] = []
@@ -278,11 +328,18 @@ def curate(
                     shell_keys.append(link)
             continue
 
+        # O cronograma vem primeiro: o status e a abertura dependem do prazo recalculado.
+        dirty = False
+        schedule = expected_schedule_fields(edital, today)
+        if schedule:
+            schedule_changes.append((path, sorted(schedule)))
+            edital.update(schedule)
+            dirty = True
+
         wanted_status = expected_status(edital, today)
         wanted_category = expected_category(edital)
         wanted_agency = expected_agency(edital)
         wanted_opening = expected_opening_date(edital)
-        dirty = False
         perfil = backfill_source_profile(edital)
         if perfil:
             profile_changes.append((path, sorted(perfil)))
@@ -333,6 +390,11 @@ def curate(
         campos = sorted({c for _, cs in profile_changes for c in cs})
         print(f"  campos: {', '.join(campos)}")
 
+    if schedule_changes:
+        print(f"\nPrazos e etapas recalculados do cronograma{verb}: {len(schedule_changes)}")
+        campos = sorted({c for _, cs in schedule_changes for c in cs})
+        print(f"  campos: {', '.join(campos)}")
+
     if opening_changes:
         print(
             f"\nDatas de abertura inventadas a limpar{verb}: {len(opening_changes)}"
@@ -380,6 +442,7 @@ def curate(
         "agencies": len(agency_changes),
         "openings": len(opening_changes),
         "profiles": len(profile_changes),
+        "schedules": len(schedule_changes),
         "removed": total_removed,
     }
 

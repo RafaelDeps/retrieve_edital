@@ -504,3 +504,52 @@ class TestTetoInvalido:
         with pytest.raises(SystemExit) as erro:
             run_all_flows.main(["--timeout", "0"])
         assert erro.value.code == 2
+
+
+def _grava_edital(diretorio, nome, **campos):
+    import json
+
+    diretorio.mkdir(parents=True, exist_ok=True)
+    (diretorio / nome).write_text(json.dumps(campos, ensure_ascii=False), encoding="utf-8")
+
+
+class TestReextracao:
+    def test_alvos_sao_abertos_de_fontes_com_ocr(self, tmp_path):
+        saida = tmp_path / "out"
+        _grava_edital(saida, "a.json", link="https://fapes/a", status="aberto", fonte_key="fapes")
+        _grava_edital(saida, "b.json", link="https://fapes/b", status="encerrado", fonte_key="fapes")
+        _grava_edital(saida, "c.json", link="https://finep/c", status="aberto", fonte_key="finep")
+        _grava_edital(saida, "d.json", link="https://capes/d", status="aberto", fonte_key="capes")
+        assert run_all_flows.select_reextraction_targets(saida) == {
+            "capes": ["https://capes/d"],
+            "fapes": ["https://fapes/a"],
+        }
+
+    def test_roda_so_os_fluxos_com_alvos_e_expoe_a_lista(self, monkeypatch, tmp_path):
+        from src import processed_store
+
+        saida = tmp_path / "out"
+        _grava_edital(saida, "a.json", link="https://conif/a", status="aberto", fonte_key="conif")
+        monkeypatch.setattr(run_all_flows, "OUTPUT_PATH", saida)
+        monkeypatch.setattr(run_all_flows, "refresh_edital_status", lambda workdir: None)
+        vistos = []
+
+        def fake_run_flow(name, command, workdir, timeout_sec=None):
+            caminho = os.environ.get(processed_store.REEXTRACT_KEYS_ENV)
+            with open(caminho, encoding="utf-8") as lista:
+                vistos.append((name, lista.read().split()))
+            return run_all_flows.RESULT_SUCCESS
+
+        monkeypatch.setattr(run_all_flows, "run_flow", fake_run_flow)
+        assert run_all_flows.main(["--reextrair-abertos"]) == 0
+        assert vistos == [("CONIF", ["https://conif/a"])]
+        assert processed_store.REEXTRACT_KEYS_ENV not in os.environ
+
+    def test_duplicatas_do_mesmo_link_ficam_so_a_mais_recente(self, tmp_path):
+        saida = tmp_path / "out"
+        _grava_edital(saida, "velho.json", link="https://x", status="aberto")
+        os.utime(saida / "velho.json", (1, 1))
+        _grava_edital(saida, "novo.json", link="https://x", status="aberto")
+        _grava_edital(saida, "outro.json", link="https://y", status="aberto")
+        assert run_all_flows.dedupe_by_link(saida, {"https://x"}) == 1
+        assert sorted(p.name for p in saida.iterdir()) == ["novo.json", "outro.json"]

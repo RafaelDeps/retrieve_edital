@@ -92,6 +92,9 @@ def check_json_keys(context, datatable):
         "valor_estimado",
         "trl_exigido",
         "fonte_key",
+        # Contrato com o portal (docs/output_contract.md, portal#11).
+        "chamadas",
+        "proxima_etapa",
     }
     
     for filepath in context["expected_files"]:

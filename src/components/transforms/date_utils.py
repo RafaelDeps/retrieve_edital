@@ -150,6 +150,9 @@ def normalize_schedule_dates(cronograma: List[Dict[str, str]]) -> List[Dict[str,
 
         # Add to result
         new_item = {"evento": event, "data": iso_date}
+        chamada = (item.get("chamada") or "").strip()
+        if chamada:
+            new_item["chamada"] = chamada
         normalized.append(new_item)
         
         # Store resolved date for future reference

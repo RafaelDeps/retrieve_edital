@@ -54,6 +54,10 @@ python scripts/run_all_flows.py --only HORIZON
 
 # Teto por fonte: --timeout > FLOW_TIMEOUT_SEC > 40 min (teste local longo: 2 h)
 FLOW_TIMEOUT_SEC=7200 python scripts/run_all_flows.py
+
+# Ler de novo, com a IA, os editais abertos das fontes com OCR (~25 leituras).
+# Use depois de mudar o prompt de extração, para o acervo ganhar os campos novos.
+python scripts/run_all_flows.py --reextrair-abertos
 ```
 
 O workflow diário (`run_scraper.yml`) roda as fontes diárias; o semanal (`run_horizon_weekly.yml`) roda

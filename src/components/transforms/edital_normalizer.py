@@ -11,115 +11,66 @@ from src.domain.models import RawEdital, EditalDomain
 from src.components.transforms import publication_rules
 from src.components.transforms.mistral_client import MistralExtractionService
 from src.components.transforms.date_utils import normalize_schedule_dates
+from src.components.transforms import schedule_rules
+from src.components.transforms.schedule_rules import (  # noqa: F401 — reexportados
+    END_EVENT_TOKENS,
+    PUBLICATION_EVENT_TOKENS,
+    START_EVENT_TOKENS,
+    _extract_last_schedule_date,
+    _is_iso_date,
+    _match_any_token,
+)
 
 logger = logging.getLogger(__name__)
 
 
-def _extract_last_schedule_date(text: str) -> str:
-    if not text:
-        return ""
-
-    iso_matches = re.findall(r"\d{4}-\d{2}-\d{2}", str(text))
-    if iso_matches:
-        return iso_matches[-1]
-
-    br_matches = re.findall(r"(\d{2})/(\d{2})/(\d{4})", str(text))
-    if br_matches:
-        day, month, year = br_matches[-1]
-        return f"{year}-{month}-{day}"
-
-    return ""
-
-
-def _match_any_token(event_name: str, tokens: tuple[str, ...]) -> bool:
-    lowered = (event_name or "").lower()
-    return any(token in lowered for token in tokens)
-
-
-# Rótulos de etapa que indicam início e fim do período de submissão. A ordem de
-# precedência importa: `abertura das inscrições` descreve o marco do edital,
-# enquanto `publicação` costuma ser a data em que o documento foi divulgado. Para
-# uma chamada de fluxo contínuo, o início útil é a abertura das inscrições.
-START_EVENT_TOKENS = (
-    "início do período do edital",
-    "inicio do período do edital",
-    "abertura das inscrições",
-    "abertura das inscricoes",
-    "abertura da inscrição",
-    "abertura da inscricao",
-    "inscrição",
-    "inscricao",
-    "manifestação de interesse",
-    "manifestacao de interesse",
-    "início",
-    "inicio",
-    "período",
-    "periodo",
-)
-PUBLICATION_EVENT_TOKENS = ("publicação", "publicacao")
-END_EVENT_TOKENS = (
-    "fim do período do edital",
-    "fim do periodo do edital",
-    "prazo para envio da proposta",
-    "prazo para envio de propostas",
-    "prazo para envio",
-    "encerramento",
-    "término",
-    "termino",
-)
-
-
-def _is_iso_date(value) -> bool:
-    return bool(re.match(r"\d{4}-\d{2}-\d{2}", str(value or "")))
-
-
-def _first_date_matching(events: List[Dict[str, str]], tokens: tuple) -> str:
-    for item in events:
-        date_value = item.get("data") or ""
-        if _is_iso_date(date_value) and _match_any_token(item.get("evento") or "", tokens):
-            return date_value
-    return ""
-
-
-def derive_opening_date(events: List[Dict[str, str]]) -> str:
+def combine_schedule_views(
+    raw_events: List[Dict[str, str]], normalized_events: List[Dict[str, str]]
+) -> List[Dict[str, str]]:
     """
-    Data de abertura a partir do cronograma, ou vazio quando não há data alguma.
+    Etapas com o melhor dos dois cronogramas: o nome normalizado e a data bruta.
 
-    Precedência: abertura de inscrições, depois publicação, depois a primeira data
-    disponível. A abertura vem antes porque é o marco do edital; a publicação é
-    quando o documento foi divulgado, e usá-la primeiro fazia a data do CMS
-    sobrepor o início real das inscrições.
-
-    Nunca inventa data: sem nenhuma etapa datada, devolve string vazia.
+    A normalização guarda só a primeira data de "24/02/2026 a 02/03/2026"; o texto
+    bruto preserva o fim do intervalo, que pode ser o prazo. Datas relativas que a
+    normalização resolveu ("5 dias úteis após ...") vêm do normalizado.
     """
-    for tokens in (START_EVENT_TOKENS, PUBLICATION_EVENT_TOKENS):
-        found = _first_date_matching(events, tokens)
-        if found:
-            return found
-    for item in events:
-        if _is_iso_date(item.get("data")):
-            return item["data"]
-    return ""
+    combined = []
+    for raw_item, normalized_item in zip(raw_events or [], normalized_events or []):
+        raw_date = raw_item.get("data") or ""
+        item = {
+            "evento": normalized_item.get("evento") or raw_item.get("evento") or "",
+            "data": raw_date if schedule_rules._all_dates(raw_date) else (normalized_item.get("data") or ""),
+        }
+        chamada = normalized_item.get("chamada") or raw_item.get("chamada")
+        if chamada:
+            item["chamada"] = chamada
+        combined.append(item)
+    return combined
+
+
+def derive_opening_date(events: List[Dict[str, str]], today: Optional[date] = None) -> str:
+    """
+    Data de abertura da chamada do prazo vigente, ou vazio quando não há data.
+
+    Ver schedule_rules.derive_opening: abertura da mesma chamada do prazo; sem
+    prazo, a precedência abertura de inscrições > publicação > primeira data.
+    """
+    return schedule_rules.derive_schedule_fields(events, today or date.today())["data_abertura"]
 
 
 def derive_closing_date(
-    raw_events: List[Dict[str, str]], normalized_events: List[Dict[str, str]]
+    raw_events: List[Dict[str, str]],
+    normalized_events: List[Dict[str, str]],
+    today: Optional[date] = None,
 ) -> str:
     """
-    Data de encerramento a partir do cronograma, ou vazio quando não há prazo.
+    Próximo prazo de encerramento a partir de hoje; se todos passaram, o último.
 
-    Vazio é resposta legítima: chamada de fluxo contínuo não tem encerramento.
+    Vazio é resposta legítima: chamada de fluxo contínuo não tem encerramento, e
+    data solta de início não é prazo (schedule_rules.closing_candidates).
     """
-    for tokens in (END_EVENT_TOKENS, START_EVENT_TOKENS):
-        for raw_item, normalized_item in zip(raw_events, normalized_events):
-            end_date = _extract_last_schedule_date(raw_item.get("data") or "")
-            if not end_date and _is_iso_date(normalized_item.get("data")):
-                end_date = normalized_item["data"]
-            if not end_date:
-                continue
-            if _match_any_token(normalized_item.get("evento") or "", tokens):
-                return end_date
-    return ""
+    events = combine_schedule_views(raw_events, normalized_events)
+    return schedule_rules.derive_closing(events, today or date.today())
 
 
 def merge_cronograma(
@@ -144,11 +95,16 @@ def merge_cronograma(
             if not isinstance(item, dict):
                 continue
             event_name = (item.get("evento") or "").strip()
-            key = event_name.lower()
+            chamada = (item.get("chamada") or "").strip()
+            # A mesma etapa ("Início da submissão") repete em cada chamada.
+            key = (event_name.lower(), schedule_rules.normalize_call_name(chamada))
             if not event_name or key in seen:
                 continue
             seen.add(key)
-            merged.append({"evento": event_name, "data": item.get("data") or ""})
+            merged_item = {"evento": event_name, "data": item.get("data") or ""}
+            if chamada:
+                merged_item["chamada"] = chamada
+            merged.append(merged_item)
     return merged
 
 class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
@@ -170,7 +126,10 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # índice de recusados para não repetir OCR de um edital que o portão já
         # rejeitou — sem isso, ele volta como novo em toda execução.
         self.rejections: Dict[str, str] = {}
-    
+
+    def _reference_day(self) -> date:
+        return self.today or date.today()
+
     def process(self, raw_data: RawEdital) -> Optional[EditalDomain]:
         """
         Normaliza o RawEdital em EditalDomain.
@@ -219,8 +178,11 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         normalized_cronograma = normalize_schedule_dates(cronograma)
         raw_cronograma = list(cronograma)
 
-        data_abertura = derive_opening_date(normalized_cronograma)
-        data_encerramento = derive_closing_date(raw_cronograma, normalized_cronograma)
+        schedule_fields = schedule_rules.derive_schedule_fields(
+            combine_schedule_views(raw_cronograma, normalized_cronograma), self._reference_day()
+        )
+        data_abertura = schedule_fields["data_abertura"]
+        data_encerramento = schedule_fields["data_encerramento"]
 
         # Mistral extraction from PDF if available
         # Only extract full content for 'edital' or 'alteração' types, and if pdf_content is present
@@ -263,12 +225,12 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                     # nos campos escalares.
                     mistral_domain.data_abertura = (
                         data_abertura
-                        or derive_opening_date(mistral_domain.cronograma)
+                        or derive_opening_date(mistral_domain.cronograma, self._reference_day())
                         or (mistral_domain.data_abertura or "")
                     )
                     mistral_domain.data_encerramento = (
                         data_encerramento
-                        or derive_closing_date(merged, mistral_domain.cronograma)
+                        or derive_closing_date(merged, mistral_domain.cronograma, self._reference_day())
                         or (mistral_domain.data_encerramento or "")
                     )
 
@@ -362,6 +324,11 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                 self.rejections[raw_data.url] = verdict.reason
             return None
         edital.status = publication_rules.resolve_status(edital, today=self.today)
+        # Contrato com o portal (docs/output_contract.md): chamadas e próxima etapa,
+        # derivadas do cronograma final, nos dois caminhos (fonte e IA).
+        derived = schedule_rules.derive_schedule_fields(edital.cronograma or [], self._reference_day())
+        edital.chamadas = derived["chamadas"]
+        edital.proxima_etapa = derived["proxima_etapa"]
         edital.categoria = publication_rules.canonical_category(
             edital.categoria, publication_rules.category_hint_text(edital)
         )

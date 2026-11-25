@@ -13,6 +13,8 @@ Este diretório contém a documentação do projeto `retrieve_edital`: extraçã
   - ProexIfesSource: leitura da página pública de editais, filtro pelo bloco do ano corrente, escolha do PDF principal, anexos documentais e fallback com `curl` em respostas `403`.
 
 ### Regras e Desenvolvimento
+- [Contrato do JSON de saída](output_contract.md)
+  - Campos que o portal lê; prazo, abertura, chamadas e próxima etapa recalculados diariamente.
 - [Diretrizes de Desenvolvimento S.O.L.I.D](development_guidelines.md)
   - Premissas do repositório (OOP, Clean Code, anti-padrões).
 - [Agentes e Skills](agents_and_skills.md)

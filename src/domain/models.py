@@ -15,7 +15,8 @@ class RawEdital:
     attachments: Optional[List['RawEdital']] = None  # Nested attachments
     raw_status: Optional[str] = None
     # Optional structured data from detail pages (e.g. FINEP chamadapublica)
-    raw_cronograma: Optional[List[Dict[str, str]]] = None  # [{"evento": "...", "data": "YYYY-MM-DD"}]
+    # [{"evento": "...", "data": "YYYY-MM-DD", "chamada": "2ª chamada"}]; "chamada" é opcional.
+    raw_cronograma: Optional[List[Dict[str, str]]] = None
     raw_tags: Optional[List[str]] = None
     raw_anexos: Optional[List[Dict[str, str]]] = None  # [{"titulo": "...", "link": "...", "tipo": "pdf"}]
     # Modalidade declarada pela origem. Hoje só `fluxo-contínuo`, quando a
@@ -57,3 +58,8 @@ class EditalDomain:
     # Qual fonte monitorada produziu este edital. `orgão_fomento` é rótulo de
     # exibição; esta é a chave técnica, estável, usada para rastrear origem.
     fonte_key: str = ""
+    # Contrato com o portal (docs/output_contract.md, RafaelDeps/portal_edital#11).
+    # Uma entrada por chamada: {"nome", "abertura", "encerramento"}; [] sem chamadas.
+    chamadas: List[Dict[str, str]] = field(default_factory=list)
+    # Próxima etapa do cronograma com data >= hoje: {"evento", "data"}; None sem etapa futura.
+    proxima_etapa: Optional[Dict[str, str]] = None

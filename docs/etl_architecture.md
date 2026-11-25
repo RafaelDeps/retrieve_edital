@@ -101,6 +101,12 @@ graph TB
 - **Data de referência**: `EditalNormalizer(today=...)` fixa o "hoje" usado pelas regras de publicação
   (prazo vencido e `status`). Sem o parâmetro, vale o dia real; os testes sempre o informam, para não
   depender da data em que rodam.
+- **Prazo, abertura, chamadas e próxima etapa** vêm de `schedule_rules.py`:
+  - o prazo é o próximo a partir de hoje (editais com várias chamadas);
+  - data solta de início não vira prazo;
+  - o realinhamento diário recalcula esses campos a partir do cronograma salvo.
+
+  Contrato: [output_contract.md](output_contract.md).
 
 ### Component 3: Sink (Load)
 

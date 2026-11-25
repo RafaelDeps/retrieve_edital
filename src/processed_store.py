@@ -47,9 +47,32 @@ def get_keys(source: str, path: str = DEFAULT_PATH) -> List[str]:
     return list(data.get(source, []))
 
 
+# Reextração (scripts/run_all_flows.py --reextrair-abertos): arquivo com uma chave
+# por linha que deve ser tratada como NÃO processada, para que os fluxos leiam de
+# novo esses editais. O índice em disco não é alterado.
+REEXTRACT_KEYS_ENV = "REEXTRACT_KEYS_FILE"
+
+
+def _reextract_keys() -> Set[str]:
+    path = os.environ.get(REEXTRACT_KEYS_ENV)
+    if not path:
+        return set()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return {line.strip() for line in f if line.strip()}
+    except OSError as e:
+        logger.warning("Could not read reextraction list %s: %s", path, e)
+        return set()
+
+
 def get_keys_set(source: str, path: str = DEFAULT_PATH) -> Set[str]:
-    """Retorna um set das chaves já processadas para o source."""
-    return set(get_keys(source, path))
+    """
+    Retorna um set das chaves já processadas para o source.
+
+    Durante uma reextração, as chaves listadas em REEXTRACT_KEYS_FILE são
+    descontadas: o fluxo as vê como novas e as processa de novo.
+    """
+    return set(get_keys(source, path)) - _reextract_keys()
 
 
 def contains(source: str, key: str, path: str = DEFAULT_PATH) -> bool:
