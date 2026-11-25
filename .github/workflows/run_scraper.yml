@@ -28,6 +28,11 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v7
+      with:
+        # Ponta do branch no início do job, não o commit do momento do disparo:
+        # na fila de concorrência, o outro workflow pode ter commitado enquanto
+        # este esperava, e partir do commit antigo gera conflito no rebase.
+        ref: ${{ github.ref_name }}
 
     - name: Set up Python
       uses: actions/setup-python@v7
