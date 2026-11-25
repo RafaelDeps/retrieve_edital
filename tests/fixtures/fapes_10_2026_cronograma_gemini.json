@@ -1,0 +1,132 @@
+[
+  {
+    "evento": "Data publicação do edital",
+    "data": "2026-04-30",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Início do período de submissão no Sigfapes",
+    "data": "2026-05-04",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Encerramento do período de submissão no Sigfapes",
+    "data": "2026-07-07",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Avaliação da documentação",
+    "data": "2026-07-08",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Publicação do resultado preliminar de habilitação",
+    "data": "2026-07-31",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Prazo de submissão dos recursos administrativos",
+    "data": "Prazo de 05 (cinco) dias úteis a partir do 1º dia de publicação do resultado preliminar.",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Previsão de publicação do resultado homologado",
+    "data": "2026-08-25",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Início da avaliação de mérito e apresentação oral",
+    "data": "2026-08-27",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Encerramento da avaliação de mérito e apresentação oral",
+    "data": "2026-10-01",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Publicação do resultado preliminar da avaliação de mérito e apresentação oral",
+    "data": "2026-10-02",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Prazo de submissão dos recursos administrativos",
+    "data": "Prazo de 05 (cinco) dias úteis a partir da publicação do resultado preliminar da apresentação oral",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Previsão de publicação do resultado homologado",
+    "data": "2026-10-27",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Processo de contratação",
+    "data": "Até 5 (cinco) dias úteis da publicação do resultado homologado, com as datas previstas na instrução de contratação",
+    "chamada": "1ª chamada"
+  },
+  {
+    "evento": "Data publicação do edital",
+    "data": "2026-04-30",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Início do período de submissão no Sigfapes",
+    "data": "2026-10-14",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Encerramento do período de submissão no Sigfapes",
+    "data": "2026-12-15",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Avaliação da documentação",
+    "data": "2026-12-16",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Publicação do resultado preliminar de habilitação",
+    "data": "2027-01-08",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Prazo de submissão dos recursos administrativos",
+    "data": "Prazo de 05 (cinco) dias úteis a partir do 1º dia de publicação do resultado preliminar.",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Previsão de publicação do resultado homologado",
+    "data": "2027-02-02",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Início da avaliação de mérito e apresentação oral",
+    "data": "2027-02-03",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Encerramento da avaliação de mérito e apresentação oral",
+    "data": "2027-03-18",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Publicação do resultado preliminar da avaliação de mérito e apresentação oral",
+    "data": "2027-03-19",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Prazo de submissão dos recursos administrativos",
+    "data": "Prazo de 05 (cinco) dias úteis a partir da publicação do resultado preliminar da apresentação oral",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Previsão de publicação do resultado homologado",
+    "data": "2027-04-27",
+    "chamada": "2ª chamada"
+  },
+  {
+    "evento": "Processo de contratação",
+    "data": "Até 5 (cinco) dias úteis da publicação do resultado homologado, com as datas previstas na instrução de contratação",
+    "chamada": "2ª chamada"
+  }
+]

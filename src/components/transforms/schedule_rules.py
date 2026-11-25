@@ -73,9 +73,10 @@ END_EVENT_TOKENS = (
     "último dia",
     "ultimo dia",
 )
-# "Submissão até 10/09": "até" só como palavra inteira, para não casar dentro de
-# outras palavras ("atestado"). Ainda assim só vira prazo se a etapa tiver data.
-END_EVENT_WORD_PATTERN = re.compile(r"(?<!\w)at[eé](?!\w)", re.IGNORECASE)
+# "Submissão até" / "Inscrições até o dia": "até" só conta quando fecha o rótulo.
+# No meio do texto ("Fluxo contínuo ou até que se atinja o valor") não é prazo,
+# e como palavra solta casaria em textos descritivos longos (PRODIF 09/2026).
+END_EVENT_WORD_PATTERN = re.compile(r"(?<!\w)at[eé](\s+o\s+dia)?\s*:?\s*$", re.IGNORECASE)
 
 
 def _is_iso_date(value) -> bool:
@@ -119,14 +120,48 @@ def normalize_call_name(name: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+# Etapas que dizem respeito à inscrição do proponente. "Encerramento da avaliação
+# de mérito" também tem "encerramento", mas não é prazo de quem se candidata.
+SUBMISSION_EVENT_TOKENS = (
+    "submissão",
+    "submissao",
+    "inscrição",
+    "inscricao",
+    "inscrições",
+    "inscricoes",
+    "proposta",
+    "envio",
+    "candidatura",
+    "manifestação de interesse",
+    "manifestacao de interesse",
+)
+
+
+def is_submission_event(event: Dict[str, str]) -> bool:
+    return _match_any_token(event.get("evento") or "", SUBMISSION_EVENT_TOKENS)
+
+
+def _prefer_submission(
+    candidates: List[Tuple[str, Dict[str, str]]]
+) -> List[Tuple[str, Dict[str, str]]]:
+    """Se houver etapas de submissão entre os candidatos, só elas contam."""
+    submission = [c for c in candidates if is_submission_event(c[1])]
+    return submission or candidates
+
+
 def end_event_candidates(events: List[Dict[str, str]]) -> List[Tuple[str, Dict[str, str]]]:
-    """Prazos declarados: etapas com rótulo de encerramento e data (de intervalo, a última)."""
+    """
+    Prazos declarados: etapas com rótulo de encerramento e data (de intervalo, a última).
+
+    Quando o cronograma tem encerramentos de submissão/inscrição, só eles são
+    prazo: "Encerramento da avaliação de mérito" não é prazo do proponente.
+    """
     candidates = []
     for event in events or []:
         dates = _all_dates(event.get("data"))
         if dates and is_end_event(event):
             candidates.append((dates[-1], event))
-    return candidates
+    return _prefer_submission(candidates)
 
 
 def closing_candidates(events: List[Dict[str, str]]) -> List[Tuple[str, Dict[str, str]]]:
@@ -166,12 +201,13 @@ def derive_closing(events: List[Dict[str, str]], today: date) -> str:
 
 
 def _start_dates(events: List[Dict[str, str]]) -> List[Tuple[str, Dict[str, str]]]:
+    """Inícios de etapa; com inícios de submissão no cronograma, só eles (ver end_event_candidates)."""
     starts = []
     for event in events or []:
         dates = _all_dates(event.get("data"))
         if dates and is_start_event(event):
             starts.append((dates[0], event))
-    return starts
+    return _prefer_submission(starts)
 
 
 def _first_date_matching(events: List[Dict[str, str]], tokens: tuple) -> str:

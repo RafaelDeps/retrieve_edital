@@ -387,3 +387,60 @@ def test_realinhamento_grava_proxima_etapa_nula(tmp_path):
     antigo = _saved_edital(status="encerrado")
     resultado = _run_refresh(tmp_path, antigo, date(2027, 6, 1))
     assert "proxima_etapa" in resultado and resultado["proxima_etapa"] is None
+
+
+class TestCronogramaRealDoGemini:
+    """
+    Resposta real do Gemini (gemini-3.5-flash-lite) para o PDF da 1ª alteração do
+    FAPES 10/2026, com o prompt da spec 003 (validação T028, 25/11/2026). Ela
+    revelou que "Encerramento da avaliação de mérito" não pode ser prazo.
+    """
+
+    @pytest.fixture
+    def cronograma(self):
+        import json
+        from pathlib import Path
+
+        caminho = Path(__file__).resolve().parents[1] / "fixtures" / "fapes_10_2026_cronograma_gemini.json"
+        return json.loads(caminho.read_text(encoding="utf-8"))
+
+    @pytest.mark.parametrize(
+        "hoje, prazo, abertura",
+        [
+            ("2026-11-25", "2026-12-15", "2026-10-14"),
+            ("2026-06-01", "2026-07-07", "2026-05-04"),
+            ("2027-01-01", "2026-12-15", "2026-10-14"),
+        ],
+    )
+    def test_prazo_e_abertura(self, cronograma, hoje, prazo, abertura):
+        campos = schedule_rules.derive_schedule_fields(cronograma, date.fromisoformat(hoje))
+        assert campos["data_encerramento"] == prazo
+        assert campos["data_abertura"] == abertura
+
+    def test_chamadas_usam_o_fim_da_submissao(self, cronograma):
+        assert schedule_rules.derive_chamadas(cronograma) == [
+            {"nome": "1ª chamada", "abertura": "2026-05-04", "encerramento": "2026-07-07"},
+            {"nome": "2ª chamada", "abertura": "2026-10-14", "encerramento": "2026-12-15"},
+        ]
+
+    def test_encerramento_de_avaliacao_nao_e_prazo(self):
+        eventos = [
+            {"evento": "Encerramento da submissão", "data": "2026-12-15"},
+            {"evento": "Encerramento da avaliação de mérito", "data": "2027-03-18"},
+        ]
+        assert schedule_rules.derive_closing(eventos, date(2027, 1, 1)) == "2026-12-15"
+
+
+def test_ate_no_meio_do_texto_nao_e_prazo():
+    """Regressão (PRODIF 09/2026): o prazo é o fim do período, não o "ou até que se atinja"."""
+    eventos = [
+        {"evento": "início do período do edital", "data": "2026-03-31"},
+        {"evento": "fim do período do edital", "data": "2026-11-30"},
+        {"evento": "Período de inscrição dos artigos. Fluxo contínuo ou até que se atinja o valor máximo.", "data": "2026-03-31"},
+        {"evento": "Período de avaliação das inscrições. Fluxo contínuo ou até que se atinja o valor máximo.", "data": "2026-04-01"},
+    ]
+    assert schedule_rules.derive_closing(eventos, date(2026, 11, 25)) == "2026-11-30"
+
+
+def test_ate_no_fim_do_rotulo_e_prazo():
+    assert schedule_rules.is_end_event({"evento": "Inscrições até o dia"})
