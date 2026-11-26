@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from src.flow_health import FlowStats, parse_flow_stats  # noqa: E402
+from src.components.sinks.json_sink import LocalJSONSink  # noqa: E402
 from src.processed_store import REEXTRACT_KEYS_ENV  # noqa: E402
 
 
@@ -170,7 +171,7 @@ def resolve_result(
         # dispara sempre não informa nada.
         # Itens adiados por falta de IA (cota diária, chave) não se perdem, mas
         # o portal fica sem eles até a próxima execução: isso precisa aparecer.
-        if stats.source_returned_nothing or stats.deferred_count > 0:
+        if stats.source_returned_nothing or stats.deferred_count > 0 or stats.closing_blocked:
             return RESULT_WARNING
         return RESULT_SUCCESS
     if REGISTRY_KEYS[flow_name] in LOW_VOLUME_FLOWS:
@@ -212,6 +213,13 @@ def build_observations(
             observations += (
                 " A origem não devolveu nenhum item — verificar se o portal mudou."
             )
+        if stats.created is not None:
+            observations += (
+                f" {stats.created} novas, {stats.updated} alteradas,"
+                f" {stats.unchanged} sem mudança, {stats.closed} encerradas."
+            )
+        if stats.closing_blocked:
+            observations += " Encerramento por ausência suspenso (ver log do fluxo)."
         if stats.deferred_count > 0:
             observations += (
                 f" {stats.deferred_count} itens adiados por limite da IA;"
@@ -448,30 +456,6 @@ def select_reextraction_targets(output_dir: Path) -> dict[str, list[str]]:
     return {fonte: sorted(links) for fonte, links in sorted(targets.items())}
 
 
-def dedupe_by_link(output_dir: Path, links: set) -> int:
-    """
-    Remove JSONs repetidos do mesmo edital, mantendo o mais recente.
-
-    Se a reextração devolver outro nome para o edital, o sink grava um arquivo
-    novo e o antigo fica; os dois teriam o mesmo link.
-    """
-    by_link: dict[str, list[Path]] = {}
-    for path in Path(output_dir).glob("*.json"):
-        try:
-            link = (json.loads(path.read_text(encoding="utf-8")).get("link") or "").strip()
-        except (OSError, json.JSONDecodeError):
-            continue
-        if link in links:
-            by_link.setdefault(link, []).append(path)
-    removed = 0
-    for paths in by_link.values():
-        paths.sort(key=lambda p: p.stat().st_mtime, reverse=True)
-        for stale in paths[1:]:
-            stale.unlink()
-            removed += 1
-    return removed
-
-
 STEP_SUMMARY_ENV = "GITHUB_STEP_SUMMARY"
 
 
@@ -555,7 +539,9 @@ def main(argv: Optional[list] = None) -> int:
             os.environ.pop(REEXTRACT_KEYS_ENV, None)
             os.unlink(reextract_file)
     if args.reextrair_abertos:
-        removidas = dedupe_by_link(repo_root / OUTPUT_PATH, reextract_links)
+        removidas = LocalJSONSink(str(repo_root / OUTPUT_PATH)).remove_older_duplicates(
+            reextract_links
+        )
         print(f"[run_all_flows] Duplicatas removidas: {removidas}.")
 
     refresh_edital_status(repo_root)

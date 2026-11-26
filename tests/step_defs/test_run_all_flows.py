@@ -3,6 +3,8 @@ import sys
 import time
 
 import pytest
+
+from src.components.sinks.json_sink import LocalJSONSink
 from pytest_bdd import given, parsers, scenarios, then, when
 
 from scripts import run_all_flows
@@ -435,6 +437,30 @@ class TestDeferredItemsResult:
         assert "adiados" not in observations
 
 
+class TestHorizonChangeObservations:
+    """Releitura do Horizon (spec 005): contagens no log e trava como Atenção."""
+
+    def test_closing_blocked_is_a_warning(self):
+        stats = FlowStats(339, 0, closing_blocked=True)
+        assert run_all_flows.resolve_result("HORIZON", 0, 0, 0, stats) == run_all_flows.RESULT_WARNING
+
+    def test_observations_show_change_counts(self):
+        result, observations = run_all_flows.build_observations(
+            "HORIZON", {"horizon": 525}, {"horizon": 531}, 531, [], 0,
+            stats=FlowStats(339, 6, created=6, updated=41, unchanged=290, closed=2),
+        )
+        assert result == run_all_flows.RESULT_SUCCESS
+        assert "6 novas, 41 alteradas, 290 sem mudança, 2 encerradas." in observations
+
+    def test_observations_flag_blocked_closing(self):
+        _, observations = run_all_flows.build_observations(
+            "HORIZON", {"horizon": 525}, {"horizon": 525}, 525, [], 0,
+            stats=FlowStats(339, 0, created=0, updated=0, unchanged=339, closed=0,
+                            closing_blocked=True),
+        )
+        assert "Encerramento por ausência suspenso" in observations
+
+
 class TestBuildObservations:
     def test_reports_raw_count_and_flags_empty_source(self):
         result, observations = run_all_flows.build_observations(
@@ -582,5 +608,5 @@ class TestReextracao:
         os.utime(saida / "velho.json", (1, 1))
         _grava_edital(saida, "novo.json", link="https://x", status="aberto")
         _grava_edital(saida, "outro.json", link="https://y", status="aberto")
-        assert run_all_flows.dedupe_by_link(saida, {"https://x"}) == 1
+        assert LocalJSONSink(str(saida)).remove_older_duplicates({"https://x"}) == 1
         assert sorted(p.name for p in saida.iterdir()) == ["novo.json", "outro.json"]

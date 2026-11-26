@@ -158,6 +158,44 @@ a anterior.
 - **Sem divisões configuradas**, devolve lista vazia sem fazer requisição.
 - **Falha de rede** devolve lista vazia e zera `last_listing_count`.
 - **`last_listing_count`** conta as chamadas relevantes antes da deduplicação — número que o runner usa para separar "portal sem novidade" de "source quebrado".
+- **`last_read_complete`** diz se o dataset veio inteiro: é falso em erro de download, sem divisões, com a lista ausente ou com um objeto malformado (dataset truncado).
+- **`last_relevant_links`** traz os links de todas as chamadas relevantes da última leitura.
+
+## Atualização semanal (issue #8, spec 005)
+
+A leitura do Horizon não usa IA. Por isso, **toda chamada relevante é relida e reescrita a cada
+execução**: prazo adiado, nova fase, abertura (*Forthcoming* → *Open*) e cancelamento chegam aos
+arquivos já gravados. Antes, o fluxo pulava toda chamada já vista e os arquivos ficavam com o
+retrato do dia da primeira coleta.
+
+- **Índices**: o de processados e o de recusados **não filtram** a leitura do Horizon. O de
+  processados só diz o que é novo. As recusas continuam sendo registradas, mas uma chamada
+  recusada com o prazo reaberto volta na execução seguinte.
+- **Um arquivo por chamada**: o nome do arquivo continua vindo do título. Se o título mudar, o
+  arquivo novo é gravado e o antigo, com o mesmo `link`, é removido
+  (`LocalJSONSink.remove_older_duplicates`).
+- **Encerramento por ausência**: uma chamada gravada como `aberto` que não está mais entre as
+  relevantes (fechou antes do prazo, foi cancelada ou saiu da lista) passa a `encerrado`. Só o
+  status muda, e o arquivo fica (apagar é a política da #11).
+- **Trava**: nada é encerrado por ausência quando:
+  - o dataset veio incompleto; ou
+  - as relevantes são menos da metade das chamadas do Horizon gravadas como `aberto`
+    (`horizon_sync.CLOSING_GUARD_RATIO`).
+
+  Nesses casos o fluxo emite `closing_blocked=1` e o runner marca **Atenção**, com o motivo no log
+  do fluxo.
+- **Mudar `HORIZON_DIVISIONS`**: reduzir as divisões tira chamadas das relevantes. Se a trava não
+  disparar, as chamadas das divisões removidas serão **encerradas** na execução seguinte.
+- **Contagens**: o fluxo informa novas, alteradas (conteúdo diferente do gravado), sem mudança e
+  encerradas, e o runner as escreve no `docs/flow_processing_log.md`:
+
+```text
+[flow-stats] raw=339 new=6 created=6 updated=41 unchanged=290 closed=2
+→ "6 novas, 41 alteradas, 290 sem mudança, 2 encerradas."
+```
+
+As regras ficam em `src/components/horizon_sync.py`, e a ordem dos passos em
+`src/flows/ingest_horizon_flow.py`.
 
 ## Prazos vencidos na origem
 

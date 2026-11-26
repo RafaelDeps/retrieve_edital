@@ -24,6 +24,8 @@ FLOW_STATS_PREFIX = "[flow-stats]"
 
 _FLOW_STATS_REGEX = re.compile(
     rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(\d+)(?:\s+new=(\d+))?(?:\s+deferred=(\d+))?"
+    r"(?:\s+created=(\d+)\s+updated=(\d+)\s+unchanged=(\d+)\s+closed=(\d+))?"
+    r"(?:\s+closing_blocked=(1))?"
 )
 
 
@@ -36,6 +38,13 @@ class FlowStats:
     # Itens não lidos porque a IA ficou indisponível (cota diária, chave);
     # voltam na próxima execução. Maior que zero vira Atenção no runner.
     deferred_count: int = 0
+    # Fontes que relêem tudo a cada execução (Horizon): o que mudou nos
+    # arquivos e se o encerramento por ausência foi suspenso pela trava.
+    created: Optional[int] = None
+    updated: Optional[int] = None
+    unchanged: Optional[int] = None
+    closed: Optional[int] = None
+    closing_blocked: bool = False
 
     @property
     def source_returned_nothing(self) -> bool:
@@ -44,7 +53,14 @@ class FlowStats:
 
 
 def emit_flow_stats(
-    raw_count: int, new_count: Optional[int] = None, deferred_count: int = 0
+    raw_count: int,
+    new_count: Optional[int] = None,
+    deferred_count: int = 0,
+    created: Optional[int] = None,
+    updated: int = 0,
+    unchanged: int = 0,
+    closed: int = 0,
+    closing_blocked: bool = False,
 ) -> None:
     """
     Publica as contagens do fluxo no stdout para o runner unificado ler.
@@ -58,6 +74,10 @@ def emit_flow_stats(
         line += f" new={new_count}"
     if deferred_count > 0:
         line += f" deferred={deferred_count}"
+    if created is not None:
+        line += f" created={created} updated={updated} unchanged={unchanged} closed={closed}"
+    if closing_blocked:
+        line += " closing_blocked=1"
     print(line, flush=True)
 
 
@@ -78,7 +98,21 @@ def parse_flow_stats(output: str) -> Optional[FlowStats]:
     raw_count = int(match.group(1))
     new_count = int(match.group(2)) if match.group(2) is not None else None
     deferred_count = int(match.group(3)) if match.group(3) is not None else 0
-    return FlowStats(raw_count=raw_count, new_count=new_count, deferred_count=deferred_count)
+    changes = {}
+    if match.group(4) is not None:
+        changes = {
+            "created": int(match.group(4)),
+            "updated": int(match.group(5)),
+            "unchanged": int(match.group(6)),
+            "closed": int(match.group(7)),
+        }
+    return FlowStats(
+        raw_count=raw_count,
+        new_count=new_count,
+        deferred_count=deferred_count,
+        closing_blocked=match.group(8) is not None,
+        **changes,
+    )
 
 
 def warn_on_redirect(requested_url: str, final_url: str) -> bool:

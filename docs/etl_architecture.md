@@ -48,7 +48,7 @@ graph TB
 | PRPPG_IFES | `src/flows/ingest_prppg_ifes_flow.py` | `PrppgIfesSource` | Editais do SIGPesq/Ifes com paginação ASP.NET, URL estável `?cod=` e download do anexo principal. |
 | PROEX_IFES | `src/flows/ingest_proex_ifes_flow.py` | `ProexIfesSource` | Editais abertos da PROEX/IFES, limitados ao ano corrente, com deduplicação pela URL do PDF principal e fallback para `curl` quando o portal retorna `403` a `requests`. |
 | CAPES | `src/flows/ingest_capes_flow.py` | `CapesSource` | Editais e resultados da CAPES, com anexos em PDF e filtro por ano corrente/futuro. |
-| HORIZON | `src/flows/ingest_horizon_flow.py` | `HorizonSource` | Chamadas abertas do Horizon Europe (inclui o EIC) a partir do dataset bulk público, com filtro temático obrigatório por divisão. Cadência semanal, fora do runner diário. |
+| HORIZON | `src/flows/ingest_horizon_flow.py` | `HorizonSource` | Chamadas abertas do Horizon Europe (inclui o EIC) a partir do dataset bulk público, com filtro temático obrigatório por divisão. Cadência semanal, fora do runner diário. Relê e atualiza todas as chamadas relevantes a cada execução, sem usar os índices para filtrar (ver [horizon_source.md](horizon_source.md#atualização-semanal-issue-8-spec-005)). |
 | CNPQ | `src/flows/ingest_cnpq_flow.py` | `CnpqSource` | Chamadas abertas para submissão no **portal do gov.br** (Plone estático), com página de detalhe, período de inscrições, anexos e OCR do documento principal. |
 
 ## Configuração global

@@ -32,7 +32,7 @@ import logging
 import os
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, Iterator, List, Optional, Sequence, Set
+from typing import Any, Dict, Iterator, List, Optional, Sequence, Set, Tuple
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -145,17 +145,24 @@ def get_configured_divisions(
     return DEFAULT_DIVISIONS
 
 
-def iter_json_objects(text: str, list_key: str = _OBJECT_LIST_KEY) -> Iterator[dict]:
+def parse_json_objects(
+    text: str, list_key: str = _OBJECT_LIST_KEY
+) -> Tuple[List[dict], bool]:
     """
     Decodifica os objetos da lista um a um, sem materializar a estrutura inteira.
+
+    Devolve os objetos e se a leitura foi completa: falso quando a lista não
+    existe ou quando um objeto está malformado (dataset truncado). O fluxo usa
+    isso para não encerrar chamadas por ausência numa leitura parcial.
 
     `json.loads` sobre os 126 MB criaria mais de 11 mil dicionários de uma vez,
     quando só ~200 interessam.
     """
+    objects: List[dict] = []
     marker = re.search(rf'"{re.escape(list_key)}"\s*:\s*\[', text)
     if marker is None:
         logger.error("Lista %s não encontrada no dataset do Horizon.", list_key)
-        return
+        return objects, False
 
     decoder = json.JSONDecoder()
     position = marker.end()
@@ -163,15 +170,23 @@ def iter_json_objects(text: str, list_key: str = _OBJECT_LIST_KEY) -> Iterator[d
     while position < length:
         while position < length and text[position] in " \t\r\n,":
             position += 1
-        if position >= length or text[position] == "]":
-            return
+        if position >= length:
+            return objects, False
+        if text[position] == "]":
+            return objects, True
         try:
             obj, position = decoder.raw_decode(text, position)
         except ValueError as exc:
             logger.error("Dataset do Horizon malformado na posição %s: %s", position, exc)
-            return
+            return objects, False
         if isinstance(obj, dict):
-            yield obj
+            objects.append(obj)
+    return objects, False
+
+
+def iter_json_objects(text: str, list_key: str = _OBJECT_LIST_KEY) -> Iterator[dict]:
+    """Os objetos da lista, sem dizer se a leitura foi completa."""
+    yield from parse_json_objects(text, list_key)[0]
 
 
 class HorizonSource(ISource[RawEdital]):
@@ -192,6 +207,10 @@ class HorizonSource(ISource[RawEdital]):
         self.session = session or self._build_session()
         # Quantas chamadas relevantes a origem devolveu antes da deduplicação.
         self.last_listing_count = 0
+        # Fatos da última leitura, para o fluxo decidir o encerramento por
+        # ausência: se o dataset veio inteiro e quais chamadas eram relevantes.
+        self.last_read_complete = False
+        self.last_relevant_links: Set[str] = set()
         if not self.divisions:
             logger.warning(
                 "Nenhuma divisão do Horizon configurada: o source não devolverá "
@@ -218,6 +237,8 @@ class HorizonSource(ISource[RawEdital]):
         return session
 
     def read(self) -> List[RawEdital]:
+        self.last_read_complete = False
+        self.last_relevant_links = set()
         if not self.divisions:
             self.last_listing_count = 0
             return []
@@ -229,9 +250,14 @@ class HorizonSource(ISource[RawEdital]):
             self.last_listing_count = 0
             return []
 
-        relevant: List[Dict[str, Any]] = [
-            item for item in iter_json_objects(payload) if self._is_relevant(item)
-        ]
+        objects, complete = parse_json_objects(payload)
+        relevant: List[Dict[str, Any]] = [item for item in objects if self._is_relevant(item)]
+        self.last_read_complete = complete
+        self.last_relevant_links = {
+            HORIZON_TOPIC_URL_TEMPLATE.format(identifier=identifier)
+            for identifier in ((item.get("identifier") or "").strip() for item in relevant)
+            if identifier
+        }
         self.last_listing_count = len(relevant)
         logger.info(
             "Dataset do Horizon: %s chamadas relevantes nas divisões configuradas.",
@@ -245,7 +271,7 @@ class HorizonSource(ISource[RawEdital]):
                 raw_editais.append(raw_edital)
 
         logger.info(
-            "HorizonSource selecionou %s chamadas novas de %s relevantes.",
+            "HorizonSource devolveu %s chamadas de %s relevantes.",
             len(raw_editais),
             len(relevant),
         )

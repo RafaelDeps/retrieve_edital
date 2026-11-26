@@ -83,7 +83,7 @@ class TestStatsEmittedWhenEverythingIsRejected:
         for caminho in sorted(pathlib.Path("src/flows").glob("ingest_*_flow.py")):
             fonte = caminho.read_text(encoding="utf-8")
             emissao = re.search(
-                r"^(\s*)emit_flow_stats\(\s*raw_count=listing_count,\s*new_count=len\(",
+                r"^(\s*)emit_flow_stats\(\s*raw_count=listing_count,\s*new_count=(?!0\b)",
                 fonte,
                 re.M,
             )
@@ -113,3 +113,26 @@ class TestDeferredItems:
 
     def test_old_lines_have_zero_deferred(self):
         assert parse_flow_stats(f"{FLOW_STATS_PREFIX} raw=10 new=2").deferred_count == 0
+
+
+class TestHorizonChangeCounts:
+    """Contagens da releitura do Horizon (spec 005): campos opcionais."""
+
+    def test_emit_and_parse_change_counts(self, capsys):
+        emit_flow_stats(
+            raw_count=339, new_count=6, created=6, updated=41, unchanged=290, closed=2,
+            closing_blocked=True,
+        )
+        line = capsys.readouterr().out.strip()
+        assert line == (
+            f"{FLOW_STATS_PREFIX} raw=339 new=6 created=6 updated=41 unchanged=290 closed=2"
+            " closing_blocked=1"
+        )
+        assert parse_flow_stats(line) == FlowStats(
+            raw_count=339, new_count=6, created=6, updated=41, unchanged=290, closed=2,
+            closing_blocked=True,
+        )
+
+    def test_lines_without_counts_keep_defaults(self):
+        stats = parse_flow_stats(f"{FLOW_STATS_PREFIX} raw=10 new=2 deferred=1")
+        assert stats.created is None and stats.closing_blocked is False

@@ -2,10 +2,13 @@ import hashlib
 import json
 import os
 import logging
-from typing import Dict, List
+from pathlib import Path
+from typing import Dict, Iterable, List, Tuple
 from dataclasses import asdict
 from src.core.interfaces import ISink
 from src.domain.models import EditalDomain
+
+CLOSED_STATUS = "encerrado"
 
 logger = logging.getLogger(__name__)
 
@@ -138,3 +141,66 @@ class LocalJSONSink(ISink[EditalDomain]):
             f"Successfully persisted {len(persisted)} of {len(items)} editais to {self.output_dir}"
         )
         return persisted
+
+    # ---- manutenção dos arquivos já gravados ------------------------------
+
+    def load_saved(self, fonte_key: str) -> Dict[str, Tuple[str, dict]]:
+        """
+        Os JSONs gravados de uma fonte, como {link: (caminho, conteúdo)}.
+
+        Arquivo ilegível ou sem link fica de fora, com aviso: não há como saber a
+        que chamada ele pertence.
+        """
+        saved: Dict[str, Tuple[str, dict]] = {}
+        for path in sorted(Path(self.output_dir).glob("*.json")):
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                logger.warning("JSON ilegível ignorado (%s): %s", path.name, exc)
+                continue
+            if not isinstance(data, dict) or data.get("fonte_key") != fonte_key:
+                continue
+            link = (data.get("link") or "").strip()
+            if not link:
+                logger.warning("JSON da fonte %s sem link ignorado: %s", fonte_key, path.name)
+                continue
+            saved[link] = (str(path), data)
+        return saved
+
+    def mark_closed(self, path: str) -> bool:
+        """Troca só o status do arquivo para encerrado; o resto fica como está."""
+        try:
+            with open(path, "r", encoding="utf-8") as handle:
+                data = json.load(handle)
+            data["status"] = CLOSED_STATUS
+            with open(path, "w", encoding="utf-8") as handle:
+                json.dump(data, handle, ensure_ascii=False, indent=4)
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.error("Falha ao marcar como encerrado %s: %s", path, exc)
+            return False
+        return True
+
+    def remove_older_duplicates(self, links: Iterable[str]) -> int:
+        """
+        Remove JSONs repetidos do mesmo edital, mantendo o mais recente.
+
+        Se a releitura devolver outro título, o arquivo novo nasce com outro nome
+        e o antigo fica; os dois teriam o mesmo link.
+        """
+        wanted = set(links)
+        by_link: Dict[str, List[Path]] = {}
+        for path in Path(self.output_dir).glob("*.json"):
+            try:
+                link = (json.loads(path.read_text(encoding="utf-8")).get("link") or "").strip()
+            except (OSError, json.JSONDecodeError, AttributeError):
+                continue
+            if link in wanted:
+                by_link.setdefault(link, []).append(path)
+        removed = 0
+        for paths in by_link.values():
+            paths.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            for stale in paths[1:]:
+                stale.unlink()
+                logger.info("Duplicata removida (mesmo link): %s", stale.name)
+                removed += 1
+        return removed

@@ -86,20 +86,32 @@ def removal_reason(edital: dict) -> str:
     return ""
 
 
+# Fontes relidas por inteiro a cada execução (spec 005). Nelas a própria
+# releitura reabre uma chamada prorrogada, e o `encerrado` gravado vem da origem
+# (a chamada saiu da lista); o prazo gravado pode estar desatualizado justamente
+# por isso, então o realinhamento não reabre essas chamadas.
+SOURCES_REFRESHED_EACH_RUN = frozenset({"horizon"})
+
+
 def expected_status(edital: dict, today: date) -> str:
     """
     Mesma regra de `publication_rules.resolve_status`, aplicada ao JSON gravado.
 
     Prazo vencido vira `encerrado`; prazo futuro vira `aberto`, inclusive quando
-    o arquivo estava marcado como encerrado e o prazo foi prorrogado.
+    o arquivo estava marcado como encerrado e o prazo foi prorrogado — exceto nas
+    fontes relidas a cada execução, em que só a releitura reabre.
     """
     current = (edital.get("status") or "").strip().lower()
     deadline = (edital.get("data_encerramento") or "").strip()
+    keeps_closed = (
+        current in CLOSED_SYNONYMS
+        and edital.get("fonte_key") in SOURCES_REFRESHED_EACH_RUN
+    )
     if deadline:
         try:
             if date.fromisoformat(deadline) < today:
                 return STATUS_CLOSED
-            return STATUS_OPEN
+            return STATUS_CLOSED if keeps_closed else STATUS_OPEN
         except ValueError:
             pass
     return STATUS_CLOSED if current in CLOSED_SYNONYMS else STATUS_OPEN
