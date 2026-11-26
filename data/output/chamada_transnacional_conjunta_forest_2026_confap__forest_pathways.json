@@ -99,5 +99,10 @@
     "ambito_geografico": "estadual-ES",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "fapes"
+    "fonte_key": "fapes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Encerramento do prazo para submissão da 1ª fase (pré-proposta)",
+        "data": "2026-12-02"
+    }
 }

@@ -19,5 +19,7 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "conif"
+    "fonte_key": "conif",
+    "chamadas": [],
+    "proxima_etapa": null
 }
