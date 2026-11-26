@@ -29,6 +29,7 @@ FLOW_COMMANDS = (
     ("PROEX_IFES", [sys.executable, "-m", "src.flows.ingest_proex_ifes_flow"]),
     ("CAPES", [sys.executable, "-m", "src.flows.ingest_capes_flow"]),
     ("CNPQ", [sys.executable, "-m", "src.flows.ingest_cnpq_flow"]),
+    ("COMUNIDADE", [sys.executable, "-m", "src.flows.ingest_comunidade_flow"]),
 )
 # Fontes que só rodam quando citadas em --only. O Horizon Europe tem cadência
 # semanal (dataset de ~126 MB que muda pouco) e roda no workflow próprio com
@@ -45,7 +46,11 @@ REGISTRY_KEYS = {
     "CAPES": "capes",
     "CNPQ": "cnpq",
     "HORIZON": "horizon",
+    "COMUNIDADE": "comunidade",
 }
+# Fontes em que zero itens na origem é o normal, não sinal de quebra: sem
+# indicações abertas no portal, a fonte da comunidade não tem o que ler (spec 009).
+EMPTY_SOURCE_IS_NORMAL = frozenset({"comunidade"})
 LOG_PATH = Path("docs/flow_processing_log.md")
 REGISTRY_PATH = Path("registry/processed_editais.json")
 OUTPUT_PATH = Path("data/output")
@@ -171,8 +176,12 @@ def resolve_result(
         # dispara sempre não informa nada.
         # Itens adiados por falta de IA (cota diária, chave) não se perdem, mas
         # o portal fica sem eles até a próxima execução: isso precisa aparecer.
-        if (
+        empty_is_problem = (
             stats.source_returned_nothing
+            and REGISTRY_KEYS.get(flow_name) not in EMPTY_SOURCE_IS_NORMAL
+        )
+        if (
+            empty_is_problem
             or stats.deferred_count > 0
             or stats.closing_blocked
             or stats.network == "failed"
@@ -222,6 +231,8 @@ def build_observations(
                 " Falha de rede: www.gov.br recusou a conexão e o desvio pelo Jina"
                 f" falhou ({stats.network_reason or 'motivo desconhecido'})."
             )
+        elif stats.source_returned_nothing and registry_key in EMPTY_SOURCE_IS_NORMAL:
+            observations += " Nenhuma indicação aberta."
         elif stats.source_returned_nothing:
             observations += (
                 " A origem não devolveu nenhum item — verificar se o portal mudou."

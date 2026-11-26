@@ -2,7 +2,7 @@ import os
 import re
 import io
 import logging
-from datetime import date
+from datetime import date, datetime
 from typing import List, Dict, Optional
 import pdfplumber
 
@@ -14,6 +14,9 @@ from src.components.transforms.extraction_service import (
     AIUnavailableError,
     get_extraction_service,
 )
+from src.components.transforms.extraction_prompts import OffTopicError
+
+SUGGESTED_DEADLINE_EVENT = "Encerramento (prazo informado na indicação)"
 from src.components.transforms.date_utils import normalize_schedule_dates
 from src.components.transforms import schedule_rules
 from src.components.transforms.schedule_rules import (  # noqa: F401 — reexportados
@@ -157,11 +160,14 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         clean_title = re.sub(r'\s+', ' ', raw_data.title).strip().upper()
 
         # Agency standardization
-        raw_orgao = (raw_data.raw_agency or "FAPES").upper()
-        if "FAPES" in raw_orgao:
-            clean_agency = "FAPES"
+        community = getattr(raw_data, "community", None) or None
+        if community:
+            # Indicação da comunidade (spec 009): o órgão digitado no formulário
+            # é só reserva; o do documento, lido pela IA, vence.
+            clean_agency = (community.get("orgao") or "").strip().upper()
         else:
-            clean_agency = raw_orgao
+            raw_orgao = (raw_data.raw_agency or "FAPES").upper()
+            clean_agency = "FAPES" if "FAPES" in raw_orgao else raw_orgao
 
         description = raw_data.raw_description or ""
         cronograma: List[Dict[str, str]] = []
@@ -202,19 +208,26 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             try:
                 # Documento como arquivo (acesso direto) ou já como texto (desvio
                 # do gov.br pelo Jina, spec 006): a IA recebe o mesmo texto.
+                # Indicações perguntam também se o documento é fomento (spec 009).
+                theme = {"check_theme": True} if community else {}
                 if raw_data.pdf_content:
                     mistral_domain = self.extraction_service.extract_from_pdf(
-                        raw_data.pdf_content, f"{clean_title}.pdf"
+                        raw_data.pdf_content, f"{clean_title}.pdf", **theme
                     )
                 else:
                     mistral_domain = self.extraction_service.extract_from_text(
-                        pdf_text, f"{clean_title}.pdf"
+                        pdf_text, f"{clean_title}.pdf", **theme
                     )
                 
                 if mistral_domain:
                     # Enrich/Merge Mistral result with metadata
                     mistral_domain.link = raw_data.url
-                    mistral_domain.orgão_fomento = clean_agency
+                    if community:
+                        mistral_domain.orgão_fomento = (
+                            (mistral_domain.orgão_fomento or "").strip().upper() or clean_agency
+                        )
+                    else:
+                        mistral_domain.orgão_fomento = clean_agency
                     mistral_domain.status = status
                     # Force the category from the source website as requested
                     if raw_data.source_category:
@@ -250,10 +263,17 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                         or derive_closing_date(merged, mistral_domain.cronograma, self._reference_day())
                         or (mistral_domain.data_encerramento or "")
                     )
+                    if community and not mistral_domain.data_encerramento:
+                        self._apply_suggested_deadline(mistral_domain, community)
 
                     return self._publish_or_discard(mistral_domain, raw_data)
                 else:
                     logger.warning(f"A IA não devolveu edital para {clean_title}; seguindo com a extração básica.")
+            except OffTopicError as e:
+                logger.info("Indicação fora do tema (%s): %s", e.motivo, clean_title[:70])
+                if raw_data.url:
+                    self.rejections[raw_data.url] = f"fora do tema: {e.motivo}"
+                return None
             except AIUnavailableError as e:
                 logger.warning("Item adiado (IA indisponível: %s): %s", e.reason, clean_title[:70])
                 if raw_data.url:
@@ -328,6 +348,29 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             anexos=anexos
         )
         return self._publish_or_discard(edital, raw_data)
+
+    @staticmethod
+    def _apply_suggested_deadline(edital: EditalDomain, community: Dict[str, str]) -> None:
+        """
+        Prazo do formulário como reserva, quando o documento não traz prazo.
+
+        Fica marcado no cronograma como "Prazo informado na indicação": é a
+        evidência que temos, e quem lê sabe de onde ela veio.
+        """
+        prazo = (community.get("prazo") or "").strip()
+        iso = ""
+        for fmt in ("%d/%m/%Y", "%Y-%m-%d"):
+            try:
+                iso = datetime.strptime(prazo, fmt).date().isoformat()
+                break
+            except ValueError:
+                continue
+        if not iso:
+            return
+        edital.cronograma = list(edital.cronograma or []) + [
+            {"evento": SUGGESTED_DEADLINE_EVENT, "data": iso}
+        ]
+        edital.data_encerramento = iso
 
     def _publish_or_discard(
         self, edital: EditalDomain, raw_data: RawEdital

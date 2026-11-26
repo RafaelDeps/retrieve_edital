@@ -66,7 +66,7 @@ class IExtractionService(ABC):
     """
 
     @abstractmethod
-    def extract_from_pdf(self, pdf_bytes: bytes, filename: str) -> Any:
+    def extract_from_pdf(self, pdf_bytes: bytes, filename: str, check_theme: bool = False) -> Any:
         """
         Reads the edital and returns an `EditalDomain` with `link=""`, or `None`
         on an extraction failure (PDF without text, invalid answer, item error).
@@ -75,11 +75,14 @@ class IExtractionService(ABC):
         """
 
     @abstractmethod
-    def extract_from_text(self, text: str, filename: str) -> Any:
+    def extract_from_text(self, text: str, filename: str, check_theme: bool = False) -> Any:
         """
         Same as `extract_from_pdf`, for a document that already arrived as text
         (the gov.br detour through the Jina Reader). Empty text returns `None`
         without calling the AI.
+
+        With `check_theme`, the AI also says whether the document is a funding
+        opportunity; when it is not, `OffTopicError(motivo)` is raised (spec 009).
         """
 
     @abstractmethod

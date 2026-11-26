@@ -29,6 +29,8 @@ from src.components.transforms.extraction_prompts import (
     map_schedule_item,
     map_to_domain,
     normalize_finep_category,
+    OffTopicError,
+    theme_verdict,
 )
 
 logger = logging.getLogger(__name__)
@@ -233,20 +235,24 @@ class MistralExtractionService(IExtractionService):
                 except Exception as cleanup_err:
                     logger.warning(f"Failed to delete uploaded file {uploaded_file_id}: {cleanup_err}")
 
-    def extract_from_pdf(self, pdf_bytes: bytes, filename: str) -> Optional[EditalDomain]:
+    def extract_from_pdf(
+        self, pdf_bytes: bytes, filename: str, check_theme: bool = False
+    ) -> Optional[EditalDomain]:
         """
         Processes PDF bytes through Mistral OCR (or local pdfplumber fallback) and
         extracts structured data using LLM.
         """
         return self._extract(
-            lambda attempt: self._extract_pdf_text(pdf_bytes, filename, attempt), filename
+            lambda attempt: self._extract_pdf_text(pdf_bytes, filename, attempt), filename, check_theme
         )
 
-    def extract_from_text(self, text: str, filename: str) -> Optional[EditalDomain]:
+    def extract_from_text(
+        self, text: str, filename: str, check_theme: bool = False
+    ) -> Optional[EditalDomain]:
         """Só a etapa de LLM, para um documento que já chegou como texto (spec 006)."""
-        return self._extract(lambda attempt: text or "", filename)
+        return self._extract(lambda attempt: text or "", filename, check_theme)
 
-    def _extract(self, text_for_attempt, filename: str) -> Optional[EditalDomain]:
+    def _extract(self, text_for_attempt, filename: str, check_theme: bool = False) -> Optional[EditalDomain]:
         max_retries = 3
         for attempt in range(1, max_retries + 1):
             try:
@@ -259,7 +265,7 @@ class MistralExtractionService(IExtractionService):
 
                 # Extract structured data via LLM (with rate-limit retry)
                 time.sleep(2)
-                prompt = self._get_extraction_prompt(full_ocr_text)
+                prompt = build_extraction_prompt(full_ocr_text, check_theme)
 
                 response = _call_with_rate_limit_retry(
                     lambda: self.client.chat.complete(
@@ -275,8 +281,14 @@ class MistralExtractionService(IExtractionService):
 
                 raw_json = response.choices[0].message.content
                 extracted_data = json.loads(raw_json)
+                if check_theme:
+                    is_funding, motivo = theme_verdict(extracted_data)
+                    if not is_funding:
+                        raise OffTopicError(motivo or "não é oportunidade de fomento")
                 return self._map_to_domain(extracted_data)
 
+            except OffTopicError:
+                raise
             except Exception as e:
                 logger.error("Mistral extraction failed for %s on attempt %s: %s", filename, attempt, e)
                 if _is_non_retryable_quota_or_tier_error(e):

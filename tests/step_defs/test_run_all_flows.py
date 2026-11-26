@@ -12,7 +12,7 @@ from src.flow_health import FlowStats
 
 scenarios("../../docs/features/run_all_flows.feature")
 
-DAILY_FLOWS = ["FAPES", "FINEP", "CONIF", "PRPPG_IFES", "PROEX_IFES", "CAPES", "CNPQ"]
+DAILY_FLOWS = ["FAPES", "FINEP", "CONIF", "PRPPG_IFES", "PROEX_IFES", "CAPES", "CNPQ", "COMUNIDADE"]
 
 
 @pytest.fixture(autouse=True)
@@ -171,6 +171,7 @@ def test_flow_commands_include_capes_and_cnpq_in_expected_order():
         "PROEX_IFES",
         "CAPES",
         "CNPQ",
+        "COMUNIDADE",
     ]
 
 
@@ -183,6 +184,7 @@ def test_registry_keys_include_new_integrated_flows():
         "PROEX_IFES": "proex_ifes",
         "CAPES": "capes",
         "CNPQ": "cnpq",
+        "COMUNIDADE": "comunidade",
         "HORIZON": "horizon",
     }
 
@@ -214,6 +216,7 @@ def test_main_runs_all_flows_in_sequence(monkeypatch, tmp_path):
         ("PROEX_IFES", "src.flows.ingest_proex_ifes_flow"),
         ("CAPES", "src.flows.ingest_capes_flow"),
         ("CNPQ", "src.flows.ingest_cnpq_flow"),
+        ("COMUNIDADE", "src.flows.ingest_comunidade_flow"),
     ]
 
 
@@ -610,3 +613,23 @@ class TestReextracao:
         _grava_edital(saida, "outro.json", link="https://y", status="aberto")
         assert LocalJSONSink(str(saida)).remove_older_duplicates({"https://x"}) == 1
         assert sorted(p.name for p in saida.iterdir()) == ["novo.json", "outro.json"]
+
+
+class TestCommunityEmptySourceIsNormal:
+    """Sem indicações abertas, a fonte da comunidade não tem o que ler (spec 009)."""
+
+    def test_no_open_suggestion_is_success_with_a_note(self):
+        result, observations = run_all_flows.build_observations(
+            "COMUNIDADE", {"comunidade": 0}, {"comunidade": 0}, 0, [], 0,
+            stats=FlowStats(raw_count=0, new_count=0),
+        )
+        assert result == run_all_flows.RESULT_SUCCESS
+        assert "Nenhuma indicação aberta." in observations
+        assert "verificar se o portal mudou" not in observations
+
+    def test_other_sources_still_warn_on_empty_origin(self):
+        result, _ = run_all_flows.build_observations(
+            "CAPES", {"capes": 0}, {"capes": 0}, 0, [], 0,
+            stats=FlowStats(raw_count=0, new_count=0),
+        )
+        assert result == run_all_flows.RESULT_WARNING

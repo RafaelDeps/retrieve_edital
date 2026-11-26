@@ -52,6 +52,10 @@ jobs:
         LLM_PROVIDER: gemini
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        # Indicações da comunidade (spec 009): leitura das issues do portal e,
+        # com o token restrito a issues do portal, resposta e fechamento.
+        GITHUB_TOKEN: ${{ github.token }}
+        PORTAL_ISSUES_TOKEN: ${{ secrets.PORTAL_ISSUES_TOKEN }}
         # O input vai por variável de ambiente, nunca interpolado direto no shell.
         ONLY: ${{ inputs.only }}
       run: |

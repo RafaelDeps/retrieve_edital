@@ -20,7 +20,7 @@ import os
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
-from typing import Callable, Iterable, List, Optional, Set
+from typing import Callable, Dict, Iterable, List, Optional, Set
 
 from src import rejection_store
 from src.core.interfaces import ISink, ISource, ITransform
@@ -128,6 +128,31 @@ def links_of(persisted: Iterable[EditalDomain]) -> List[str]:
     return [domain.link for domain in persisted]
 
 
+@dataclass
+class PipelineResult:
+    """O que uma execução do roteiro comum produziu (usado por quem responde depois)."""
+
+    persisted: Dict[str, str] = field(default_factory=dict)  # link -> nome
+    rejections: Dict[str, str] = field(default_factory=dict)  # link -> motivo
+    errors: List[TransformError] = field(default_factory=list)
+    deferred: List[str] = field(default_factory=list)
+
+
+def record_source_rejections(fonte_key: str, source) -> Dict[str, str]:
+    """
+    Recusas feitas pela própria fonte, antes da transformação (ex.: o filtro de
+    tema das indicações, spec 009). `rejections_short` usa a validade curta dos
+    erros (ex.: link inacessível, que pode voltar logo).
+    """
+    normal = dict(getattr(source, "rejections", None) or {})
+    short = dict(getattr(source, "rejections_short", None) or {})
+    if normal:
+        rejection_store.record(fonte_key, normal)
+    if short:
+        rejection_store.record(fonte_key, short, ttl_days=transform_error_ttl_days())
+    return {**normal, **short}
+
+
 @dataclass(frozen=True)
 class FlowSpec:
     """O que diferencia um fluxo comum: a chave da fonte, o rótulo e as chaves do índice."""
@@ -144,7 +169,7 @@ def run_standard_pipeline(
     transform: Optional[ITransform[RawEdital, EditalDomain]] = None,
     sink: Optional[ISink[EditalDomain]] = None,
     processed_index_path: str = DEFAULT_PATH,
-) -> None:
+) -> PipelineResult:
     """Ler → transformar → estatísticas → recusas e erros → gravar → indexar."""
     from src.components.sinks.json_sink import LocalJSONSink
     from src.components.transforms.edital_normalizer import EditalNormalizer
@@ -167,8 +192,9 @@ def run_standard_pipeline(
 
     if not raw_data_list:
         emit_flow_stats(raw_count=listing_count, new_count=0, **network_stats(source))
+        result = PipelineResult(rejections=record_source_rejections(spec.fonte_key, source))
         logger.warning("Extraction returned empty. Halting pipeline.")
-        return
+        return result
 
     logger.info("Extracted %s raw records.", len(raw_data_list))
     logger.info("Phase 2: Transformation (Parallel)")
@@ -187,8 +213,15 @@ def run_standard_pipeline(
         **error_stats(outcome.errors),
         **network_stats(source),
     )
-    rejection_store.record(spec.fonte_key, getattr(transform, "rejections", {}))
+    source_rejections = record_source_rejections(spec.fonte_key, source)
+    transform_rejections = dict(getattr(transform, "rejections", None) or {})
+    rejection_store.record(spec.fonte_key, transform_rejections)
     record_transform_errors(spec.fonte_key, outcome.errors)
+    result = PipelineResult(
+        rejections={**source_rejections, **transform_rejections},
+        errors=list(outcome.errors),
+        deferred=list(getattr(transform, "deferred", None) or []),
+    )
 
     if outcome.valid:
         persisted = sink.write(outcome.valid)
@@ -197,6 +230,8 @@ def run_standard_pipeline(
             spec.processed_keys(persisted.values()),
             path=processed_index_path,
         )
+        result.persisted = {d.link: d.nome for d in persisted.values()}
         logger.info("Pipeline completed successfully.")
     else:
         logger.warning("No valid domains to sink. Pipeline finished with warnings.")
+    return result

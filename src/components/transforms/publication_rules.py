@@ -253,6 +253,9 @@ def resolve_ambito_geografico(edital: EditalDomain, raw_data: RawEdital) -> str:
 
 def resolve_fonte_key(edital: EditalDomain, raw_data: RawEdital) -> str:
     """Chave técnica da fonte. `orgão_fomento` é rótulo de exibição."""
+    declared = (getattr(raw_data, "raw_fonte_key", "") or "").strip()
+    if declared:
+        return declared
     return _profile_of(edital)[1] or (edital.fonte_key or "").strip()
 
 

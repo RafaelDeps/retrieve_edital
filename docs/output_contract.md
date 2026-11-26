@@ -20,6 +20,13 @@ RafaelDeps/portal_edital#11.
 - **Portal**: o que ele precisa fazer com a pasta nova está em RafaelDeps/portal_edital#14 (ver
   também a portal#3).
 
+## Origem dos editais
+
+`fonte_key` identifica a fonte que produziu o edital: `fapes`, `finep`, `conif`, `prppg_ifes`,
+`proex_ifes`, `capes`, `cnpq`, `horizon` e, desde a spec 009, **`comunidade`**, para editais
+indicados pelo formulário do portal e aceitos pelo coletor. Estes também trazem a tag
+`indicação da comunidade`. Ver `docs/comunidade_source.md`.
+
 ## Prazos e etapas
 
 Todos os campos abaixo vêm do `cronograma` e são **recalculados todo dia** pelo realinhamento

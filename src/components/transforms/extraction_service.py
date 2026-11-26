@@ -42,10 +42,10 @@ class UnavailableExtractionService(IExtractionService):
     def __init__(self, reason: str):
         self.reason = reason
 
-    def extract_from_pdf(self, pdf_bytes: bytes, filename: str):
+    def extract_from_pdf(self, pdf_bytes: bytes, filename: str, check_theme: bool = False):
         raise AIUnavailableError(self.reason)
 
-    def extract_from_text(self, text: str, filename: str):
+    def extract_from_text(self, text: str, filename: str, check_theme: bool = False):
         raise AIUnavailableError(self.reason)
 
     def classify_document_titles(self, titles: List[str]) -> Dict[str, str]:

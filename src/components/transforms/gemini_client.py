@@ -34,6 +34,8 @@ from src.components.transforms.extraction_prompts import (
     heuristic_title_classification,
     map_to_domain,
     normalize_finep_category,
+    OffTopicError,
+    theme_verdict,
 )
 from src.components.transforms.extraction_service import GEMINI_KEY_ENV, AIUnavailableError
 
@@ -270,18 +272,25 @@ class GeminiExtractionService(IExtractionService):
 
     # ---- usos --------------------------------------------------------------
 
-    def extract_from_pdf(self, pdf_bytes: bytes, filename: str):
+    def extract_from_pdf(self, pdf_bytes: bytes, filename: str, check_theme: bool = False):
         text = extraction_prompts.extract_text_with_pdfplumber(pdf_bytes)
-        return self.extract_from_text(text, filename)
+        return self.extract_from_text(text, filename, check_theme=check_theme)
 
-    def extract_from_text(self, text: str, filename: str):
+    def extract_from_text(self, text: str, filename: str, check_theme: bool = False):
         if not (text or "").strip():
             logger.warning("Falha de extração: PDF sem texto (%s); IA não chamada.", filename)
             return None
         try:
-            raw = self._generate(SYSTEM_EXTRACTION, build_extraction_prompt(text), f"extract {filename}")
-            return map_to_domain(json.loads(raw))
-        except AIUnavailableError:
+            raw = self._generate(
+                SYSTEM_EXTRACTION, build_extraction_prompt(text, check_theme), f"extract {filename}"
+            )
+            data = json.loads(raw)
+            if check_theme:
+                is_funding, motivo = theme_verdict(data)
+                if not is_funding:
+                    raise OffTopicError(motivo or "não é oportunidade de fomento")
+            return map_to_domain(data)
+        except (AIUnavailableError, OffTopicError):
             raise
         except json.JSONDecodeError:
             logger.error("Falha de extração: resposta do Gemini não é JSON (%s).", filename)

@@ -7,7 +7,7 @@ jeito, para que trocar de provedor (`LLM_PROVIDER`) não mude o JSON de saída.
 
 import io
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 import pdfplumber
 
@@ -42,7 +42,39 @@ def extract_text_with_pdfplumber(pdf_bytes: bytes) -> str:
     return "\n\n".join(pages_text).strip()
 
 
-def build_extraction_prompt(text: str) -> str:
+class OffTopicError(Exception):
+    """A IA avaliou que o documento não é oportunidade de fomento (spec 009)."""
+
+    def __init__(self, motivo: str):
+        super().__init__(motivo)
+        self.motivo = motivo
+
+
+THEME_RULE = """
+IMPORTANTE para o TEMA:
+Diga se o documento é uma oportunidade de fomento: financiamento, bolsa ou apoio a pesquisa, extensão, inovação ou divulgação científica. Concurso público, licitação, vaga de emprego ou estágio e leilão NÃO são fomento.
+Inclua no JSON o campo "tema": {{"e_fomento": true ou false, "motivo": "uma frase curta explicando"}}.
+"""
+
+
+def build_extraction_prompt(text: str, check_theme: bool = False) -> str:
+    prompt = _base_extraction_prompt(text)
+    if not check_theme:
+        return prompt
+    marker = "\nTexto do Edital:\n"
+    head, _, tail = prompt.rpartition(marker)
+    return head + THEME_RULE.replace("{{", "{").replace("}}", "}") + marker + tail
+
+
+def theme_verdict(data: Any) -> Tuple[bool, str]:
+    """(é fomento?, motivo). Sem resposta legível, não recusa: vale como fomento."""
+    tema = data.get("tema") if isinstance(data, dict) else None
+    if not isinstance(tema, dict) or not isinstance(tema.get("e_fomento"), bool):
+        return True, ""
+    return tema["e_fomento"], str(tema.get("motivo") or "").strip()
+
+
+def _base_extraction_prompt(text: str) -> str:
     return f"""
 Analise o seguinte texto OCR de um edital de fomento e extraia as informações estruturadas em formato JSON.
 

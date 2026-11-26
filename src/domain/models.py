@@ -13,6 +13,12 @@ class RawEdital:
     # recusa o GitHub e o desvio pelo Jina devolve o PDF já como texto (spec 006).
     # No máximo um dos dois vem preenchido.
     pdf_text: Optional[str] = None
+    # Indicação da comunidade (spec 009): campos do formulário do portal
+    # ({"orgao", "prazo", "issue"}), usados só como reserva do que o documento
+    # não traz. Presente, ativa a verificação de tema na extração.
+    community: Optional[Dict[str, str]] = None
+    # Chave técnica da fonte quando ela não se deduz do órgão (ex.: "comunidade").
+    raw_fonte_key: str = ""
     document_type: str = "edital"  # edital, anexo, alteração, desconhecido
     group_id: Optional[str] = None
     is_main: bool = True

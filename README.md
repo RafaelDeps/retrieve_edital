@@ -19,6 +19,7 @@ Documentação detalhada: [docs/etl_architecture.md](docs/etl_architecture.md).
 | **FAPES** | `FapesSource` | Editais FAPES (múltiplas seções), com leitura do PDF por IA quando disponível | `data/output/*.json` |
 | **FINEP** | `FinepSource` | Chamadas públicas FINEP (abertas), uma página de detalhe por chamada; categorização por IA pela descrição | `data/output/*.json` |
 | **CONIF** | `ConifSource` | Editais do portal CONIF, restritos ao ano corrente, com deduplicação por `registry/processed_editais.json` e leitura do PDF principal por IA | `data/output/*.json` |
+| **Comunidade** | `ComunidadeSource` | Editais indicados pelo formulário "Contribua" do portal (issues `[Indicação]`); filtro de tema sem IA e pela IA, resposta na própria issue com `PORTAL_ISSUES_TOKEN`. Ver [docs/comunidade_source.md](docs/comunidade_source.md) | `data/output/*.json` |
 
 ### Como rodar
 
