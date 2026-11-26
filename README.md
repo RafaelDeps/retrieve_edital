@@ -62,10 +62,16 @@ python scripts/run_all_flows.py --reextrair-abertos
 ```
 
 O workflow diário (`run_scraper.yml`) roda as fontes diárias; o semanal (`run_horizon_weekly.yml`) roda
-`--only HORIZON`. Os dois commitam `data/output/`, `registry/` (processados e recusados) e
+`--only HORIZON`. Os dois commitam `data/output/`, `registry/` (processados, recusados e fluxo contínuo) e
 `docs/flow_processing_log.md`. Se uma fonte falhar, o job fica vermelho, mas o que as outras coletaram é
 salvo, e o resumo da execução mostra o resultado de cada fonte. No disparo manual do diário, o campo
 `only` permite rodar só algumas fontes.
+
+**Prazos e fluxo contínuo (spec 010, issue #9)**: o prazo vem do edital ou da página; lidos e sem prazo, o item é
+publicado como `fluxo-contínuo`. A leitura que falha vira erro com nova tentativa, e documentos de apoio não são
+publicados. Todo dia o runner relê os itens em fluxo contínuo por falta de prazo lidos há 7 dias ou mais
+(`RELEITURA_FLUXO_CONTINUO_DIAS`; índice em `registry/fluxo_continuo.json`). Ver
+[docs/output_contract.md](docs/output_contract.md).
 
 Variável opcional para FINEP: **`REFERENCE_YEAR`** (ano de referência para filtrar por prazo de envio). Ver [docs/finep_source.md](docs/finep_source.md) e `.env.example`.
 

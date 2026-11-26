@@ -27,6 +27,27 @@ RafaelDeps/portal_edital#11.
 indicados pelo formulário do portal e aceitos pelo coletor. Estes também trazem a tag
 `indicação da comunidade`. Ver `docs/comunidade_source.md`.
 
+## Modalidade "fluxo-contínuo" (spec 010, issue #9)
+
+`modalidade` continua com os mesmos valores (`""` ou `"fluxo-contínuo"`), mas o significado de
+`"fluxo-contínuo"` ficou mais amplo. Regra do responsável: o prazo está no edital ou na página; se
+não estiver, é fluxo contínuo.
+
+| Situação | `modalidade` |
+|---|---|
+| O edital, a página, o nome ou a descrição declaram "fluxo contínuo", "a qualquer momento/tempo" ou "sem prazo de encerramento" | `"fluxo-contínuo"` |
+| O edital ou a página **foram lidos** e não têm prazo de encerramento | `"fluxo-contínuo"` |
+| Tem prazo de encerramento e não declara fluxo contínuo | `""` |
+| A leitura falhou (download, PDF sem texto, IA sem resposta) e a fonte não deu prazo | não é publicado: erro com nova tentativa em 3 dias |
+
+- **Para o portal (ponto de contato)**: mais itens chegam com `"fluxo-contínuo"`, e itens abertos
+  sem prazo e sem modalidade ficam raros (só de fontes que não mandam documento).
+- **Documentos de apoio** (termos, guias, diretrizes, manuais, resultados, portarias, páginas só
+  informativas) deixam de ser publicados.
+- **Releitura**: o fluxo contínuo deduzido da falta de prazo é relido a cada 7 dias
+  (`RELEITURA_FLUXO_CONTINUO_DIAS`), para pegar o edital que entra no site depois da coleta. A
+  origem fica em `registry/fluxo_continuo.json`, fora do JSON do portal.
+
 ## Prazos e etapas
 
 Todos os campos abaixo vêm do `cronograma` e são **recalculados todo dia** pelo realinhamento

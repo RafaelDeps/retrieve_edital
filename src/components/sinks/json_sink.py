@@ -202,6 +202,30 @@ class LocalJSONSink(ISink[EditalDomain]):
             return False
         return True
 
+    def retire_links(self, remove: Iterable[str] = (), close: Iterable[str] = ()) -> Tuple[int, int]:
+        """
+        Executa a decisão do roteiro sobre arquivos já gravados de itens que a
+        releitura recusou (spec 010): apaga os de `remove` e marca como
+        encerrados os de `close`. Devolve (apagados, encerrados).
+        """
+        remove, close = set(filter(None, remove)), set(filter(None, close)) - set(remove)
+        if not remove and not close:
+            return 0, 0
+        removed = closed = 0
+        for path in Path(self.output_dir).glob("*.json"):
+            try:
+                link = (json.loads(path.read_text(encoding="utf-8")).get("link") or "").strip()
+            except (OSError, json.JSONDecodeError, AttributeError):
+                continue
+            if link in remove:
+                path.unlink()
+                logger.info("Recusado na releitura, arquivo removido: %s", path.name)
+                removed += 1
+            elif link in close and self.mark_closed(str(path)):
+                logger.info("Recusado na releitura por prazo, marcado encerrado: %s", path.name)
+                closed += 1
+        return removed, closed
+
     def remove_older_duplicates(self, links: Iterable[str]) -> int:
         """
         Remove JSONs repetidos do mesmo edital, mantendo o mais recente.

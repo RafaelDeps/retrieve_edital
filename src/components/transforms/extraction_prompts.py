@@ -7,6 +7,7 @@ jeito, para que trocar de provedor (`LLM_PROVIDER`) não mude o JSON de saída.
 
 import io
 import json
+import unicodedata
 from typing import Any, Dict, List, Tuple
 
 import pdfplumber
@@ -50,6 +51,81 @@ class OffTopicError(Exception):
         self.motivo = motivo
 
 
+class SupportingDocumentError(Exception):
+    """A IA classificou o documento como de apoio, não como edital (spec 010)."""
+
+    def __init__(self, motivo: str = "documento de apoio, não é um edital"):
+        super().__init__(motivo)
+        self.motivo = motivo
+
+
+class DocumentReadError(Exception):
+    """
+    O documento ou a página não pôde ser lido (spec 010).
+
+    Levantada pelo normalizador quando a fonte não trouxe prazo: sem leitura, não
+    há como dizer se o item é fluxo contínuo. O roteiro comum a registra como
+    erro do item, com nova tentativa em poucos dias.
+    """
+
+    def __init__(self, motivo: str):
+        super().__init__(motivo)
+        self.motivo = motivo
+
+
+DOCUMENT_KIND_EDITAL = "edital"
+DOCUMENT_KIND_SUPPORT = "apoio"
+SUPPORTING_DOCUMENT_REASON = "documento de apoio, não é um edital"
+MODALITY_CONTINUOUS = "fluxo-contínuo"
+
+# Texto que declara inscrição sem prazo de encerramento (comparado sem acento).
+# "A qualquer tempo/momento" fica só com a IA: quase todo edital diz que o órgão
+# "poderá, a qualquer tempo, revogar" o edital (validação real de 26/11/2026).
+CONTINUOUS_FLOW_TEXT_MARKERS = (
+    "fluxo continuo",
+    "sem prazo de encerramento",
+)
+
+DOCUMENT_RULE = """
+IMPORTANTE para o TIPO DE DOCUMENTO e o PRAZO:
+1. Diga se o documento é um edital, chamada ou programa com inscrição de propostas ("edital") ou um documento de apoio: termo, guia, diretriz, manual, resultado, portaria ou página apenas informativa ("apoio").
+2. Diga se o documento declara inscrição a qualquer tempo, fluxo contínuo ou ausência de prazo de encerramento.
+Inclua no JSON: "tipo_documento": "edital" ou "apoio", e "fluxo_continuo": true ou false.
+"""
+
+COMBINED_MARKER = "=== "
+COMBINED_RULE = """
+IMPORTANTE quando houver VÁRIOS DOCUMENTOS:
+Os documentos vêm em ordem cronológica, separados por cabeçalhos "=== ... ===". Quando uma alteração muda uma data, vale a da alteração mais recente. O texto da "PÁGINA DO EDITAL", quando houver, pode trazer avisos posteriores ao edital (prorrogação, encerramento antecipado); quando trouxer, ele vale.
+"""
+
+
+def _plain(text: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", text or "")
+    plain = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+    return " ".join(plain.lower().replace("-", " ").split())
+
+
+def has_continuous_flow_marker(text: str) -> bool:
+    plain = _plain(text)
+    return any(marker in plain for marker in CONTINUOUS_FLOW_TEXT_MARKERS)
+
+
+def document_kind(data: Any) -> str:
+    """"edital" ou "apoio". Sem resposta legível, não recusa: vale como edital."""
+    kind = data.get("tipo_documento") if isinstance(data, dict) else None
+    if isinstance(kind, str) and _plain(kind) == DOCUMENT_KIND_SUPPORT:
+        return DOCUMENT_KIND_SUPPORT
+    return DOCUMENT_KIND_EDITAL
+
+
+def declares_continuous_flow(data: Any, text: str = "") -> bool:
+    """A IA disse que o documento declara fluxo contínuo, ou o texto o diz."""
+    if isinstance(data, dict) and data.get("fluxo_continuo") is True:
+        return True
+    return has_continuous_flow_marker(text)
+
+
 THEME_RULE = """
 IMPORTANTE para o TEMA:
 Diga se o documento é uma oportunidade de fomento: financiamento, bolsa ou apoio a pesquisa, extensão, inovação ou divulgação científica. Concurso público, licitação, vaga de emprego ou estágio e leilão NÃO são fomento.
@@ -59,11 +135,14 @@ Inclua no JSON o campo "tema": {{"e_fomento": true ou false, "motivo": "uma fras
 
 def build_extraction_prompt(text: str, check_theme: bool = False) -> str:
     prompt = _base_extraction_prompt(text)
-    if not check_theme:
-        return prompt
     marker = "\nTexto do Edital:\n"
     head, _, tail = prompt.rpartition(marker)
-    return head + THEME_RULE.replace("{{", "{").replace("}}", "}") + marker + tail
+    rules = DOCUMENT_RULE
+    if COMBINED_MARKER in (text or ""):
+        rules += COMBINED_RULE
+    if check_theme:
+        rules += THEME_RULE.replace("{{", "{").replace("}}", "}")
+    return head + rules + marker + tail
 
 
 def theme_verdict(data: Any) -> Tuple[bool, str]:
@@ -169,9 +248,13 @@ def map_schedule_item(item: Dict[str, Any]) -> Dict[str, str]:
     return mapped
 
 
-def map_to_domain(data: Dict[str, Any]) -> EditalDomain:
+def map_to_domain(data: Dict[str, Any], text: str = "") -> EditalDomain:
+    """
+    Converte a resposta da IA. Com a declaração de fluxo contínuo (da IA ou de um
+    marcador no texto lido), a modalidade já sai preenchida (spec 010).
+    """
     tags = data.get("tags")
-    return EditalDomain(
+    edital = EditalDomain(
         nome=data.get("nome", "").upper(),
         descrição=data.get("descrição", ""),
         orgão_fomento=data.get("orgão_fomento", "FAPES").upper(),
@@ -183,3 +266,6 @@ def map_to_domain(data: Dict[str, Any]) -> EditalDomain:
         cronograma=[map_schedule_item(item) for item in data.get("cronograma", [])],
         tags=tags if tags else ["fapes", "edital", "inovação"],
     )
+    if declares_continuous_flow(data, text):
+        edital.modalidade = MODALITY_CONTINUOUS
+    return edital

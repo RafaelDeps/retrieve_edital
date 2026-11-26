@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from src.flow_health import FlowStats, parse_flow_stats  # noqa: E402
 from src.components.sinks.json_sink import LocalJSONSink  # noqa: E402
 from src.processed_store import REEXTRACT_KEYS_ENV  # noqa: E402
+from src import continuous_flow_store  # noqa: E402
 
 
 FLOW_COMMANDS = (
@@ -497,6 +498,48 @@ def select_reextraction_targets(output_dir: Path) -> dict[str, list[str]]:
     return {fonte: sorted(links) for fonte, links in sorted(targets.items())}
 
 
+# Fontes que relêem um edital pelo link quando ele sai do índice de processados.
+# Horizon se atualiza inteiro a cada leitura; a comunidade lê issues, não links.
+REREAD_SOURCES = frozenset(OCR_SOURCES | {"finep"})
+CONTINUOUS_FLOW_MODALITY = "fluxo-contínuo"
+
+
+def select_continuous_flow_rereads(
+    output_dir: Path,
+    store_path: str,
+    today: date,
+    days: int,
+) -> dict[str, list[str]]:
+    """
+    Editais abertos a reler, agrupados por fonte (spec 010): os em fluxo contínuo
+    por falta de prazo lidos há `days` dias ou mais (ou sem registro no índice),
+    e os abertos sem prazo e sem modalidade, o estado que a issue #9 corrige.
+    """
+    store = continuous_flow_store.load(store_path)
+    targets: dict[str, list[str]] = {}
+    for path in sorted(Path(output_dir).glob("*.json")):
+        try:
+            edital = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        fonte = (edital.get("fonte_key") or "").strip()
+        link = (edital.get("link") or "").strip()
+        if (
+            fonte in REREAD_SOURCES
+            and link
+            and edital.get("status") == "aberto"
+            and (
+                (
+                    edital.get("modalidade") == CONTINUOUS_FLOW_MODALITY
+                    and continuous_flow_store.due_for_reread(store.get(link), today, days)
+                )
+                or (not edital.get("data_encerramento") and not edital.get("modalidade"))
+            )
+        ):
+            targets.setdefault(fonte, []).append(link)
+    return {fonte: sorted(links) for fonte, links in sorted(targets.items())}
+
+
 STEP_SUMMARY_ENV = "GITHUB_STEP_SUMMARY"
 
 
@@ -561,9 +604,24 @@ def main(argv: Optional[list] = None) -> int:
             f"[run_all_flows] Reextração: {len(reextract_links)} editais abertos em "
             f"{', '.join(targets) or 'nenhuma fonte'}."
         )
+    # Spec 010: o fluxo contínuo deduzido da falta de prazo é relido de tempos em
+    # tempos, para pegar o edital que entrou no site depois da coleta.
+    rereads = select_continuous_flow_rereads(
+        repo_root / OUTPUT_PATH,
+        str(repo_root / continuous_flow_store.DEFAULT_PATH),
+        date.today(),
+        continuous_flow_store.reread_days(),
+    )
+    reread_links = {link for links in rereads.values() for link in links}
+    print(f"[run_all_flows] Releitura de fluxo contínuo: {len(reread_links)} itens.")
+    reextract_links |= reread_links
+    if args.reextrair_abertos:
+        # Só os fluxos com algo a reler: os da reextração e os da releitura.
+        relidas = set(targets) | set(rereads)
         selecionados = [
-            (nome, cmd) for nome, cmd in selecionados if REGISTRY_KEYS.get(nome) in targets
+            (nome, cmd) for nome, cmd in selecionados if REGISTRY_KEYS.get(nome) in relidas
         ]
+    if reextract_links:
         with tempfile.NamedTemporaryFile(
             "w", suffix=".txt", delete=False, encoding="utf-8"
         ) as lista:
@@ -579,7 +637,7 @@ def main(argv: Optional[list] = None) -> int:
         if reextract_file:
             os.environ.pop(REEXTRACT_KEYS_ENV, None)
             os.unlink(reextract_file)
-    if args.reextrair_abertos:
+    if reextract_links:
         removidas = LocalJSONSink(str(repo_root / OUTPUT_PATH)).remove_older_duplicates(
             reextract_links
         )

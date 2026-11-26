@@ -138,7 +138,7 @@ def read_cnpq(direct, jina, clock=None):
 
 def read_capes(direct, jina):
     f, _ = fetcher(direct, jina, name="CAPES")
-    source = CapesSource(current_year=2026, fetcher=f)
+    source = CapesSource(current_year=2026, fetcher=f, pdf_to_text=lambda pdf: pdf.decode("latin-1"))
     return source, source.read()
 
 
@@ -235,7 +235,12 @@ def read_again_refused(ctx):
 
 @when(parsers.parse("the normalizer processes it on {today}"))
 def normalize(ctx, today):
-    EditalNormalizer(extraction_service=ctx["service"], today=date.fromisoformat(today)).process(ctx["raw"])
+    from src.components.transforms.extraction_prompts import DocumentReadError
+
+    try:
+        EditalNormalizer(extraction_service=ctx["service"], today=date.fromisoformat(today)).process(ctx["raw"])
+    except DocumentReadError:
+        pass  # a IA falsa não devolve edital; aqui só importa o texto que ela recebeu
 
 
 @when("the CNPq flow runs and the runner reads its stats")
@@ -269,9 +274,15 @@ def same_editais(ctx):
 @then("the read through Jina carries the PDF as text")
 def pdf_as_text_from_jina(ctx):
     first, second = ctx["first"][0], ctx["second"][0]
-    assert first.pdf_content == PDF_BYTES and first.pdf_text is None
+    if first.raw_agency == "CAPES":
+        # Spec 010: a CAPES manda sempre texto (edital + página); pelo Jina, o
+        # PDF já chega como texto e entra no mesmo lugar.
+        assert first.pdf_content is None and PDF_BYTES.decode("latin-1") in first.pdf_text
+        assert "# COORDENAÇÃO" in second.pdf_text
+    else:
+        assert first.pdf_content == PDF_BYTES and first.pdf_text is None
+        assert second.pdf_text.startswith("# COORDENAÇÃO")
     assert second.pdf_content is None
-    assert second.pdf_text.startswith("# COORDENAÇÃO")
     assert "URL Source:" not in second.pdf_text
 
 

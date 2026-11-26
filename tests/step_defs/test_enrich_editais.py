@@ -1,3 +1,4 @@
+from src.components.transforms.extraction_prompts import DocumentReadError
 import pytest
 from unittest.mock import MagicMock, patch
 from pytest_bdd import scenarios, given, when, then
@@ -68,7 +69,12 @@ def engine_parses(context):
 
     with patch("src.components.transforms.edital_normalizer.pdfplumber.open") as mock_open:
         mock_open.return_value.__enter__.return_value = mock_pdf
-        context["result"] = normalizer.process(context["raw_edital"])
+        try:
+            context["result"] = normalizer.process(context["raw_edital"])
+        except DocumentReadError as error:
+            # Spec 010: leitura sem resultado e sem prazo da fonte é erro do item;
+            # o roteiro comum o registra e tenta de novo, sem parar o lote.
+            context["result"], context["read_error"] = None, error
 
 @then('it should extract the semantic objective text falling immediately under the header')
 def extract_semantic_objective(context):
@@ -110,3 +116,4 @@ def discard_without_aborting(context):
     # registro, e o pipeline segue — sem exceção.
     assert context["result"] is None
     assert context.get("error") is None
+    assert isinstance(context.get("read_error"), DocumentReadError)

@@ -72,6 +72,23 @@ O source aceita **`processed_urls`** e reconhece **duas** chaves para a mesma ch
 
 Os 10 editais coletados antes da migração estão registrados no formato antigo. Sem esse reconhecimento, todos voltariam como novos e duplicariam a saída.
 
+## Chamada sem prazo na API (spec 010)
+
+Sem `prazoProposto` e com um anexo de edital, a fonte baixa o edital (com as rerratificações
+publicadas depois dele) e o manda como texto, com `document_role="prazo"`. A escolha do anexo usa a
+mesma regra da CAPES (`document_selection.py`), na ordem da API. Sem um "Edital" simples, vale a
+rerratificação mais recente (o edital consolidado).
+
+No normalizador, esse documento só complementa:
+- **da fonte**: nome, descrição, tags, público e âmbito (o nome da API é o oficial e define o
+  arquivo);
+- **da IA**: cronograma, encerramento, declaração de fluxo contínuo e categoria (reduzida às 3 da
+  FINEP), na mesma chamada. `categorize_finep_by_description` não é chamada.
+
+Sem prazo também no edital, a chamada é publicada como `fluxo-contínuo`. Sem anexo de edital, vale a
+dedução antiga (sem prazo, vigência nem tipo de oportunidade → `fluxo-contínuo`), e o item entra na
+releitura semanal.
+
 ## Categorização (Transform)
 
 No **EditalNormalizer**, a **categoria** dos editais FINEP continua sendo definida pela **IA** (Gemini por padrão; Mistral opcional) a partir da descrição, em uma de: **divulgação de conhecimento**, **extensão**, **inovação**. Requer `GEMINI_API_KEY` (ou `MISTRAL_API_KEY` com `LLM_PROVIDER=mistral`); sem chave, mantém a categoria da fonte.

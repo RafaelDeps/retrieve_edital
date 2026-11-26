@@ -10,10 +10,25 @@ fluxo `src/flows/ingest_capes_flow.py`).
 
 - **Listagem**: a seção "Editais Abertos" da página. Cada link vira uma entrada. `last_listing_count`
   conta as entradas antes da deduplicação.
-- **Detalhe**: título, primeiro parágrafo descritivo como descrição, e os links de documento
-  (`.pdf`, inclusive na forma `…/edital.pdf/@@display-file/file`).
-- **Documento principal**: o PDF com mais pontos (`/centrais-de-conteudo/editais/`, "edital",
-  "chamada"; menos pontos para "resultado" e "manual"). Ele segue para a extração por IA.
+- **Detalhe**: título, a área de conteúdo da página (`<main>`, sem menu, rodapé e cabeçalho
+  "Publicado em … Compartilhe:") como descrição, e os links de documento (`.pdf`, inclusive na forma
+  `…/edital.pdf/@@display-file/file`).
+- **Documentos lidos (spec 010)**: cada anexo recebe um papel em
+  `src/components/sources/document_selection.py`:
+  - **edital**: edital, chamada, regulamento;
+  - **alteração**: alteração, retificação, rerratificação, aditivo, errata;
+  - **apoio**: termo, modelo, portaria, diretriz, formulário, declaração, carta, manual,
+    resultado, aviso, anexo… Apoio nunca é escolhido.
+- **O que vai para a IA, numa chamada só**: o edital original, as alterações publicadas depois
+  dele (no máximo 3, `MAX_ALTERACOES_POR_EDITAL`) e o texto da página, nesta ordem e com
+  cabeçalhos.
+  - **Ordem dos anexos**: a CAPES lista do mais novo para o mais antigo, então a ordem é invertida.
+  - **Por que a página vai junto**: avisos como "ficam encerrados os ciclos" (Aurora) só estão na
+    página. Sem edital, vai só a página.
+  - **Teto**: o texto tem limite de 120 mil caracteres. Acima dele saem primeiro as alterações
+    mais antigas, depois a página.
+- **Leitura que falha** (download, PDF sem texto): `read_failure` no item. Sem prazo, o normalizador
+  registra erro e tenta de novo em 3 dias, em vez de publicar "aberto sem prazo".
 - **Filtro por ano**: um item cujo ano inferido seja anterior ao ano corrente é descartado.
 
 A página é HTML estático: **não precisa de navegador**. Até a spec 006 a fonte usava o Playwright

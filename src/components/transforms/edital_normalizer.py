@@ -14,7 +14,13 @@ from src.components.transforms.extraction_service import (
     AIUnavailableError,
     get_extraction_service,
 )
-from src.components.transforms.extraction_prompts import OffTopicError
+from src.components.transforms.extraction_prompts import (
+    DocumentReadError,
+    OffTopicError,
+    SupportingDocumentError,
+    SUPPORTING_DOCUMENT_REASON,
+    normalize_finep_category,
+)
 
 SUGGESTED_DEADLINE_EVENT = "Encerramento (prazo informado na indicação)"
 from src.components.transforms.date_utils import normalize_schedule_dates
@@ -29,6 +35,9 @@ from src.components.transforms.schedule_rules import (  # noqa: F401 — reexpor
 )
 
 logger = logging.getLogger(__name__)
+
+# RawEdital.document_role: o documento só complementa prazo e modalidade (FINEP).
+DOCUMENT_ROLE_DEADLINE = "prazo"
 
 
 def combine_schedule_views(
@@ -140,6 +149,10 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # dois índices e voltam na próxima execução. O fluxo informa a contagem
         # ao runner, que marca Atenção.
         self.deferred: List[str] = []
+        # Fluxo contínuo publicado nesta execução, como {url: origem} ("declarada"
+        # ou "sem-prazo"). O roteiro comum grava em registry/fluxo_continuo.json,
+        # e o runner relê os "sem-prazo" de tempos em tempos (spec 010).
+        self.continuous_flow: Dict[str, str] = {}
 
     def _reference_day(self) -> date:
         return self.today or date.today()
@@ -204,7 +217,12 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # Mistral extraction from PDF if available
         # Only extract full content for 'edital' or 'alteração' types, and if pdf_content is present
         pdf_text = getattr(raw_data, "pdf_text", None)
-        if (raw_data.pdf_content or pdf_text) and raw_data.document_type in ["edital", "alteração"]:
+        has_document = bool(raw_data.pdf_content or pdf_text)
+        if has_document and getattr(raw_data, "document_role", "") == DOCUMENT_ROLE_DEADLINE:
+            return self._complete_deadline_from_document(
+                raw_data, clean_title, normalized_cronograma, data_encerramento, tags, anexos, status
+            )
+        if has_document and raw_data.document_type in ["edital", "alteração"]:
             try:
                 # Documento como arquivo (acesso direto) ou já como texto (desvio
                 # do gov.br pelo Jina, spec 006): a IA recebe o mesmo texto.
@@ -266,9 +284,14 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                     if community and not mistral_domain.data_encerramento:
                         self._apply_suggested_deadline(mistral_domain, community)
 
-                    return self._publish_or_discard(mistral_domain, raw_data)
+                    return self._publish_or_discard(mistral_domain, raw_data, document_read=True)
                 else:
                     logger.warning(f"A IA não devolveu edital para {clean_title}; seguindo com a extração básica.")
+            except SupportingDocumentError as e:
+                logger.info("Documento de apoio, não publicado: %s", clean_title[:70])
+                if raw_data.url:
+                    self.rejections[raw_data.url] = e.motivo or SUPPORTING_DOCUMENT_REASON
+                return None
             except OffTopicError as e:
                 logger.info("Indicação fora do tema (%s): %s", e.motivo, clean_title[:70])
                 if raw_data.url:
@@ -281,6 +304,15 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                 return None
             except Exception as e:
                 logger.error(f"Erro na extração por IA de {clean_title}: {e}")
+
+        # Spec 010: sem prazo da fonte, uma leitura que falhou não permite dizer
+        # se o item é fluxo contínuo. Vira erro do item (nova tentativa em poucos
+        # dias) em vez de seguir para a extração básica e sair "aberto sem prazo".
+        read_failure = (getattr(raw_data, "read_failure", "") or "").strip()
+        if has_document and raw_data.document_type in ["edital", "alteração"] and not read_failure:
+            read_failure = "a IA não devolveu edital legível"
+        if read_failure and not data_encerramento:
+            raise DocumentReadError(f"{read_failure}: {clean_title[:70]}")
 
         # Basic/Fallback extraction (for anexos or if Mistral fails)
         combined_text = (description + " " + clean_title).lower()
@@ -349,6 +381,67 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         )
         return self._publish_or_discard(edital, raw_data)
 
+    def _complete_deadline_from_document(
+        self,
+        raw_data: RawEdital,
+        clean_title: str,
+        source_cronograma: List[Dict[str, str]],
+        source_closing: str,
+        tags: List[str],
+        anexos: List[Dict[str, str]],
+        status: str,
+    ) -> Optional[EditalDomain]:
+        """
+        Documento lido só para achar prazo e modalidade (spec 010, FINEP).
+
+        Nome, descrição, tags, público e âmbito continuam os da fonte: o nome da
+        API é o oficial, e trocá-lo mudaria o arquivo. Da IA vêm o cronograma
+        (unido ao da fonte), o encerramento, a declaração de fluxo contínuo e a
+        categoria, na mesma chamada (sem `categorize_finep_by_description`).
+        Anexo classificado como apoio conta como lido sem prazo.
+        """
+        domain = None
+        try:
+            if raw_data.pdf_content:
+                domain = self.extraction_service.extract_from_pdf(raw_data.pdf_content, f"{clean_title}.pdf")
+            else:
+                domain = self.extraction_service.extract_from_text(raw_data.pdf_text, f"{clean_title}.pdf")
+        except SupportingDocumentError:
+            logger.info("Anexo lido é de apoio; sem prazo nele: %s", clean_title[:70])
+            domain = EditalDomain(
+                nome="", descrição="", orgão_fomento="", categoria="", status="",
+                data_abertura="", data_encerramento="", link="", cronograma=[], tags=[],
+            )
+        except AIUnavailableError as e:
+            logger.warning("Item adiado (IA indisponível: %s): %s", e.reason, clean_title[:70])
+            if raw_data.url:
+                self.deferred.append(raw_data.url)
+            return None
+        if domain is None and not source_closing:
+            raise DocumentReadError(f"a IA não devolveu edital legível: {clean_title[:70]}")
+
+        merged = normalize_schedule_dates(
+            merge_cronograma(source_cronograma, domain.cronograma if domain else [])
+        )
+        reference = self._reference_day()
+        edital = EditalDomain(
+            nome=clean_title,
+            descrição=raw_data.raw_description or f"Edital de fomento {raw_data.raw_agency}: {clean_title}",
+            orgão_fomento=(raw_data.raw_agency or "").upper(),
+            categoria=normalize_finep_category(domain.categoria) if domain else (raw_data.source_category or "outros"),
+            status=status,
+            data_abertura=derive_opening_date(merged, reference) or (domain.data_abertura if domain else ""),
+            data_encerramento=source_closing
+            or derive_closing_date(merged, merged, reference)
+            or ((domain.data_encerramento or "") if domain else ""),
+            link=raw_data.url,
+            cronograma=merged,
+            tags=list(dict.fromkeys(tags + ([raw_data.source_category] if raw_data.source_category else []))),
+            anexos=anexos,
+            modalidade=(domain.modalidade or "") if domain else "",
+        )
+        return self._publish_or_discard(edital, raw_data, document_read=domain is not None)
+
     @staticmethod
     def _apply_suggested_deadline(edital: EditalDomain, community: Dict[str, str]) -> None:
         """
@@ -373,7 +466,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         edital.data_encerramento = iso
 
     def _publish_or_discard(
-        self, edital: EditalDomain, raw_data: RawEdital
+        self, edital: EditalDomain, raw_data: RawEdital, document_read: bool = False
     ) -> Optional[EditalDomain]:
         """
         Aplica as regras de publicação e ajusta o status ao prazo.
@@ -397,7 +490,11 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         edital.categoria = publication_rules.canonical_category(
             edital.categoria, publication_rules.category_hint_text(edital)
         )
-        edital.modalidade = publication_rules.resolve_modalidade(edital, raw_data)
+        edital.modalidade, origin = publication_rules.resolve_modalidade_and_origin(
+            edital, raw_data, document_read
+        )
+        if origin and raw_data.url:
+            self.continuous_flow[raw_data.url] = origin
         edital.ambito_geografico = publication_rules.resolve_ambito_geografico(
             edital, raw_data
         )

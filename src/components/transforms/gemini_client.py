@@ -35,6 +35,9 @@ from src.components.transforms.extraction_prompts import (
     map_to_domain,
     normalize_finep_category,
     OffTopicError,
+    SupportingDocumentError,
+    document_kind,
+    DOCUMENT_KIND_SUPPORT,
     theme_verdict,
 )
 from src.components.transforms.extraction_service import GEMINI_KEY_ENV, AIUnavailableError
@@ -289,8 +292,10 @@ class GeminiExtractionService(IExtractionService):
                 is_funding, motivo = theme_verdict(data)
                 if not is_funding:
                     raise OffTopicError(motivo or "não é oportunidade de fomento")
-            return map_to_domain(data)
-        except (AIUnavailableError, OffTopicError):
+            if document_kind(data) == DOCUMENT_KIND_SUPPORT:
+                raise SupportingDocumentError()
+            return map_to_domain(data, text)
+        except (AIUnavailableError, OffTopicError, SupportingDocumentError):
             raise
         except json.JSONDecodeError:
             logger.error("Falha de extração: resposta do Gemini não é JSON (%s).", filename)

@@ -22,7 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Callable, Dict, Iterable, List, Optional, Set
 
-from src import rejection_store
+from src import continuous_flow_store, rejection_store
 from src.core.interfaces import ISink, ISource, ITransform
 from src.domain.models import EditalDomain, RawEdital
 from src.flow_health import emit_flow_stats, network_stats
@@ -98,6 +98,42 @@ def transform_error_ttl_days() -> int:
         )
         return DEFAULT_TRANSFORM_ERROR_TTL_DAYS
     return value
+
+
+CLOSED_REASON_PREFIX = "prazo encerrado"
+
+
+def retire_refused(sink, rejections: Dict[str, str]) -> None:
+    """
+    Arquivo antigo de um item que a releitura recusou (spec 010): documento de
+    apoio sai do acervo; prazo encerrado fica, marcado como encerrado.
+    """
+    retire = getattr(sink, "retire_links", None)
+    if not rejections or retire is None:
+        return
+    from src.components.transforms.extraction_prompts import SUPPORTING_DOCUMENT_REASON
+
+    remove = {link for link, reason in rejections.items() if reason == SUPPORTING_DOCUMENT_REASON}
+    close = {link for link, reason in rejections.items() if reason.startswith(CLOSED_REASON_PREFIX)}
+    removed, closed = retire(remove, close)
+    if removed or closed:
+        logger.info("Releitura: %s arquivo(s) de apoio removido(s), %s encerrado(s).", removed, closed)
+
+
+def record_continuous_flow(transform, persisted_items, processed_index_path: str) -> int:
+    """
+    Guarda a origem do fluxo contínuo dos links gravados (spec 010); o link
+    gravado sem fluxo contínuo sai do índice (ganhou prazo).
+    """
+    origins = getattr(transform, "continuous_flow", None)
+    if origins is None:
+        return 0
+    links = [(item.link or "").strip() for item in persisted_items]
+    entries = {link: origins[link] for link in links if link in origins}
+    cleared = [link for link in links if link and link not in origins]
+    return continuous_flow_store.record(
+        entries, cleared, path=continuous_flow_store.path_next_to(processed_index_path)
+    )
 
 
 def record_transform_errors(fonte_key: str, errors: List[TransformError]) -> int:
@@ -216,6 +252,7 @@ def run_standard_pipeline(
     source_rejections = record_source_rejections(spec.fonte_key, source)
     transform_rejections = dict(getattr(transform, "rejections", None) or {})
     rejection_store.record(spec.fonte_key, transform_rejections)
+    retire_refused(sink, transform_rejections)
     record_transform_errors(spec.fonte_key, outcome.errors)
     result = PipelineResult(
         rejections={**source_rejections, **transform_rejections},
@@ -231,6 +268,7 @@ def run_standard_pipeline(
             path=processed_index_path,
         )
         result.persisted = {d.link: d.nome for d in persisted.values()}
+        record_continuous_flow(transform, persisted.values(), processed_index_path)
         logger.info("Pipeline completed successfully.")
     else:
         logger.warning("No valid domains to sink. Pipeline finished with warnings.")

@@ -55,10 +55,17 @@ CATEGORY_FALLBACK = "outros"
 # `data_encerramento` vazio significava tanto "candidate-se a qualquer momento"
 # quanto "não sabemos o prazo", e quem usa o portal não distinguia os dois.
 #
-# Só sinal explícito conta: a ausência de prazo **não** é evidência de fluxo
-# contínuo, é exatamente a ambiguidade que este campo resolve.
+# Regra do responsável (spec 010, issue #9): o prazo está no edital ou na página;
+# se não estiver, é fluxo contínuo. Por isso, depois de o documento ou a página
+# terem sido LIDOS, a falta de prazo é evidência de fluxo contínuo. A falha de
+# leitura não é: vira erro com nova tentativa (DocumentReadError no normalizador).
+# A declaração explícita no texto vale sempre.
 MODALITY_CONTINUOUS = "fluxo-contínuo"
 CONTINUOUS_FLOW_MARKERS = ("fluxo contínuo", "fluxo continuo", "fluxo-contínuo")
+# Origem do fluxo contínuo, guardada em registry/fluxo_continuo.json: só a
+# deduzida da falta de prazo é relida de tempos em tempos.
+ORIGIN_DECLARED = "declarada"
+ORIGIN_NO_DEADLINE = "sem-prazo"
 
 # Âmbito geográfico e chave técnica por fonte monitorada. É conhecimento estático
 # e certo: a FAPES é a fundação estadual do Espírito Santo, PRPPG e PROEX são
@@ -213,23 +220,51 @@ def category_hint_text(edital: EditalDomain) -> str:
     )
 
 
-def resolve_modalidade(edital: EditalDomain, raw_data: RawEdital) -> str:
+def _declared_in_text(edital: EditalDomain) -> bool:
+    from src.components.transforms.extraction_prompts import has_continuous_flow_marker
+
+    return has_continuous_flow_marker(f"{edital.nome or ''} {edital.descrição or ''}")
+
+
+def _has_closing_date(edital: EditalDomain) -> bool:
+    return bool((edital.data_encerramento or "").strip())
+
+
+def resolve_modalidade_and_origin(
+    edital: EditalDomain, raw_data: RawEdital, document_read: bool = False
+) -> tuple:
     """
-    Modalidade da chamada, hoje limitada a marcar fluxo contínuo.
+    (modalidade, origem do fluxo contínuo), nesta ordem de evidência:
 
-    Duas evidências valem, ambas explícitas: a origem declarou a modalidade em
-    `raw_modalidade`, ou o próprio texto do edital diz "fluxo contínuo".
+    1. a origem declarou a modalidade (`raw_modalidade`);
+    2. a IA disse, ou o texto lido diz, "fluxo contínuo" (`edital.modalidade`);
+    3. o nome ou a descrição dizem "fluxo contínuo";
+    4. o documento ou a página foram lidos e não há prazo de encerramento.
 
-    Deduzir fluxo contínuo da falta de prazo seria circular — é justamente o que
-    este campo existe para desambiguar.
+    A FINEP declara `raw_modalidade` por dedução quando a chamada não tem prazo
+    nem anexos para ler; essa origem conta como "sem prazo" e é relida.
     """
     declared = (raw_data.raw_modalidade or "").strip().lower()
     if declared:
-        return declared
-    haystack = f"{edital.nome or ''} {edital.descrição or ''}".lower()
-    if any(marker in haystack for marker in CONTINUOUS_FLOW_MARKERS):
-        return MODALITY_CONTINUOUS
-    return (edital.modalidade or "").strip().lower()
+        origin = ""
+        if declared == MODALITY_CONTINUOUS:
+            deduced = "FINEP" in (raw_data.raw_agency or "").upper() and not _has_closing_date(edital)
+            origin = ORIGIN_NO_DEADLINE if deduced else ORIGIN_DECLARED
+        return declared, origin
+    # A declaração lida no documento (IA ou marcador no texto) só vale sem prazo:
+    # um edital com data de encerramento não é fluxo contínuo, mesmo que alguma
+    # cláusula fale em "fluxo contínuo". Nome e descrição continuam como antes.
+    from_document = (edital.modalidade or "").strip().lower() == MODALITY_CONTINUOUS
+    if (from_document and not _has_closing_date(edital)) or _declared_in_text(edital):
+        return MODALITY_CONTINUOUS, ORIGIN_DECLARED
+    if document_read and not _has_closing_date(edital):
+        return MODALITY_CONTINUOUS, ORIGIN_NO_DEADLINE
+    return ("" if from_document else (edital.modalidade or "").strip().lower()), ""
+
+
+def resolve_modalidade(edital: EditalDomain, raw_data: RawEdital, document_read: bool = False) -> str:
+    """Modalidade da chamada; ver `resolve_modalidade_and_origin`."""
+    return resolve_modalidade_and_origin(edital, raw_data, document_read)[0]
 
 
 def _profile_of(edital: EditalDomain) -> tuple:

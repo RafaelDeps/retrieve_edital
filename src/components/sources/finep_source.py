@@ -25,9 +25,11 @@ import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, Iterator, List, Optional, Set
+from typing import Any, Callable, Dict, Iterator, List, Optional, Set, Tuple
 
 import requests
+
+from src.components.sources.document_selection import combine_texts, select_documents
 
 from src.config import get_reference_year
 from src.core.interfaces import ISource
@@ -236,6 +238,12 @@ class FinepCredentialResolver:
         return FinepCredentials(client_id=values[0], client_secret=values[1])
 
 
+def _pdfplumber_text(pdf_bytes: bytes) -> str:
+    from src.components.transforms.extraction_prompts import extract_text_with_pdfplumber
+
+    return extract_text_with_pdfplumber(pdf_bytes)
+
+
 class FinepApiClient:
     """Cliente HTTP autenticado da API Liferay da FINEP."""
 
@@ -263,6 +271,19 @@ class FinepApiClient:
             response = self._authenticated_get(path, params)
         response.raise_for_status()
         return response.json()
+
+    def download(self, url: str) -> bytes:
+        """
+        Baixa um documento da chamada (spec 010). Os links da API costumam ser
+        públicos; se pedirem autenticação, tenta de novo com o token.
+        """
+        response = self.session.get(url, timeout=self.timeout)
+        if response.status_code in (401, 403):
+            response = self.session.get(
+                url, headers={"Authorization": f"Bearer {self._token()}"}, timeout=self.timeout
+            )
+        response.raise_for_status()
+        return response.content
 
     def iter_items(
         self,
@@ -341,7 +362,10 @@ class FinepSource(ISource[RawEdital]):
         api_client: Optional[FinepApiClient] = None,
         page_size: int = DEFAULT_PAGE_SIZE,
         base_url: str = FINEP_BASE_URL,
+        pdf_to_text: Optional[Callable[[bytes], str]] = None,
     ) -> None:
+        # Texto dos PDFs baixados (pdfplumber por padrão; injetável nos testes).
+        self.pdf_to_text = pdf_to_text or _pdfplumber_text
         self.reference_year = (
             reference_year if reference_year is not None else get_reference_year()
         )
@@ -430,11 +454,23 @@ class FinepSource(ISource[RawEdital]):
             item.get("descricao")
         )
 
+        anexos = self._fetch_anexos(chamada_id)
+        # Spec 010: sem prazo na API, o prazo vem do edital entre os anexos. Só
+        # sem anexos vale a dedução de fluxo contínuo pela falta de dados.
+        document_text, read_failure, modalidade = "", "", self._modalidade_of(item, deadline)
+        reads_edital = not deadline and select_documents(anexos or [], newest_first=False)[0] is not None
+        if reads_edital:
+            document_text, read_failure = self._read_edital(anexos)
+            modalidade = None
+
         return RawEdital(
             title=title,
             url=public_url,
             source_category="chamada pública",
-            raw_modalidade=self._modalidade_of(item, deadline),
+            raw_modalidade=modalidade,
+            pdf_text=document_text or None,
+            read_failure=read_failure,
+            document_role="prazo" if reads_edital else "completo",
             raw_publico_alvo=self._publico_alvo_of(item) or None,
             raw_ambito_geografico=self._ambito_of(item),
             raw_agency="FINEP",
@@ -443,8 +479,37 @@ class FinepSource(ISource[RawEdital]):
             raw_status=_name_of(item.get("situacao")).lower() or "aberta",
             raw_cronograma=self._build_cronograma(item, deadline) or None,
             raw_tags=self._build_tags(item) or None,
-            raw_anexos=self._fetch_anexos(chamada_id) or None,
+            raw_anexos=anexos or None,
         )
+
+    def _document_text(self, url: str) -> Optional[str]:
+        try:
+            content = self.api_client.download(url)
+        except requests.RequestException as exc:
+            logger.warning("FINEP: download do documento falhou (%s): %s", type(exc).__name__, url)
+            return None
+        try:
+            return self.pdf_to_text(content)
+        except Exception as exc:  # PDF corrompido ou que não é PDF
+            logger.warning("FINEP: texto ilegível em %s (%s).", url, type(exc).__name__)
+            return ""
+
+    def _read_edital(self, anexos: List[Dict[str, str]]) -> Tuple[str, str]:
+        """(texto do edital com as alterações, motivo de falha)."""
+        original, alteracoes = select_documents(anexos, newest_first=False)
+        original_text = self._document_text(original["link"])
+        if original_text is None:
+            return "", "download falhou"
+        if not original_text.strip():
+            return "", "documento sem texto"
+        amendments = []
+        for alteracao in alteracoes:
+            amendment_text = self._document_text(alteracao["link"])
+            if amendment_text and amendment_text.strip():
+                amendments.append((alteracao["titulo"], amendment_text))
+        text, used = combine_texts((original["titulo"], original_text), amendments)
+        logger.info("FINEP: edital lido para achar o prazo (+%s alteração(ões)).", used)
+        return text, ""
 
     @staticmethod
     def _publico_alvo_of(item: Dict[str, Any]) -> List[str]:

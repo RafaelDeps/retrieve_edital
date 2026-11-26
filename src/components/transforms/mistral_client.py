@@ -30,6 +30,9 @@ from src.components.transforms.extraction_prompts import (
     map_to_domain,
     normalize_finep_category,
     OffTopicError,
+    SupportingDocumentError,
+    document_kind,
+    DOCUMENT_KIND_SUPPORT,
     theme_verdict,
 )
 
@@ -285,9 +288,11 @@ class MistralExtractionService(IExtractionService):
                     is_funding, motivo = theme_verdict(extracted_data)
                     if not is_funding:
                         raise OffTopicError(motivo or "não é oportunidade de fomento")
-                return self._map_to_domain(extracted_data)
+                if document_kind(extracted_data) == DOCUMENT_KIND_SUPPORT:
+                    raise SupportingDocumentError()
+                return map_to_domain(extracted_data, full_ocr_text)
 
-            except OffTopicError:
+            except (OffTopicError, SupportingDocumentError):
                 raise
             except Exception as e:
                 logger.error("Mistral extraction failed for %s on attempt %s: %s", filename, attempt, e)

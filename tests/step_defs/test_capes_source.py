@@ -1,3 +1,4 @@
+from src.components.sources.document_selection import select_documents
 from src.components.sources.capes_source import CapesSource, _is_pdf_link
 
 
@@ -100,10 +101,9 @@ def test_extract_pdf_links_and_select_main_pdf_url_prioritize_edital_document():
         "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital-principal.pdf",
         "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/resultado.pdf",
     ]
-    assert (
-        source._select_main_pdf_url(anexos)
-        == "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital-principal.pdf"
-    )
+    original, alteracoes = select_documents(anexos, newest_first=True)
+    assert original["link"] == "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital-principal.pdf"
+    assert alteracoes == []
 
 
 class FakeFetcher:
@@ -128,22 +128,31 @@ def test_extract_detail_page_collects_description_anexos_and_main_pdf():
         detail_url: """
         <html>
           <body>
+            <header>Ir para o conteúdo Botão Menu</header>
+            <main>
             <h1>Edital CAPES 2026</h1>
+            <p>Publicado em 01/03/2026 Compartilhe :</p>
             <p>Este edital promove a cooperação acadêmica internacional com apoio financeiro.</p>
             <a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital-a.pdf">Edital CAPES 2026</a>
             <a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/resultado-a.pdf">Resultado preliminar</a>
+            </main>
           </body>
         </html>
         """
     }
 
-    source = CapesSource(current_year=2026, fetcher=FakeFetcher(html_by_url))
+    source = CapesSource(
+        current_year=2026, fetcher=FakeFetcher(html_by_url), pdf_to_text=lambda pdf: "Texto do edital A."
+    )
     raw = source._extract_detail_page(detail_url, "Fallback")
 
     assert raw.title == "Edital CAPES 2026"
     assert raw.raw_agency == "CAPES"
     assert raw.raw_description.startswith("Este edital promove")
-    assert raw.pdf_content == b"%PDF-1.4 fake"
+    # Spec 010: o texto do edital e o da página vão juntos, como texto.
+    assert raw.pdf_content is None
+    assert raw.pdf_text.startswith("=== EDITAL ORIGINAL: Edital CAPES 2026 ===\nTexto do edital A.")
+    assert "=== PÁGINA DO EDITAL ===" in raw.pdf_text
     assert [item["link"] for item in raw.raw_anexos] == [
         "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital-a.pdf",
         "https://www.gov.br/capes/pt-br/centrais-de-conteudo/resultados-dos-editais/resultado-a.pdf",

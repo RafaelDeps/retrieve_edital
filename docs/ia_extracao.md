@@ -19,7 +19,26 @@ devolve **uma instância por processo**, compartilhada pela fonte e pelo normali
 provedores.
 
 Com o Gemini, o texto do PDF é extraído **localmente** (pdfplumber) e só o texto é enviado. PDF sem
-texto (escaneado) não chama a IA: a falha de extração é registrada e o item segue o caminho sem IA.
+texto (escaneado) não chama a IA.
+
+### Campos a mais na extração (spec 010)
+
+O prompt de extração pede sempre, na mesma chamada:
+- **`tipo_documento`**: `"edital"` ou `"apoio"`. Apoio (termo, guia, diretriz, manual, resultado,
+  portaria, página só informativa) levanta `SupportingDocumentError`, e o item é recusado com
+  "documento de apoio, não é um edital". Sem o campo, vale "edital".
+- **`fluxo_continuo`**: `true` quando o documento declara inscrição sem prazo. O texto lido também é
+  procurado ("fluxo contínuo", "a qualquer momento/tempo", "sem prazo de encerramento").
+
+Com vários documentos (original, alterações, página), uma regra a mais diz que vale a data da
+alteração mais recente e o aviso da página.
+
+### Leitura que falha (spec 010)
+
+Quando havia documento ou página, mas a leitura falhou (download, PDF sem texto, IA sem edital
+legível) e a fonte não deu prazo, o normalizador levanta `DocumentReadError`. O roteiro comum
+registra o erro, e o item é tentado de novo em `TRANSFORM_ERROR_TTL_DAYS` (3). Sem leitura, não dá
+para dizer se é fluxo contínuo. Com prazo da fonte, o caminho sem IA continua valendo.
 
 ## Configuração
 

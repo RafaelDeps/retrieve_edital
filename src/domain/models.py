@@ -38,6 +38,15 @@ class RawEdital:
     # de receber palpite.
     raw_publico_alvo: Optional[List[str]] = None
     raw_ambito_geografico: Optional[str] = None
+    # Leitura do documento (spec 010). `read_failure` diz por que a fonte tentou
+    # e não conseguiu o texto ("download falhou", "documento sem texto"): sem
+    # prazo da fonte, o item vira erro com nova tentativa, não fluxo contínuo.
+    read_failure: str = ""
+    # "completo": a IA extrai o edital inteiro. "prazo": a IA só complementa
+    # prazo, cronograma, modalidade e categoria; o resto vem da fonte (FINEP).
+    document_role: str = "completo"
+    # "documento" (PDF, ou original com alterações) ou "página" (o <main> do gov.br).
+    document_origin: str = "documento"
 
 @dataclass
 class EditalDomain:
