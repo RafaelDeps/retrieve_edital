@@ -442,7 +442,7 @@ class TestLimits:
         service, _, clock = make_service(lambda n: edital_json())
         service.extract_from_pdf(b"%PDF", "a.pdf")
         service.extract_from_pdf(b"%PDF", "b.pdf")
-        assert clock.sleeps == [4.0]
+        assert clock.sleeps == [gemini_client.DEFAULT_MIN_INTERVAL_SEC]
 
     def test_minimum_interval_holds_across_threads(self, pdf_text):
         pdf_text(PDF_TEXT)
@@ -457,7 +457,9 @@ class TestLimits:
             t.join()
         instants = sorted(call["at"] for call in client.models.calls)
         assert len(instants) == 4
-        assert all(b - a >= 4.0 for a, b in zip(instants, instants[1:]))
+        assert all(
+            b - a >= gemini_client.DEFAULT_MIN_INTERVAL_SEC for a, b in zip(instants, instants[1:])
+        )
 
     def test_the_key_never_appears_in_logs(self, pdf_text, caplog, monkeypatch):
         pdf_text(PDF_TEXT)

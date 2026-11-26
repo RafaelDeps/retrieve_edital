@@ -28,7 +28,7 @@ texto (escaneado) não chama a IA: a falha de extração é registrada e o item 
 | `LLM_PROVIDER` | `gemini` | `gemini` ou `mistral`. Outro valor deixa a IA indisponível, com erro no log |
 | `GEMINI_API_KEY` | — | chave do Google AI Studio (nível gratuito) |
 | `GEMINI_MODEL` | `gemini-3.5-flash-lite` | modelo |
-| `GEMINI_MIN_INTERVAL_SEC` | `4` | intervalo mínimo entre chamadas, valendo para todas as threads |
+| `GEMINI_MIN_INTERVAL_SEC` | `5` | intervalo mínimo entre chamadas, valendo para todas as threads (12 por minuto, abaixo do limite de 15) |
 | `GEMINI_MAX_RETRIES` | `5` | novas tentativas em 429 por minuto ou erro temporário (500/503, rede) |
 | `GEMINI_MAX_TOTAL_WAIT_SEC` | `300` | espera máxima acumulada por chamada |
 | `GEMINI_TIMEOUT_SEC` | `120` | timeout de cada chamada |
@@ -37,6 +37,14 @@ texto (escaneado) não chama a IA: a falha de extração é registrada e o item 
 A chave nunca aparece em log, mensagem de erro, URL ou arquivo versionado.
 
 ## Limites do nível gratuito
+
+Limites do `gemini-3.5-flash-lite` no gratuito (AI Studio, novembro de 2026): **15 chamadas por
+minuto, 250 mil tokens por minuto e 500 chamadas por dia**. Eles valem para o **projeto do Google
+inteiro**, somando todas as chaves e usos. Por isso o coletor deve ter um **projeto só dele**: outro
+uso no mesmo projeto consome a mesma cota.
+
+Medido em 25/11/2026, numa coleta local completa partindo de índices vazios (pior caso): 95
+chamadas em 9,5 min, com pico de cerca de 13 por minuto. Um dia normal fica entre 1 e 10 chamadas.
 
 | O Google responde | O coletor faz |
 |---|---|

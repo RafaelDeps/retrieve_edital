@@ -40,7 +40,10 @@ from src.components.transforms.extraction_service import GEMINI_KEY_ENV, AIUnava
 logger = logging.getLogger(__name__)
 
 DEFAULT_GEMINI_MODEL = "gemini-3.5-flash-lite"
-DEFAULT_MIN_INTERVAL_SEC = 4.0
+# 5 s = 12 chamadas por minuto, com folga abaixo das 15 do nível gratuito do
+# Flash-Lite. Com 4 s o ritmo ficava no próprio limite, e retentativas somadas
+# geravam 429 por minuto (visto na coleta completa de 25/11/2026).
+DEFAULT_MIN_INTERVAL_SEC = 5.0
 DEFAULT_MAX_RETRIES = 5
 DEFAULT_MAX_TOTAL_WAIT_SEC = 300.0
 DEFAULT_TIMEOUT_SEC = 120.0
