@@ -17,13 +17,15 @@ jobs:
           echo "--- DNS www.gov.br"
           getent ahosts www.gov.br | awk '{print $1}' | sort -u || true
       - name: curl em vários endereços e formas
+        continue-on-error: true
         run: |
+          set +e
           BROWSER_UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
           CNPQ=https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao
           CAPES=https://www.gov.br/capes/pt-br/assuntos/editais-e-resultados-capes
           probe() {
             label="$1"; shift
-            out=$(curl -sS -o /dev/null --max-time 30 -w '%{http_code} %{size_download}B %{time_total}s ip=%{remote_ip} http=%{http_version}' "$@" 2>&1)
+            out=$(curl -sS -o /dev/null --max-time 30 -w '%{http_code} %{size_download}B %{time_total}s ip=%{remote_ip} http=%{http_version}' "$@" 2>&1 || true)
             echo "$label => $out"
           }
           for u in https://www.gov.br/ https://www.gov.br/pt-br "$CNPQ" "$CAPES"; do
@@ -43,12 +45,13 @@ jobs:
           probe "dados.gov.br           " -A "$BROWSER_UA" https://dados.gov.br/
           echo "=== Intermediário público (Jina Reader)"
           for u in "$CNPQ" "$CAPES"; do
-            out=$(curl -sS --max-time 60 -w '\n%{http_code}' "https://r.jina.ai/$u" 2>&1)
+            out=$(curl -sS --max-time 60 -w '\n%{http_code}' "https://r.jina.ai/$u" 2>&1 || true)
             code=$(echo "$out" | tail -1)
             echo "jina $u => HTTP $code, $(echo "$out" | head -n -1 | wc -c) bytes; trecho:"
             echo "$out" | head -n -1 | grep -iE 'chamada|edital' | head -5
           done
       - name: Python requests (como o fluxo do CNPq)
+        continue-on-error: true
         run: |
           pip install -q requests
           python - <<'PY'
@@ -63,8 +66,10 @@ jobs:
                   print(label, "=> ERRO", type(exc).__name__, exc)
           PY
       - name: Repetição com espera (é intermitente?)
+        continue-on-error: true
         run: |
+          set +e
           for i in 1 2 3 4 5; do
-            curl -sS -o /dev/null --max-time 20 -w "tentativa $i => %{http_code}\n" -A 'Mozilla/5.0' https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao 2>&1 | tail -1
+            curl -sS -o /dev/null --max-time 20 -w "tentativa $i => %{http_code}\n" -A 'Mozilla/5.0' https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao 2>&1 | tail -2
             sleep 10
           done
