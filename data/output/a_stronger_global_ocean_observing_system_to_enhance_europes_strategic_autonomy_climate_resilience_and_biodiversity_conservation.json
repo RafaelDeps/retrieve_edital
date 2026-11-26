@@ -1,6 +1,6 @@
 {
     "nome": "A STRONGER GLOBAL OCEAN OBSERVING SYSTEM TO ENHANCE EUROPE’S STRATEGIC AUTONOMY, CLIMATE RESILIENCE AND BIODIVERSITY CONSERVATION",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Seas, Oceans and Inland Waters; Environmental Observation; Biodiversity and Natural Resources; Climate Science and Solutions; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-04-01.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Seas, Oceans and Inland Waters; Environmental Observation; Biodiversity and Natural Resources; Climate Science and Solutions; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-04-01.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -27,10 +27,17 @@
         "Food, Bioeconomy Natural Resources, Agriculture and Environment",
         "Global Challenges and European Industrial Competitiveness",
         "Climate, Energy and Mobility",
+        "Horizon Europe (HORIZON)",
         "Ocean",
         "Ocean Observation and Monitoring"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46690?topic=HORIZON-NATURE-2027-04-01",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

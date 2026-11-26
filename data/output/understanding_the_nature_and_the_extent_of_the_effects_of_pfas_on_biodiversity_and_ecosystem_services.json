@@ -1,6 +1,6 @@
 {
     "nome": "UNDERSTANDING THE NATURE AND THE EXTENT OF THE EFFECTS OF PFAS ON BIODIVERSITY AND ECOSYSTEM SERVICES",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Biodiversity and Natural Resources; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-01-01.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-01-01.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,10 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Biodiversity and Natural Resources",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
         "Global Challenges and European Industrial Competitiveness",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources",
+        "Horizon Europe (HORIZON)",
         "Biodiversity conservation",
         "Biodiversity monitoring",
         "Biodiversity status and trends",
@@ -45,7 +46,13 @@
         "Soil protection",
         "Surveillance of environment in order to alert"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46810?topic=HORIZON-NATURE-2027-01-01",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

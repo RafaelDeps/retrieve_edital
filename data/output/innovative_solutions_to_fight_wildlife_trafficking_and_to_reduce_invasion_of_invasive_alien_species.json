@@ -1,6 +1,6 @@
 {
     "nome": "INNOVATIVE SOLUTIONS TO FIGHT WILDLIFE TRAFFICKING AND TO REDUCE INVASION OF INVASIVE ALIEN SPECIES",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Protection and Security; Biodiversity and Natural Resources; Civil Security for Society; Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-04.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Global Challenges and European Industrial Competitiveness; Civil Security for Society; Protection and Security; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-04.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,11 +20,12 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Protection and Security",
-        "Biodiversity and Natural Resources",
-        "Civil Security for Society",
         "Global Challenges and European Industrial Competitiveness",
+        "Civil Security for Society",
+        "Protection and Security",
         "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources",
+        "Horizon Europe (HORIZON)",
         "Artificial intelligence, intelligent systems, multi agent systems",
         "Cybercrime prosecution and law enforcement",
         "Early warning systems",
@@ -38,7 +39,13 @@
         "Taxonomy",
         "Wildlife"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46791?topic=HORIZON-NATURE-2027-02-04",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

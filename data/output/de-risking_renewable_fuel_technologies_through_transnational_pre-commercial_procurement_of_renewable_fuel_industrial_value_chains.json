@@ -1,6 +1,6 @@
 {
     "nome": "DE-RISKING RENEWABLE FUEL TECHNOLOGIES THROUGH TRANSNATIONAL PRE-COMMERCIAL PROCUREMENT OF RENEWABLE FUEL INDUSTRIAL VALUE CHAINS",
-    "descrição": "Chamada: ENERGY. Área: Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Supply; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-04.",
+    "descrição": "Chamada: ENERGY. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Supply. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-04.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,12 +20,18 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Climate, Energy and Mobility",
-        "Energy Supply",
-        "Horizon Europe (HORIZON)"
+        "Energy Supply"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Pre-commercial Procurement",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/45794?topic=HORIZON-CL5-2026-11-D3-04",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

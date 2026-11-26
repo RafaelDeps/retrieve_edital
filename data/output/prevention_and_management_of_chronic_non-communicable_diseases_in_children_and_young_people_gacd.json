@@ -4,17 +4,17 @@
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
-    "data_abertura": "2027-02-10",
-    "data_encerramento": "2027-04-13",
+    "data_abertura": "2026-10-29",
+    "data_encerramento": "2027-02-17",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-HLTH-2027-01-DISEASE-10",
     "cronograma": [
         {
             "evento": "Abertura das inscrições",
-            "data": "2027-02-10"
+            "data": "2026-10-29"
         },
         {
             "evento": "Prazo para envio de propostas",
-            "data": "2027-04-13"
+            "data": "2027-02-17"
         }
     ],
     "tags": [
@@ -45,7 +45,13 @@
         "Social biomedical sciences (includes family planning, sexual health, psycho-oncology, political and social effects of biomedical research)",
         "Social structure, inequalities, social mobility, interethnic relations"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47194?topic=HORIZON-HLTH-2027-01-DISEASE-10",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",
@@ -57,7 +63,7 @@
     "fonte_key": "horizon",
     "chamadas": [],
     "proxima_etapa": {
-        "evento": "Abertura das inscrições",
-        "data": "2027-02-10"
+        "evento": "Prazo para envio de propostas",
+        "data": "2027-02-17"
     }
 }

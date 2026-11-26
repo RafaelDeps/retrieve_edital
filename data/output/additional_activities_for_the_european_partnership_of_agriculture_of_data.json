@@ -34,7 +34,13 @@
         "Technologies and Use Cases Dimension",
         "Web and information systems, database systems, information retrieval and digital libraries, data fusion"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Programme Cofund Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46070?topic=HORIZON-CL6-2026-04-GOVERNANCE-01",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

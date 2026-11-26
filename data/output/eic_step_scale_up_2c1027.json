@@ -1,6 +1,6 @@
 {
     "nome": "EIC STEP SCALE UP",
-    "descrição": "Área: The Accelerator; The European Innovation Council (EIC); Innovative Europe. Identificador da chamada no Funding & Tenders Portal: HORIZON-EIC-2027-STEP.",
+    "descrição": "Área: The Accelerator; The European Innovation Council (EIC); Innovative Europe; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-EIC-2027-STEP.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "inovação",
     "status": "aberto",
@@ -23,9 +23,16 @@
         "eic",
         "The Accelerator",
         "The European Innovation Council (EIC)",
-        "Innovative Europe"
+        "Innovative Europe",
+        "Horizon Europe (HORIZON)"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON EIC Equity Only",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47670?topic=HORIZON-EIC-2027-STEP",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

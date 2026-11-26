@@ -4,21 +4,21 @@
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
-    "data_abertura": "2027-02-10",
-    "data_encerramento": "2027-09-22",
+    "data_abertura": "2026-10-29",
+    "data_encerramento": "2027-09-16",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
     "cronograma": [
         {
             "evento": "Abertura das inscrições",
-            "data": "2027-02-10"
+            "data": "2026-10-29"
         },
         {
             "evento": "Prazo da fase 1",
-            "data": "2027-04-13"
+            "data": "2027-02-17"
         },
         {
             "evento": "Prazo para envio de propostas",
-            "data": "2027-09-22"
+            "data": "2027-09-16"
         }
     ],
     "tags": [
@@ -46,7 +46,13 @@
         "Neurosciences (including psychophysiology)",
         "Public health"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46937?topic=HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",
@@ -58,7 +64,7 @@
     "fonte_key": "horizon",
     "chamadas": [],
     "proxima_etapa": {
-        "evento": "Abertura das inscrições",
-        "data": "2027-02-10"
+        "evento": "Prazo da fase 1",
+        "data": "2027-02-17"
     }
 }

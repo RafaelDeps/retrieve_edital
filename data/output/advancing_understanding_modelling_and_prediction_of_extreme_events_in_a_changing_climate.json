@@ -25,7 +25,13 @@
         "Climate, Energy and Mobility",
         "Climate Science and Solutions"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47852?topic=HORIZON-CL5-2027-01-D1-07",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

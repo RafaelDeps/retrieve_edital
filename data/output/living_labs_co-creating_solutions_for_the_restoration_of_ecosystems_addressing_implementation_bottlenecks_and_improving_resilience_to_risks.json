@@ -1,6 +1,6 @@
 {
     "nome": "LIVING LABS CO-CREATING SOLUTIONS FOR THE RESTORATION OF ECOSYSTEMS ADDRESSING IMPLEMENTATION BOTTLENECKS AND IMPROVING RESILIENCE TO RISKS",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Biodiversity and Natural Resources; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-02.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-02.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,10 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Biodiversity and Natural Resources",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
         "Global Challenges and European Industrial Competitiveness",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources",
+        "Horizon Europe (HORIZON)",
         "Agriculture",
         "Agrobiodiversity",
         "Agroecology",
@@ -67,7 +68,13 @@
         "Sustainable development and nature protection",
         "Water resources"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46793?topic=HORIZON-NATURE-2027-02-02",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

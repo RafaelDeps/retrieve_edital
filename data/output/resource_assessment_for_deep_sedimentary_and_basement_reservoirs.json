@@ -1,6 +1,6 @@
 {
     "nome": "RESOURCE ASSESSMENT FOR DEEP SEDIMENTARY AND BASEMENT RESERVOIRS",
-    "descrição": "Chamada: ENERGY. Área: Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Supply; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-06.",
+    "descrição": "Chamada: ENERGY. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Supply. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-06.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,12 +20,18 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Climate, Energy and Mobility",
-        "Energy Supply",
-        "Horizon Europe (HORIZON)"
+        "Energy Supply"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/45795?topic=HORIZON-CL5-2026-11-D3-06",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

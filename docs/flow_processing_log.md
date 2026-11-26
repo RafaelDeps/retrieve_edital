@@ -12,6 +12,7 @@ Documento operacional para registrar a data de processamento dos fluxos do proje
 
 | Data/Hora | Fluxo | Resultado | Observações |
 | :-- | :-- | :-- | :-- |
+| 2026-11-26 12:59:26 -03:00 | `HORIZON` | Sucesso | Registry `horizon`: 525 -> 525 (delta 0); `data/output/` com 410 JSONs; arquivos não-JSON: nenhum. Origem devolveu 335 itens brutos. 0 novas, 152 alteradas, 174 sem mudança, 4 encerradas. |
 | 2026-11-26 12:58:25 -03:00 | `CNPQ` | Sucesso | Registry `cnpq`: 8 -> 8 (delta 0); `data/output/` com 568 JSONs; arquivos não-JSON: nenhum. Origem devolveu 8 itens brutos. www.gov.br recusou o acesso direto; 1 páginas buscadas pelo Jina. |
 | 2026-11-26 12:58:13 -03:00 | `CAPES` | Sucesso | Registry `capes`: 8 -> 8 (delta 0); `data/output/` com 568 JSONs; arquivos não-JSON: nenhum. Origem devolveu 30 itens brutos. www.gov.br recusou o acesso direto; 2 páginas buscadas pelo Jina. |
 | 2026-11-26 12:57:55 -03:00 | `PROEX_IFES` | Sucesso | Registry `proex_ifes`: 0 -> 0 (delta 0); `data/output/` com 568 JSONs; arquivos não-JSON: nenhum. Origem devolveu 9 itens brutos. |

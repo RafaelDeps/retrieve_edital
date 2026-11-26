@@ -1,6 +1,6 @@
 {
     "nome": "HORIZON SCANNING AND FORESIGHT IN FUTURE ENABLING DIGITAL TECHNOLOGIES (CSA)",
-    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Emerging enabling technologies; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DIGITAL-EMERGING-10.",
+    "descrição": "Chamada: DIGITAL. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Emerging enabling technologies. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DIGITAL-EMERGING-10.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,14 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space",
         "Key Digital Technologies",
         "Emerging enabling technologies",
-        "Horizon Europe (HORIZON)",
         "Computer sciences, information science and bioinformatics"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47650?topic=HORIZON-CL4-2027-04-DIGITAL-EMERGING-10",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

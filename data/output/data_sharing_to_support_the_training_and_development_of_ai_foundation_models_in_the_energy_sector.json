@@ -1,6 +1,6 @@
 {
     "nome": "DATA SHARING TO SUPPORT THE TRAINING AND DEVELOPMENT OF AI FOUNDATION MODELS IN THE ENERGY SECTOR",
-    "descrição": "Chamada: ENERGY. Área: Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Systems and Grids; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-23.",
+    "descrição": "Chamada: ENERGY. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Energy Systems and Grids. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL5-2026-11-D3-23.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,12 +20,18 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Climate, Energy and Mobility",
-        "Energy Systems and Grids",
-        "Horizon Europe (HORIZON)"
+        "Energy Systems and Grids"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/45793?topic=HORIZON-CL5-2026-11-D3-23",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

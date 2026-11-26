@@ -1,6 +1,6 @@
 {
     "nome": "APPLY AI: CHALLENGE-DRIVEN AI INNOVATION BOOSTER IN APPLY AI PRIORITISED SECTORS (RIA) (PARTNERSHIP IN AI, DATA AND ROBOTICS)",
-    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Artificial Intelligence and Robotics; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DIGITAL-EMERGING-04.",
+    "descrição": "Chamada: DIGITAL. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Artificial Intelligence and Robotics. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DIGITAL-EMERGING-04.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,14 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space",
         "Key Digital Technologies",
         "Artificial Intelligence and Robotics",
-        "Horizon Europe (HORIZON)",
         "Artificial intelligence, intelligent systems, multi agent systems"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47658?topic=HORIZON-CL4-2027-04-DIGITAL-EMERGING-04",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

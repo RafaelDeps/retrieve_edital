@@ -1,6 +1,6 @@
 {
     "nome": "SUSTAINABILITY AND RESILIENCE OF CLIMATE PROJECTIONS AND RELATED DATA RECORDS FOR EUROPEAN AND GLOBAL SCIENCE AND POLICY",
-    "descrição": "Chamada: Bridging actions 2027. Área: Climate Science and Solutions; Climate, Energy and Mobility; Global Challenges and European Industrial Competitiveness. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-04-08.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Climate Science and Solutions. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-04-08.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,11 +20,18 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Climate Science and Solutions",
+        "Horizon Europe (HORIZON)",
+        "Global Challenges and European Industrial Competitiveness",
         "Climate, Energy and Mobility",
-        "Global Challenges and European Industrial Competitiveness"
+        "Climate Science and Solutions"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47454?topic=HORIZON-BRIDGING-2027-04-08",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

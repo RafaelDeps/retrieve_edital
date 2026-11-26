@@ -1,6 +1,6 @@
 {
     "nome": "ADVANCED INTEGRATED PHOTONIC DEVICES FOR EXTENDED FEATURES AND ULTRA-LOW POWER CONSUMPTION (RIA) (PHOTONICS PARTNERSHIP)",
-    "descrição": "Chamada: DIGITAL. Área: Key Digital Technologies; Digital, Industry and Space; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-05-DIGITAL-EMERGING-03.",
+    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-05-DIGITAL-EMERGING-03.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,14 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Key Digital Technologies",
-        "Digital, Industry and Space",
         "Global Challenges and European Industrial Competitiveness",
+        "Digital, Industry and Space",
+        "Key Digital Technologies",
         "Horizon Europe (HORIZON)",
         "Nanophysics: nanoelectronics, nanophotonics, nanomagnetism, nanoelectromechanics, etc.",
         "Optical engineering, photonics, lasers"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47391?topic=HORIZON-CL4-2027-05-DIGITAL-EMERGING-03",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",
