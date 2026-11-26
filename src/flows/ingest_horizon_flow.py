@@ -1,10 +1,10 @@
 import logging
-from concurrent.futures import ThreadPoolExecutor
 from typing import Optional, Sequence
 
 from dotenv import load_dotenv
 
 from src.components import horizon_sync
+from src.flows.common import error_stats, record_transform_errors, transform_all
 from src.components.sinks.json_sink import LocalJSONSink
 from src.components.sources.horizon_source import HorizonSource
 from src.components.transforms.edital_normalizer import EditalNormalizer
@@ -73,20 +73,8 @@ def run_pipeline(
 
     logger.info("Extracted %s raw records.", len(raw_data_list))
     logger.info("Phase 2: Transformation (Parallel)")
-    valid_domains = []
-
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        future_to_item = {
-            executor.submit(transform.process, item): item for item in raw_data_list
-        }
-        for future in future_to_item:
-            raw_item = future_to_item[future]
-            try:
-                domain_item = future.result()
-                if domain_item:
-                    valid_domains.append(domain_item)
-            except Exception as exc:
-                logger.error("Failed to transform item %s: %s", raw_item.title, exc)
+    outcome = transform_all(transform, raw_data_list)
+    valid_domains = outcome.valid
 
     logger.info(
         "Successfully transformed %s out of %s records.",
@@ -96,6 +84,7 @@ def run_pipeline(
 
     logger.info("Phase 3: Load/Sink")
     rejection_store.record(FONTE_KEY, getattr(transform, "rejections", {}))
+    record_transform_errors(FONTE_KEY, outcome.errors)
 
     changes = {}
     if valid_domains:
@@ -130,6 +119,7 @@ def run_pipeline(
         unchanged=counts[horizon_sync.CHANGE_UNCHANGED],
         closed=closed,
         closing_blocked=closing_blocked,
+        **error_stats(outcome.errors),
     )
     logger.info("Pipeline completed.")
 

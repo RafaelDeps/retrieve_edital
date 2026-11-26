@@ -23,10 +23,14 @@ logger = logging.getLogger(__name__)
 FLOW_STATS_PREFIX = "[flow-stats]"
 
 _FLOW_STATS_REGEX = re.compile(
-    rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(\d+)(?:\s+new=(\d+))?(?:\s+deferred=(\d+))?"
-    r"(?:\s+created=(\d+)\s+updated=(\d+)\s+unchanged=(\d+)\s+closed=(\d+))?"
-    r"(?:\s+closing_blocked=(1))?"
-    r"(?:\s+network=(\w+))?(?:\s+jina_pages=(\d+))?(?:\s+network_reason=(\S+))?"
+    rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(?P<raw>\d+)(?:\s+new=(?P<new>\d+))?"
+    r"(?:\s+deferred=(?P<deferred>\d+))?"
+    r"(?:\s+errors=(?P<errors>\d+)\s+error_types=(?P<error_types>\S+))?"
+    r"(?:\s+created=(?P<created>\d+)\s+updated=(?P<updated>\d+)"
+    r"\s+unchanged=(?P<unchanged>\d+)\s+closed=(?P<closed>\d+))?"
+    r"(?:\s+closing_blocked=(?P<closing_blocked>1))?"
+    r"(?:\s+network=(?P<network>\w+))?(?:\s+jina_pages=(?P<jina_pages>\d+))?"
+    r"(?:\s+network_reason=(?P<network_reason>\S+))?"
 )
 
 
@@ -39,6 +43,10 @@ class FlowStats:
     # Itens não lidos porque a IA ficou indisponível (cota diária, chave);
     # voltam na próxima execução. Maior que zero vira Atenção no runner.
     deferred_count: int = 0
+    # Itens cuja transformação lançou erro (spec 007): registrados como recusa
+    # de validade curta; maior que zero vira Atenção no runner.
+    errors: int = 0
+    error_types: str = ""
     # Fontes que relêem tudo a cada execução (Horizon): o que mudou nos
     # arquivos e se o encerramento por ausência foi suspenso pela trava.
     created: Optional[int] = None
@@ -63,6 +71,8 @@ def emit_flow_stats(
     raw_count: int,
     new_count: Optional[int] = None,
     deferred_count: int = 0,
+    errors: int = 0,
+    error_types: Optional[str] = None,
     created: Optional[int] = None,
     updated: int = 0,
     unchanged: int = 0,
@@ -84,6 +94,8 @@ def emit_flow_stats(
         line += f" new={new_count}"
     if deferred_count > 0:
         line += f" deferred={deferred_count}"
+    if errors > 0:
+        line += f" errors={errors} error_types={error_types or 'desconhecido'}"
     if created is not None:
         line += f" created={created} updated={updated} unchanged={unchanged} closed={closed}"
     if closing_blocked:
@@ -126,25 +138,24 @@ def parse_flow_stats(output: str) -> Optional[FlowStats]:
         pass  # a última ocorrência é a que vale
     if match is None:
         return None
-    raw_count = int(match.group(1))
-    new_count = int(match.group(2)) if match.group(2) is not None else None
-    deferred_count = int(match.group(3)) if match.group(3) is not None else 0
+    fields = match.groupdict()
+
+    def number(name, default=None):
+        return int(fields[name]) if fields[name] is not None else default
+
     changes = {}
-    if match.group(4) is not None:
-        changes = {
-            "created": int(match.group(4)),
-            "updated": int(match.group(5)),
-            "unchanged": int(match.group(6)),
-            "closed": int(match.group(7)),
-        }
+    if fields["created"] is not None:
+        changes = {name: number(name) for name in ("created", "updated", "unchanged", "closed")}
     return FlowStats(
-        raw_count=raw_count,
-        new_count=new_count,
-        deferred_count=deferred_count,
-        closing_blocked=match.group(8) is not None,
-        network=match.group(9),
-        jina_pages=int(match.group(10)) if match.group(10) is not None else 0,
-        network_reason=match.group(11),
+        raw_count=number("raw"),
+        new_count=number("new"),
+        deferred_count=number("deferred", 0),
+        errors=number("errors", 0),
+        error_types=fields["error_types"] or "",
+        closing_blocked=fields["closing_blocked"] is not None,
+        network=fields["network"],
+        jina_pages=number("jina_pages", 0),
+        network_reason=fields["network_reason"],
         **changes,
     )
 

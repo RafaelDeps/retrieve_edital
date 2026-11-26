@@ -77,10 +77,17 @@ class TestStatsEmittedWhenEverythingIsRejected:
     """
 
     def test_every_flow_emits_outside_the_valid_domains_branch(self):
+        """
+        A emissão mora no roteiro comum (`src/flows/common.py`, spec 007) e no
+        Horizon: nos dois, fora de qualquer `if` (quatro espaços = corpo da função).
+        """
         import pathlib
         import re
 
-        for caminho in sorted(pathlib.Path("src/flows").glob("ingest_*_flow.py")):
+        for caminho in (
+            pathlib.Path("src/flows/common.py"),
+            pathlib.Path("src/flows/ingest_horizon_flow.py"),
+        ):
             fonte = caminho.read_text(encoding="utf-8")
             emissao = re.search(
                 r"^(\s*)emit_flow_stats\(\s*raw_count=listing_count,\s*new_count=(?!0\b)",
@@ -88,7 +95,6 @@ class TestStatsEmittedWhenEverythingIsRejected:
                 re.M,
             )
             assert emissao, f"{caminho.name} não emite estatísticas antes do sink"
-            # Quatro espaços = corpo da função; oito = dentro de um `if`.
             assert len(emissao.group(1)) == 4, (
                 f"{caminho.name} emite dentro de um bloco condicional: "
                 "itens todos rejeitados não gerariam sinal"

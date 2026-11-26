@@ -176,6 +176,7 @@ def resolve_result(
             or stats.deferred_count > 0
             or stats.closing_blocked
             or stats.network == "failed"
+            or stats.errors > 0
         ):
             return RESULT_WARNING
         return RESULT_SUCCESS
@@ -229,6 +230,17 @@ def build_observations(
             observations += (
                 " www.gov.br recusou o acesso direto;"
                 f" {stats.jina_pages} páginas buscadas pelo Jina."
+            )
+        if stats.errors > 0:
+            from src.flows.common import transform_error_ttl_days
+
+            tipos = ", ".join(
+                f"{nome}: {qtd}"
+                for nome, _, qtd in (t.partition(":") for t in stats.error_types.split(",") if t)
+            )
+            observations += (
+                f" {stats.errors} itens com erro na transformação ({tipos});"
+                f" ficam fora por {transform_error_ttl_days()} dias."
             )
         if stats.created is not None:
             observations += (

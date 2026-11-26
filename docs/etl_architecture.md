@@ -51,6 +51,37 @@ graph TB
 | HORIZON | `src/flows/ingest_horizon_flow.py` | `HorizonSource` | Chamadas abertas do Horizon Europe (inclui o EIC) a partir do dataset bulk público, com filtro temático obrigatório por divisão. Cadência semanal, fora do runner diário. Relê e atualiza todas as chamadas relevantes a cada execução, sem usar os índices para filtrar (ver [horizon_source.md](horizon_source.md#atualização-semanal-issue-8-spec-005)). |
 | CNPQ | `src/flows/ingest_cnpq_flow.py` | `CnpqSource` | Chamadas abertas para submissão no **portal do gov.br** (Plone estático), com página de detalhe, período de inscrições, anexos e OCR do documento principal. |
 
+### Roteiro comum dos fluxos (issue #10, spec 007)
+
+Os 7 fluxos comuns (FAPES, FINEP, CONIF, PRPPG/IFES, PROEX/IFES, CAPES e CNPq) usam o mesmo roteiro,
+`run_standard_pipeline` em `src/flows/common.py`:
+
+1. junta os processados e as recusas ativas;
+2. monta a fonte e a lê;
+3. transforma em paralelo (`transform_all`);
+4. emite `[flow-stats]`;
+5. registra recusas e erros;
+6. grava e atualiza o índice de processados.
+
+Cada `ingest_*_flow.py` só declara o que é seu, com o mesmo `run_pipeline(...)` e o mesmo
+`__main__` de antes:
+- um `FlowSpec` com a chave, o rótulo e as chaves do índice (a FAPES registra também os anexos);
+- como montar a fonte.
+
+**Fonte nova:** basta um configurador de poucas linhas.
+
+**Horizon:** é a exceção. Tem roteiro próprio (releitura e encerramento, spec 005) e usa só
+`transform_all`.
+
+**Erros na transformação.** Um item cuja transformação lança exceção:
+- entra em `registry/rejected_editais.json` com o motivo `erro na transformação: <tipo>` e validade
+  curta (`TRANSFORM_ERROR_TTL_DAYS`, padrão 3 dias); dentro dela, não é baixado nem lido de novo;
+- aparece em `[flow-stats]` como `errors=N error_types=Tipo:n,...`;
+- faz o runner marcar **Atenção**, com "N itens com erro na transformação (Tipo: n); ficam fora por
+  3 dias".
+
+Item adiado por IA indisponível (spec 004) não conta como erro.
+
 ## Configuração global
 
 - `src/config.py`: `get_reference_year(override)` para fontes que filtram por ano de referência.
