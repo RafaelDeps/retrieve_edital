@@ -17,8 +17,8 @@ RafaelDeps/portal_edital#11.
 - **Nada se perde**: a soma das duas pastas é o acervo completo.
 - **Carência**: configurável por `ARCHIVE_GRACE_DAYS` (padrão 30). As regras ficam em
   `scripts/curate_output.py` (issue #11, spec 008).
-- **Portal**: o que ele precisa fazer com a pasta nova está em RafaelDeps/portal_edital (issue de
-  arquivo de encerrados; ver também a portal#3).
+- **Portal**: o que ele precisa fazer com a pasta nova está em RafaelDeps/portal_edital#14 (ver
+  também a portal#3).
 
 ## Prazos e etapas
 
