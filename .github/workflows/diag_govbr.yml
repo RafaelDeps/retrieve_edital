@@ -1,0 +1,70 @@
+# Diagnóstico temporário (issue #7): o que o www.gov.br recusa a partir do GitHub Actions.
+# Branch descartável; não vai para a main.
+name: Diagnóstico gov.br
+on:
+  push:
+    branches: [diag-govbr]
+permissions:
+  contents: read
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Rede do runner
+        run: |
+          curl -sS --max-time 15 https://ipinfo.io/json | grep -E '"(country|org|region)"' || true
+          echo "--- DNS www.gov.br"
+          getent ahosts www.gov.br | awk '{print $1}' | sort -u || true
+      - name: curl em vários endereços e formas
+        run: |
+          BROWSER_UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+          CNPQ=https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao
+          CAPES=https://www.gov.br/capes/pt-br/assuntos/editais-e-resultados-capes
+          probe() {
+            label="$1"; shift
+            out=$(curl -sS -o /dev/null --max-time 30 -w '%{http_code} %{size_download}B %{time_total}s ip=%{remote_ip} http=%{http_version}' "$@" 2>&1)
+            echo "$label => $out"
+          }
+          for u in https://www.gov.br/ https://www.gov.br/pt-br "$CNPQ" "$CAPES"; do
+            echo "=== $u"
+            probe "padrão curl     " "$u"
+            probe "UA navegador    " -A "$BROWSER_UA" -H 'Accept: text/html,application/xhtml+xml' -H 'Accept-Language: pt-BR,pt;q=0.9' "$u"
+            probe "IPv4            " -4 -A "$BROWSER_UA" "$u"
+            probe "IPv6            " -6 -A "$BROWSER_UA" "$u"
+            probe "HTTP/1.1        " --http1.1 -A "$BROWSER_UA" "$u"
+          done
+          echo "=== Outras portas dos mesmos dados"
+          probe "API Plone ++api++ CNPq " -A "$BROWSER_UA" -H 'Accept: application/json' "https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao/++api++"
+          probe "API Plone Accept json  " -A "$BROWSER_UA" -H 'Accept: application/json' "$CNPQ"
+          probe "RSS CNPq               " -A "$BROWSER_UA" "$CNPQ/RSS"
+          echo "=== Outros sites do governo (controle)"
+          probe "finep.gov.br           " -A "$BROWSER_UA" https://www.finep.gov.br/
+          probe "dados.gov.br           " -A "$BROWSER_UA" https://dados.gov.br/
+          echo "=== Intermediário público (Jina Reader)"
+          for u in "$CNPQ" "$CAPES"; do
+            out=$(curl -sS --max-time 60 -w '\n%{http_code}' "https://r.jina.ai/$u" 2>&1)
+            code=$(echo "$out" | tail -1)
+            echo "jina $u => HTTP $code, $(echo "$out" | head -n -1 | wc -c) bytes; trecho:"
+            echo "$out" | head -n -1 | grep -iE 'chamada|edital' | head -5
+          done
+      - name: Python requests (como o fluxo do CNPq)
+        run: |
+          pip install -q requests
+          python - <<'PY'
+          import requests
+          url = "https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao"
+          ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+          for label, headers in (("padrão", {}), ("UA navegador", {"User-Agent": ua, "Accept-Language": "pt-BR,pt;q=0.9"})):
+              try:
+                  r = requests.get(url, headers=headers, timeout=30)
+                  print(label, "=>", r.status_code, len(r.content), "bytes")
+              except Exception as exc:
+                  print(label, "=> ERRO", type(exc).__name__, exc)
+          PY
+      - name: Repetição com espera (é intermitente?)
+        run: |
+          for i in 1 2 3 4 5; do
+            curl -sS -o /dev/null --max-time 20 -w "tentativa $i => %{http_code}\n" -A 'Mozilla/5.0' https://www.gov.br/cnpq/pt-br/chamadas/abertas-para-submissao 2>&1 | tail -1
+            sleep 10
+          done
