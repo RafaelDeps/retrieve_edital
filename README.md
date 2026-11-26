@@ -113,8 +113,13 @@ src/
 │   └── sinks/      # LocalJSONSink
 └── flows/          # ingest_fapes_flow, ingest_finep_flow, ingest_conif_flow
 docs/               # Arquitetura, backlog, features BDD, finep_source, agents_and_skills
-data/output/        # JSONs gerados (1 por edital)
+data/output/        # JSONs gerados (1 por edital): abertos e encerrados há até 30 dias
+data/arquivo/       # histórico: encerrados há mais de 30 dias (mesmo formato)
 ```
+
+Os editais encerrados há mais de 30 dias (`ARCHIVE_GRACE_DAYS`) saem de `data/output/` e vão para
+`data/arquivo/` no realinhamento diário. Um edital nunca está nas duas pastas: ver
+[docs/output_contract.md](docs/output_contract.md#pastas-de-dados).
 
 ## Skills do agente
 

@@ -14,20 +14,25 @@ Duas ações distintas, com riscos distintos:
   corrige sozinho quando o prazo passa, então isso precisa rodar sempre — o
   runner unificado o faz. Não remove nada.
 - **Remoção**: só do que não é edital (anexo, alteração, casca vazia, órfão de
-  portal morto). Editais encerrados **não** são removidos: viram `encerrado` e o
-  portal decide se os exibe.
+  portal morto). Editais encerrados **não** são removidos.
+- **Arquivamento** (issue #11, spec 008): encerrados com prazo há mais de
+  `ARCHIVE_GRACE_DAYS` dias (padrão 30) saem de `data/output/` e vão para
+  `data/arquivo/`, com o mesmo nome e conteúdo. Roda em todo modo com `--apply` ou
+  `--refresh-status`. `data/arquivo/` é histórico congelado: nunca é percorrido.
 
 Uso:
     python scripts/curate_output.py                # relatório, não altera nada
-    python scripts/curate_output.py --refresh-status  # só corrige status
+    python scripts/curate_output.py --refresh-status  # corrige status e arquiva encerrados antigos
     python scripts/curate_output.py --apply        # corrige status e remove ruído
 """
 
 import argparse
+import hashlib
 import json
+import os
 import re
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -46,6 +51,9 @@ from src.components.transforms import schedule_rules  # noqa: E402
 
 OUTPUT_DIR = Path("data/output")
 REGISTRY_PATH = Path("registry/processed_editais.json")
+ARCHIVE_DIR = Path("data/arquivo")
+ARCHIVE_GRACE_ENV = "ARCHIVE_GRACE_DAYS"
+DEFAULT_ARCHIVE_GRACE_DAYS = 30
 
 SUPPORTING_TITLE_PREFIXES = ("[ANEXO]", "[ALTERAÇÃO]", "[ALTERACAO]")
 DISCONTINUED_HOSTS = ("memoria2.cnpq.br",)
@@ -309,6 +317,59 @@ def drop_registry_keys(registry_path: Path, keys: List[str], apply: bool) -> int
     return removed
 
 
+def archive_grace_days() -> int:
+    """Dias que um encerrado fica em data/output/ depois do prazo (padrão 30)."""
+    raw = os.getenv(ARCHIVE_GRACE_ENV)
+    if raw is None or not raw.strip():
+        return DEFAULT_ARCHIVE_GRACE_DAYS
+    try:
+        value = int(raw)
+    except ValueError:
+        value = -1
+    if value < 0:
+        print(f"{ARCHIVE_GRACE_ENV} inválido ({raw!r}); usando {DEFAULT_ARCHIVE_GRACE_DAYS}.")
+        return DEFAULT_ARCHIVE_GRACE_DAYS
+    return value
+
+
+def archive_due(edital: dict, today: date, grace: int) -> bool:
+    """
+    Encerrado cujo prazo ficou para trás há mais de `grace` dias.
+
+    Sem prazo (ou com prazo ilegível) não há como contar a carência: fica em
+    data/output/, onde a falta de evidência continua visível.
+    """
+    if (edital.get("status") or "").strip().lower() != STATUS_CLOSED:
+        return False
+    try:
+        deadline = date.fromisoformat((edital.get("data_encerramento") or "").strip())
+    except ValueError:
+        return False
+    return deadline < today - timedelta(days=grace)
+
+
+def archive_file(path: Path, edital: dict, archive_dir: Path) -> Path:
+    """
+    Move o JSON para o arquivo, com o mesmo nome.
+
+    Nome já usado por **outro** edital ganha sufixo do link (como no sink); o
+    mesmo edital substitui a cópia anterior.
+    """
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    target = archive_dir / path.name
+    link = (edital.get("link") or "").strip()
+    if target.exists():
+        try:
+            existing_link = (json.loads(target.read_text(encoding="utf-8")).get("link") or "").strip()
+        except (OSError, ValueError):
+            existing_link = ""
+        if existing_link != link:
+            suffix = hashlib.md5((link or path.stem).encode()).hexdigest()[:6]
+            target = archive_dir / f"{path.stem}_{suffix}{path.suffix}"
+    os.replace(path, target)
+    return target
+
+
 def curate(
     workdir: Path, apply: bool, refresh_status_only: bool, today: date
 ) -> Dict[str, int]:
@@ -328,6 +389,8 @@ def curate(
     profile_changes: List[Tuple[Path, list]] = []
     removals: Dict[str, List[Path]] = {}
     shell_keys: List[str] = []
+    archivals: List[Tuple[Path, dict]] = []
+    grace = archive_grace_days()
 
     for path, edital in editais:
         reason = "" if refresh_status_only else removal_reason(edital)
@@ -383,6 +446,10 @@ def curate(
             path.write_text(
                 json.dumps(edital, ensure_ascii=False, indent=4), encoding="utf-8"
             )
+        # Depois do recálculo: o que venceu há muito tempo é encerrado e arquivado
+        # na mesma execução.
+        if archive_due(edital, today, grace):
+            archivals.append((path, edital))
 
     verb = "" if apply else " (simulação)"
     print(f"Status a corrigir{verb}: {len(status_changes)}")
@@ -433,6 +500,25 @@ def curate(
             for path in paths:
                 path.unlink()
 
+    archived = 0
+    if archivals:
+        print(
+            f"\nArquivados em {ARCHIVE_DIR}/ (encerrados há mais de {grace} dias){verb}: "
+            f"{len(archivals)}"
+        )
+        for path, _ in archivals[:8]:
+            print(f"  {path.name[:72]}")
+        if len(archivals) > 8:
+            print(f"  ... e outros {len(archivals) - 8}")
+    for path, edital in archivals:
+        if not apply:
+            continue
+        try:
+            archive_file(path, edital, workdir / ARCHIVE_DIR)
+            archived += 1
+        except OSError as exc:
+            print(f"  Falha ao arquivar {path.name}: {exc} (o arquivo fica em {OUTPUT_DIR})")
+
     freed = drop_registry_keys(workdir / REGISTRY_PATH, shell_keys, apply)
     if shell_keys:
         print(
@@ -444,7 +530,7 @@ def curate(
         f"\nResumo{verb}: {len(status_changes)} status, "
         f"{len(category_changes)} categorias, {len(agency_changes)} órgãos, "
         f"{len(opening_changes)} aberturas, {len(profile_changes)} perfis, "
-        f"{total_removed} removidos."
+        f"{total_removed} removidos, {len(archivals)} arquivados."
     )
     if not apply:
         print("Nada foi alterado. Use --apply para efetivar.")
@@ -456,6 +542,7 @@ def curate(
         "profiles": len(profile_changes),
         "schedules": len(schedule_changes),
         "removed": total_removed,
+        "archived": len(archivals),
     }
 
 
@@ -469,7 +556,7 @@ def main() -> int:
     parser.add_argument(
         "--refresh-status",
         action="store_true",
-        help="só recalcula o status; não remove arquivo algum",
+        help="recalcula o status e arquiva encerrados antigos; não remove arquivo algum",
     )
     args = parser.parse_args()
 

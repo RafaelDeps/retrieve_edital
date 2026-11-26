@@ -139,6 +139,9 @@ def _run_refresh(workdir, edital, today):
     path = output_dir / "ref.json"
     path.write_text(json.dumps(edital, ensure_ascii=False), encoding="utf-8")
     curate(workdir=workdir, apply=True, refresh_status_only=True, today=today)
+    # Encerrado há mais de 30 dias vai para data/arquivo/ (spec 008).
+    if not path.exists():
+        path = workdir / "data" / "arquivo" / "ref.json"
     return json.loads(path.read_text(encoding="utf-8"))
 
 

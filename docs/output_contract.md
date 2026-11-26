@@ -1,9 +1,24 @@
-# Contrato do JSON de saída (`data/output/*.json`)
+# Contrato dos dados de saída (`data/output/` e `data/arquivo/`)
 
-Cada arquivo em `data/output/` é um edital. O `portal_edital` lê esses arquivos. Mudança de campo,
+Cada arquivo em `data/output/` (ou em `data/arquivo/`) é um edital. O `portal_edital` lê esses arquivos. Mudança de campo,
 de vocabulário ou de nome de arquivo precisa ser combinada com quem mantém o portal (Constituição,
 Princípio III). A exibição dos campos de chamadas e próxima etapa está em
 RafaelDeps/portal_edital#11.
+
+## Pastas de dados
+
+| Pasta | O que tem | Quem altera |
+|---|---|---|
+| `data/output/` | editais **abertos**; **encerrados** há até N dias (carência, padrão 30); encerrados **sem data de prazo** | os fluxos (gravação) e o realinhamento diário (status, prazos, arquivamento) |
+| `data/arquivo/` | editais **encerrados** há mais de N dias: histórico, no mesmo formato JSON e com o mesmo nome de arquivo (ou com sufixo `_xxxxxx` em caso de colisão) | só recebe arquivos do realinhamento; um arquivo sai dali apenas quando o edital é gravado de novo em `data/output/` (reabertura) |
+
+- **Um link, uma pasta**: nenhum link aparece nas duas pastas ao mesmo tempo.
+- **Congelado**: depois de arquivado, o status e os prazos não são mais recalculados.
+- **Nada se perde**: a soma das duas pastas é o acervo completo.
+- **Carência**: configurável por `ARCHIVE_GRACE_DAYS` (padrão 30). As regras ficam em
+  `scripts/curate_output.py` (issue #11, spec 008).
+- **Portal**: o que ele precisa fazer com a pasta nova está em RafaelDeps/portal_edital (issue de
+  arquivo de encerrados; ver também a portal#3).
 
 ## Prazos e etapas
 

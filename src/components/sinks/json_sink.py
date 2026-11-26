@@ -32,8 +32,11 @@ class LocalJSONSink(ISink[EditalDomain]):
     Persists valid editais into JSON files in the local filesystem.
     """
 
-    def __init__(self, output_dir: str = "data/output"):
+    def __init__(self, output_dir: str = "data/output", archive_dir: str = None):
         self.output_dir = output_dir
+        # Histórico de encerrados (spec 008): pasta irmã de output_dir. Um edital
+        # nunca fica nas duas: gravar de novo (reabertura) apaga a cópia arquivada.
+        self.archive_dir = archive_dir or str(Path(output_dir).parent / "arquivo")
 
     def _sanitize_filename(self, filename: str) -> str:
         """Removes invalid characters from a string to build a safe filename."""
@@ -140,7 +143,26 @@ class LocalJSONSink(ISink[EditalDomain]):
         logger.info(
             f"Successfully persisted {len(persisted)} of {len(items)} editais to {self.output_dir}"
         )
+        self._remove_archived_copies({(item.link or "").strip() for item in persisted.values()})
         return persisted
+
+    def _remove_archived_copies(self, links) -> int:
+        """Apaga do arquivo os editais que acabaram de ser gravados em output_dir."""
+        links = {link for link in links if link}
+        archive = Path(self.archive_dir)
+        if not links or not archive.is_dir():
+            return 0
+        removed = 0
+        for path in archive.glob("*.json"):
+            try:
+                link = (json.loads(path.read_text(encoding="utf-8")).get("link") or "").strip()
+            except (OSError, ValueError, AttributeError):
+                continue
+            if link in links:
+                path.unlink()
+                logger.info("Edital reaberto: cópia arquivada removida (%s)", path.name)
+                removed += 1
+        return removed
 
     # ---- manutenção dos arquivos já gravados ------------------------------
 

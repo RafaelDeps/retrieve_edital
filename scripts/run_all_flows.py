@@ -432,7 +432,8 @@ def refresh_edital_status(workdir: Path) -> None:
 
     Um edital coletado como `aberto` não se corrige sozinho quando o prazo passa,
     então isso precisa rodar em toda execução — sem isso, o portal exibe
-    oportunidade encerrada como vigente. Não remove arquivo algum.
+    oportunidade encerrada como vigente. Também move para data/arquivo/ os
+    encerrados há mais de 30 dias (spec 008). Não remove arquivo algum.
     """
     from curate_output import curate  # import local: evita ciclo na importação
 
