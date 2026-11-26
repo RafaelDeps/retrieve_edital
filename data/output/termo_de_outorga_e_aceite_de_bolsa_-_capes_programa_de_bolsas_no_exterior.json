@@ -3,7 +3,7 @@
     "descrição": "Concessão de bolsas de apoio financeiro pela CAPES para bolsistas realizarem atividades acadêmicas, de pesquisa ou missão no exterior, vinculadas a propostas aprovadas em processos seletivos específicos. Inclui direitos e deveres das partes, benefícios financeiros, período de vigência da bolsa e obrigações de interstício após o retorno ao Brasil.",
     "orgão_fomento": "CAPES",
     "categoria": "pesquisa",
-    "status": "aberto",
+    "status": "encerrado",
     "data_abertura": "",
     "data_encerramento": "",
     "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/estados-unidos/programa-capes-universidade-em-buffalo-capes-ub-professor-visitante",
@@ -97,5 +97,7 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "capes"
+    "fonte_key": "capes",
+    "chamadas": [],
+    "proxima_etapa": null
 }

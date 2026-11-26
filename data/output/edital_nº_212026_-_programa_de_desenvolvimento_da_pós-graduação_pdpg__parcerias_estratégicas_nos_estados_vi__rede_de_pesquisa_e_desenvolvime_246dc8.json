@@ -1,0 +1,128 @@
+{
+    "nome": "EDITAL Nº 21/2026 - PROGRAMA DE DESENVOLVIMENTO DA PÓS-GRADUAÇÃO (PDPG) – PARCERIAS ESTRATÉGICAS NOS ESTADOS VI – REDE DE PESQUISA E DESENVOLVIMENTO DA REGIÃO NORDESTE",
+    "descrição": "Contribuir para a redução das assimetrias regionais no âmbito do Sistema Nacional de Pós-Graduação (SNPG) por meio do apoio a projetos de formação de recursos humanos de alto nível com foco na consolidação dos Programas de Pós-Graduação (PPGs), nucleação de novas áreas estratégicas, fortalecimento da interiorização da pós-graduação, expansão da produção científica e tecnológica e no fortalecimento das atividades de extensão na região nordeste do Brasil, promovendo a colaboração e sinergia entre Instituições de Ensino Superior, instituições de pesquisa, setor produtivo, organizações da sociedade civil e governos locais.",
+    "orgão_fomento": "CAPES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-07-14",
+    "data_encerramento": "2026-11-30",
+    "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/desenvolvimento-regional/redes-de-pesquisa-e-desenvolvimento/programa-rede-de-pesquisa-e-desenvolvimento-da-regiao-nordeste",
+    "cronograma": [
+        {
+            "evento": "Prazo para apresentação pela FAP de manifestação de interesse em participar do Edital",
+            "data": "2026-07-14"
+        },
+        {
+            "evento": "Início das inscrições",
+            "data": "2026-08-03"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2026-11-30"
+        },
+        {
+            "evento": "Resultado da Análise Técnica",
+            "data": "2026-12-07"
+        },
+        {
+            "evento": "Prazo para envio de recurso referente à Análise Técnica",
+            "data": "5 (cinco) dias corridos após o recebimento da comunicação do indeferimento da análise técnica"
+        },
+        {
+            "evento": "Divulgação do Resultado Final da Análise Técnica",
+            "data": "2026-12-21"
+        },
+        {
+            "evento": "Divulgação do Resultado Preliminar das Propostas P1",
+            "data": "2027-02-26",
+            "chamada": "Propostas Prioritárias Estaduais (P1)"
+        },
+        {
+            "evento": "Prazo para envio de recurso referente ao Resultado Preliminar das Propostas P1",
+            "data": "5 (cinco) dias corridos após a divulgação do resultado preliminar no DOU",
+            "chamada": "Propostas Prioritárias Estaduais (P1)"
+        },
+        {
+            "evento": "Divulgação da quantidade de vagas destinadas a Ampla Concorrência",
+            "data": "2027-03-19",
+            "chamada": "Ampla Concorrência"
+        },
+        {
+            "evento": "Divulgação do Resultado preliminar das propostas de Ampla Concorrência",
+            "data": "2027-04-15",
+            "chamada": "Ampla Concorrência"
+        },
+        {
+            "evento": "Prazo para envio de recurso referente ao Resultado Preliminar das propostas de Ampla Concorrência",
+            "data": "5 (cinco) dias corridos após a divulgação do resultado preliminar no DOU",
+            "chamada": "Ampla Concorrência"
+        },
+        {
+            "evento": "Divulgação do Resultado Final no DOU",
+            "data": "2027-05-05"
+        },
+        {
+            "evento": "Assinatura dos Acordos de Cooperação Técnica",
+            "data": "2027-05-05"
+        },
+        {
+            "evento": "Início da implementação dos projetos",
+            "data": "2027-05-01"
+        },
+        {
+            "evento": "Implementação das bolsas no exterior - Destino Hemisfério Norte",
+            "data": "2027-07-01"
+        },
+        {
+            "evento": "Implementação das bolsas no exterior - Destino Hemisfério Sul",
+            "data": "2028-01-01"
+        }
+    ],
+    "tags": [
+        "pós-graduação",
+        "região nordeste",
+        "pesquisa e desenvolvimento",
+        "assimetrias regionais",
+        "faps",
+        "capes"
+    ],
+    "anexos": [
+        {
+            "titulo": "Alteração Edital nº 21/2026 - Programa de Desenvolvimento da Pós-Graduação (PDPG) – Parcerias Estratégicas nos Estados VI – Rede de Pesquisa e Desenvolvimento da Região Nordeste, formato, pdf, 69,6kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2894158_sei_2893573_edital_n__21_2026.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Edital nº 21/2026 - Programa de Desenvolvimento da Pós-Graduação (PDPG) – Parcerias Estratégicas nos Estados VI – Rede de Pesquisa e Desenvolvimento da Região Nordeste, formato, pdf, 177kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2848691_sei_2847430_edital_n__21_2026.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
+        {
+            "titulo": "Manual de Inscrição no Sistema SICAPES, formato, 758kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/manual_inscricao_sicapes_rede_nordeste_revisado.pdf/@@display-file/file",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "capes",
+    "chamadas": [
+        {
+            "nome": "Propostas Prioritárias Estaduais (P1)",
+            "abertura": "",
+            "encerramento": ""
+        },
+        {
+            "nome": "Ampla Concorrência",
+            "abertura": "",
+            "encerramento": ""
+        }
+    ],
+    "proxima_etapa": {
+        "evento": "Data limite para submissão das propostas",
+        "data": "2026-11-30"
+    }
+}

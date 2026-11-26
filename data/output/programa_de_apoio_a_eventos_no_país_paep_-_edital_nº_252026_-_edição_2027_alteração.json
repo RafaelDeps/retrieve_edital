@@ -3,7 +3,7 @@
     "descrição": "Edital de alteração do Programa de Apoio a Eventos no País (PAEP) da CAPES, destinando apoio financeiro a eventos científicos, tecnológicos ou acadêmicos promovidos por instituições públicas ou privadas sem fins lucrativos, vinculadas a Programas de Pós-Graduação Stricto Sensu ou ao ProEB (Programa de Qualificação de Professores da Rede Pública de Educação Básica).",
     "orgão_fomento": "CAPES",
     "categoria": "extensão",
-    "status": "aberto",
+    "status": "encerrado",
     "data_abertura": "2026-08-28",
     "data_encerramento": "",
     "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-no-pais/paep",
@@ -163,5 +163,7 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "capes"
+    "fonte_key": "capes",
+    "chamadas": [],
+    "proxima_etapa": null
 }

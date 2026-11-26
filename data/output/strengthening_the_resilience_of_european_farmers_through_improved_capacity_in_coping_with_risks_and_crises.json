@@ -41,5 +41,10 @@
     "ambito_geografico": "internacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "horizon"
+    "fonte_key": "horizon",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Abertura das inscrições",
+        "data": "2027-02-04"
+    }
 }

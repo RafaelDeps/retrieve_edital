@@ -202,5 +202,10 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "capes"
+    "fonte_key": "capes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Divulgação do resultado da Análise Técnica",
+        "data": "2026-12-01"
+    }
 }

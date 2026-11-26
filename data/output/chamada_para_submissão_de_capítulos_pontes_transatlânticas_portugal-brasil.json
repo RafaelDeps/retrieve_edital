@@ -1,0 +1,113 @@
+{
+    "nome": "CHAMADA PARA SUBMISSÃO DE CAPÍTULOS: PONTES TRANSATLÂNTICAS PORTUGAL-BRASIL",
+    "descrição": "Submissão, avaliação e publicação de capítulos para compor a obra coletiva “Pontes Transatlânticas Portugal-Brasil: experiências, desafios e oportunidades educacionais dos Institutos Politécnicos Superiores e das Instituições da Rede Federal de Educação Profissional, Científica e Tecnológica”, promovendo o intercâmbio de conhecimentos entre Brasil e Portugal.",
+    "orgão_fomento": "CONIF",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-11-25",
+    "data_encerramento": "2026-12-18",
+    "link": "https://portal.conif.org.br/editais/2026/edital-10-submissao-de-capitulos",
+    "cronograma": [
+        {
+            "evento": "Publicação do edital",
+            "data": "2026-11-25"
+        },
+        {
+            "evento": "Definição da modalidade de seleção dos capítulos - editores associados",
+            "data": "2026-11-30"
+        },
+        {
+            "evento": "Início da submissão dos capítulos",
+            "data": "2026-11-25",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Encerramento da submissão dos capítulos (1º período)",
+            "data": "2026-12-18",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Recesso de fim de ano",
+            "data": "2026-12-19"
+        },
+        {
+            "evento": "Início da submissão dos capítulos (2º período)",
+            "data": "2027-01-11",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Encerramento da submissão dos capítulos",
+            "data": "2027-01-26",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Início da avaliação dos capítulos",
+            "data": "2027-01-11"
+        },
+        {
+            "evento": "Encerramento da avaliação dos capítulos",
+            "data": "2027-03-24"
+        },
+        {
+            "evento": "Início da consolidação dos pareceres e definição da versão preliminar",
+            "data": "2027-03-25"
+        },
+        {
+            "evento": "Encerramento da consolidação dos pareceres e definição da versão preliminar",
+            "data": "2027-04-01"
+        },
+        {
+            "evento": "Início dos ajustes finais pelos(as) autores(as)",
+            "data": "2027-04-02"
+        },
+        {
+            "evento": "Encerramento dos ajustes finais pelos(as) autores(as)",
+            "data": "2027-05-02"
+        },
+        {
+            "evento": "Início da diagramação, revisão final e preparação editorial",
+            "data": "2027-05-03"
+        },
+        {
+            "evento": "Encerramento da diagramação, revisão final e preparação editorial",
+            "data": "2027-06-20"
+        },
+        {
+            "evento": "Publicação e lançamento da obra",
+            "data": "2º semestre de 2027"
+        }
+    ],
+    "tags": [
+        "educação",
+        "cooperação internacional",
+        "pesquisa",
+        "publicação de capítulos",
+        "ensino superior",
+        "conif",
+        "2026"
+    ],
+    "anexos": [
+        {
+            "titulo": "EDITAL CONIF/DIRINTER Nº 10/2026 - Submissão de Capítulos - Pontes Transatlânticas Portugal-Brasil",
+            "link": "https://portal.conif.org.br/images/Editais/2026/11_Novembro/_edital-10_6_submisso-finaldocx.pdf",
+            "tipo": "anexo"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "conif",
+    "chamadas": [
+        {
+            "nome": "1ª chamada",
+            "abertura": "2026-11-25",
+            "encerramento": "2027-01-26"
+        }
+    ],
+    "proxima_etapa": {
+        "evento": "Definição da modalidade de seleção dos capítulos - editores associados",
+        "data": "2026-11-30"
+    }
+}

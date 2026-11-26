@@ -1,0 +1,83 @@
+{
+    "nome": "CHAMADA CNPQ Nº 38/2026 CIÊNCIA, TECNOLOGIA E INOVAÇÃO PARA ENFRENTAMENTO AO FEMINICÍDIO E ÀS VIOLÊNCIAS DE GÊNERO CONTRA AS MULHERES NO BRASIL",
+    "descrição": "Apoiar projetos de pesquisa que visem contribuir para o desenvolvimento científico e tecnológico e para a inovação no País nas temáticas relacionadas à proteção, à prevenção e ao enfrentamento ao feminicídio e às violências de gênero contra as mulheres em toda a sua diversidade.",
+    "orgão_fomento": "CNPQ",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-11-26",
+    "data_encerramento": "2027-03-02",
+    "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-38-2026/chamada-publica-cnpq-N-38-2026",
+    "cronograma": [
+        {
+            "evento": "Abertura das inscrições",
+            "data": "2026-11-26"
+        },
+        {
+            "evento": "Prazo para envio de propostas",
+            "data": "2027-03-02"
+        },
+        {
+            "evento": "Data de publicação",
+            "data": "2026-11-26"
+        },
+        {
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "data": "2026-11-26"
+        },
+        {
+            "evento": "Prazo para impugnação da Chamada",
+            "data": "2026-12-07"
+        },
+        {
+            "evento": "Data limite para submissão das propostas",
+            "data": "2027-03-02"
+        },
+        {
+            "evento": "Início de Período de Julgamento",
+            "data": "2027-04-05"
+        },
+        {
+            "evento": "Encerramento de Período de Julgamento",
+            "data": "2027-04-30"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União, por extrato, e na página do CNPq na internet",
+            "data": "2027-05-20"
+        },
+        {
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "2027-05-31"
+        },
+        {
+            "evento": "Divulgação da decisão no Diário Oficial da União, por extrato, e na página do CNPq na internet",
+            "data": "2027-07-15"
+        }
+    ],
+    "tags": [
+        "feminicídio",
+        "violência de gênero",
+        "pesquisa científica",
+        "inovação tecnológica",
+        "políticas públicas",
+        "cnpq",
+        "chamada pública"
+    ],
+    "anexos": [
+        {
+            "titulo": "Chamada",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-38-2026/Chamada38_2026.pdf",
+            "tipo": "pdf"
+        }
+    ],
+    "modalidade": "",
+    "publico_alvo": [],
+    "ambito_geografico": "nacional",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "cnpq",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Abertura das inscrições",
+        "data": "2026-11-26"
+    }
+}

@@ -25,6 +25,11 @@
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
     },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/estados-unidos/programa-capes-universidade-em-buffalo-capes-ub-professor-visitante": {
+      "motivo": "prazo encerrado em 2026-08-31",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
     "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-e-auxilios-internacionais/encontre-aqui/paises/franca/cofecub": {
       "motivo": "prazo encerrado em 2026-03-30",
       "recusado_em": "2026-11-24",
@@ -75,6 +80,11 @@
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
     },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/bolsas-no-pais/paep": {
+      "motivo": "prazo encerrado em 2026-10-20",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
     "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/desenvolvimento-regional/programa-de-desenvolvimento-academico-indigena-pdai": {
       "motivo": "prazo encerrado em 2026-10-26",
       "recusado_em": "2026-11-24",
@@ -95,6 +105,11 @@
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
     },
+    "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/programa-aurora": {
+      "motivo": "prazo encerrado em 2026-09-25",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
     "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/observatorio-da-educacao-especial-inclusiva-obeduc-ei": {
       "motivo": "prazo encerrado em 2026-10-05",
       "recusado_em": "2026-11-24",
@@ -104,6 +119,13 @@
       "motivo": "prazo encerrado em 2025-02-17",
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
+    }
+  },
+  "comunidade": {
+    "https://www.banestes.com.br/publicacoes_legais/concurso2026.htm": {
+      "motivo": "fora do tema: concurso público",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
     }
   },
   "conif": {
@@ -134,6 +156,11 @@
     }
   },
   "fapes": {
+    "https://fapes.es.gov.br/media/Editais/Diretrizes%20Fapes%20Horizon%20Europe%202021-2027-1.pdf?v=1758063154000": {
+      "motivo": "documento de apoio, não é um edital",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
     "https://fapes.es.gov.br/media/Portif%C3%B3lios/chamada-sbep-2026-announcement.pdf?v=1791235161000": {
       "motivo": "prazo encerrado em 2026-11-16",
       "recusado_em": "2026-11-24",
@@ -156,10 +183,50 @@
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
     },
+    "https://www.finep.gov.br/e/chamada-publica/222684/719676": {
+      "motivo": "prazo encerrado em 2016-06-30",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/721094": {
+      "motivo": "prazo encerrado em 2017-10-30",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/721681": {
+      "motivo": "prazo encerrado em 2018-05-27",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/747009": {
+      "motivo": "prazo encerrado em 2024-05-16",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/749273": {
+      "motivo": "prazo encerrado em 2024-10-10",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/752474": {
+      "motivo": "prazo encerrado em 2025-07-11",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/752980": {
+      "motivo": "prazo encerrado em 2026-03-26",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
     "https://www.finep.gov.br/e/chamada-publica/222684/753688": {
       "motivo": "prazo encerrado em 2026-05-29",
       "recusado_em": "2026-11-24",
       "valida_ate": "2026-12-01"
+    },
+    "https://www.finep.gov.br/e/chamada-publica/222684/754098": {
+      "motivo": "prazo encerrado em 2026-03-13",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
     },
     "https://www.finep.gov.br/e/chamada-publica/222684/754704": {
       "motivo": "prazo encerrado em 2026-09-18",
