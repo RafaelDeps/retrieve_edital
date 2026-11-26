@@ -1,0 +1,86 @@
+# Extração por IA: provedor, limites e adiamento
+
+O coletor usa IA em três pontos. O provedor padrão é o **Gemini**, no **nível gratuito**. A
+**Mistral** continua disponível como opção. Pela constituição 1.1.0 (Princípio V), nenhuma
+funcionalidade pode depender de serviço pago, conta de faturamento ou cartão.
+
+## Onde a IA entra
+
+| Uso | Quem chama | O que devolve | Se a IA falhar |
+|---|---|---|---|
+| `extract_from_pdf` | `EditalNormalizer` (FAPES, CAPES, CNPq, CONIF, PRPPG/IFES, PROEX/IFES) | o edital estruturado | falha de extração → caminho sem IA; IA indisponível → **item adiado** |
+| `classify_document_titles` | `FapesSource` | `{título: edital/anexo/alteração}` | heurística por palavras do título |
+| `categorize_finep_by_description` | `EditalNormalizer` (FINEP) | uma das 3 categorias FINEP | `""` (mantém a categoria da fonte) |
+
+Os três usos passam por `IExtractionService` (`src/core/interfaces.py`). A fábrica
+`get_extraction_service()` (`src/components/transforms/extraction_service.py`) escolhe o provedor e
+devolve **uma instância por processo**, compartilhada pela fonte e pelo normalizador. As instruções
+(prompts) e o mapeamento da resposta ficam em `extraction_prompts.py` e são os mesmos para os dois
+provedores.
+
+Com o Gemini, o texto do PDF é extraído **localmente** (pdfplumber) e só o texto é enviado. PDF sem
+texto (escaneado) não chama a IA: a falha de extração é registrada e o item segue o caminho sem IA.
+
+## Configuração
+
+| Variável | Padrão | Para quê |
+|---|---|---|
+| `LLM_PROVIDER` | `gemini` | `gemini` ou `mistral`. Outro valor deixa a IA indisponível, com erro no log |
+| `GEMINI_API_KEY` | — | chave do Google AI Studio (nível gratuito) |
+| `GEMINI_MODEL` | `gemini-3.5-flash-lite` | modelo |
+| `GEMINI_MIN_INTERVAL_SEC` | `4` | intervalo mínimo entre chamadas, valendo para todas as threads |
+| `GEMINI_MAX_RETRIES` | `5` | novas tentativas em 429 por minuto ou erro temporário (500/503, rede) |
+| `GEMINI_MAX_TOTAL_WAIT_SEC` | `300` | espera máxima acumulada por chamada |
+| `GEMINI_TIMEOUT_SEC` | `120` | timeout de cada chamada |
+| `MISTRAL_API_KEY`, `MISTRAL_LLM_MODEL`, `MISTRAL_OCR_MODEL` | — | só com `LLM_PROVIDER=mistral` (ver [mistral_usage.md](mistral_usage.md)) |
+
+A chave nunca aparece em log, mensagem de erro, URL ou arquivo versionado.
+
+## Limites do nível gratuito
+
+| O Google responde | O coletor faz |
+|---|---|
+| 429 por **minuto** | espera o tempo indicado (`retryDelay`) e tenta de novo, até o teto |
+| 429 por minuto que não passa | trata como cota diária esgotada |
+| 429 por **dia** (`quotaId` com `PerDay`) | IA **indisponível** no resto da execução |
+| chave inválida (400 `API_KEY_INVALID`, 401, 403) | IA **indisponível** no resto da execução |
+| 500/503 ou falha de rede | tenta de novo até o teto; depois, falha só daquele item |
+
+Sem `GEMINI_API_KEY`, a IA também fica indisponível desde o início, e o erro aparece uma vez no log.
+
+### Item adiado
+
+Com a IA indisponível, o normalizador **adia** o item:
+- não monta o edital com os dados da página;
+- não o recusa;
+- não o grava.
+
+Assim ele fica fora de `registry/processed_editais.json` e de `registry/rejected_editais.json`, e
+é tentado de novo na próxima execução. O fluxo informa a contagem ao runner:
+
+```text
+[flow-stats] raw=12 new=4 deferred=8
+```
+
+O runner marca o fluxo como **Atenção** e escreve em `docs/flow_processing_log.md`:
+"8 itens adiados por limite da IA; serão tentados na próxima execução."
+
+A cota diária do gratuito volta à meia-noite do horário do Pacífico (cerca de 5h em Brasília). Se
+os adiados aparecem com frequência, o volume passou do gratuito: a saída é reduzir chamadas, nunca
+ativar cobrança.
+
+## CI (GitHub Actions)
+
+`run_scraper.yml` e `run_horizon_weekly.yml` repassam `LLM_PROVIDER=gemini`, `GEMINI_API_KEY` e
+`MISTRAL_API_KEY` aos fluxos. Para cadastrar a chave no fork, vá em *Settings → Secrets and variables
+→ Actions → New repository secret*, com o nome `GEMINI_API_KEY`.
+
+## Testes
+
+- `tests/step_defs/test_extracao_gemini.py` (cenários em `docs/features/extracao_gemini.feature`)
+  roda offline, com cliente, relógio e espera falsos.
+- O caso real (FAPES 10/2026 com o Gemini) é `integration`:
+
+```bash
+pytest -m integration tests/step_defs/test_extracao_gemini.py
+```

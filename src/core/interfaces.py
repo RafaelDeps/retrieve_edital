@@ -54,3 +54,30 @@ class ISink(ABC, Generic[T]):
         write failed would mark it as processed with nothing to show for it.
         """
         pass
+
+
+class IExtractionService(ABC):
+    """
+    Interface for the AI extraction used by sources and transforms.
+
+    One implementation per provider (Gemini by default, Mistral optional), picked
+    by `get_extraction_service()` from `LLM_PROVIDER`. Callers never know which
+    provider is behind it. Contract: specs/004 contracts/extraction-service.md.
+    """
+
+    @abstractmethod
+    def extract_from_pdf(self, pdf_bytes: bytes, filename: str) -> Any:
+        """
+        Reads the edital and returns an `EditalDomain` with `link=""`, or `None`
+        on an extraction failure (PDF without text, invalid answer, item error).
+        Raises `AIUnavailableError` when the AI is unavailable for this run
+        (daily quota, missing or invalid key), so the caller can defer the item.
+        """
+
+    @abstractmethod
+    def classify_document_titles(self, titles: List[str]) -> Dict[str, str]:
+        """Maps each title to "edital", "anexo" or "alteração". Never raises."""
+
+    @abstractmethod
+    def categorize_finep_by_description(self, description: str) -> str:
+        """Returns one of the FINEP categories, or "" on failure. Never raises."""

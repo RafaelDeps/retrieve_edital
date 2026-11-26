@@ -73,7 +73,11 @@ def run_pipeline(
     )
 
     logger.info("Phase 3: Load/Sink")
-    emit_flow_stats(raw_count=listing_count, new_count=len(valid_domains))
+    emit_flow_stats(
+        raw_count=listing_count,
+        new_count=len(valid_domains),
+        deferred_count=len(getattr(transform, "deferred", [])),
+    )
     rejection_store.record("cnpq", getattr(transform, "rejections", {}))
 
     if valid_domains:

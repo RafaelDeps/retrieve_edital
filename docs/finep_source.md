@@ -74,9 +74,9 @@ Os 10 editais coletados antes da migração estão registrados no formato antigo
 
 ## Categorização (Transform)
 
-No **EditalNormalizer**, a **categoria** dos editais FINEP continua sendo definida pelo **Mistral** a partir da descrição, em uma de: **divulgação de conhecimento**, **extensão**, **inovação**. Requer `MISTRAL_API_KEY`.
+No **EditalNormalizer**, a **categoria** dos editais FINEP continua sendo definida pela **IA** (Gemini por padrão; Mistral opcional) a partir da descrição, em uma de: **divulgação de conhecimento**, **extensão**, **inovação**. Requer `GEMINI_API_KEY` (ou `MISTRAL_API_KEY` com `LLM_PROVIDER=mistral`); sem chave, mantém a categoria da fonte.
 
-É uma chamada de texto barata, não OCR — o source nunca baixa PDF para o Mistral. Manter essa etapa preserva o enum de categorias que o portal espera.
+É uma chamada de texto barata, não OCR — o source nunca baixa PDF para a IA. Manter essa etapa preserva o enum de categorias que o portal espera.
 
 ## Uso
 

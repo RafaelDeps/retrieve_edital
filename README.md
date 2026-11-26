@@ -7,7 +7,7 @@ Agente especializado em download e raspagem de dados de editais (chamadas públi
 O projeto implementa o padrão **Source → Transform → Sink**:
 
 - **Source (Extract)**: Extrai dados brutos da web (Playwright). Ex.: FAPES (múltiplas URLs), FINEP (chamadas abertas + página de detalhe por edital).
-- **Transform**: Normaliza, valida e enriquece os dados (regras de negócio, Mistral para PDF/FINEP). Produz objetos de domínio validados.
+- **Transform**: Normaliza, valida e enriquece os dados (regras de negócio, IA para PDF/FINEP: Gemini por padrão, Mistral opcional). Produz objetos de domínio validados.
 - **Sink (Load)**: Grava um arquivo JSON por edital em `data/output/` com `nome`, `órgão de fomento`, `cronograma`, `descrição`, `categoria`, `tags`, `anexos`.
 
 Documentação detalhada: [docs/etl_architecture.md](docs/etl_architecture.md).
@@ -16,13 +16,13 @@ Documentação detalhada: [docs/etl_architecture.md](docs/etl_architecture.md).
 
 | Fluxo | Source | Uso | Saída |
 |-------|--------|-----|--------|
-| **FAPES** | `FapesSource` | Editais FAPES (múltiplas seções), com PDF e Mistral OCR quando disponível | `data/output/*.json` |
-| **FINEP** | `FinepSource` | Chamadas públicas FINEP (abertas), uma página de detalhe por chamada; categorização Mistral pela descrição | `data/output/*.json` |
-| **CONIF** | `ConifSource` | Editais do portal CONIF, restritos ao ano corrente, com deduplicação por `registry/processed_editais.json` e leitura do PDF principal via Mistral OCR | `data/output/*.json` |
+| **FAPES** | `FapesSource` | Editais FAPES (múltiplas seções), com leitura do PDF por IA quando disponível | `data/output/*.json` |
+| **FINEP** | `FinepSource` | Chamadas públicas FINEP (abertas), uma página de detalhe por chamada; categorização por IA pela descrição | `data/output/*.json` |
+| **CONIF** | `ConifSource` | Editais do portal CONIF, restritos ao ano corrente, com deduplicação por `registry/processed_editais.json` e leitura do PDF principal por IA | `data/output/*.json` |
 
 ### Como rodar
 
-**Requisitos:** Python 3.12+, dependências em `requirements.txt`, Playwright (`playwright install chromium`). Para categorização FINEP e OCR: `MISTRAL_API_KEY` no `.env`.
+**Requisitos:** Python 3.12+, dependências em `requirements.txt`, Playwright (`playwright install chromium`). Para a leitura de PDFs e a categorização FINEP: `GEMINI_API_KEY` no `.env` (nível gratuito; Mistral opcional com `LLM_PROVIDER=mistral`). Ver [docs/ia_extracao.md](docs/ia_extracao.md).
 
 ```bash
 # Instalar dependências
@@ -109,7 +109,7 @@ src/
 ├── domain/         # RawEdital, EditalDomain
 ├── components/
 │   ├── sources/    # FapesSource, FinepSource
-│   ├── transforms/ # EditalNormalizer, date_utils, mistral_client
+│   ├── transforms/ # EditalNormalizer, date_utils, schedule_rules, extraction_service, extraction_prompts, gemini_client, mistral_client
 │   └── sinks/      # LocalJSONSink
 └── flows/          # ingest_fapes_flow, ingest_finep_flow, ingest_conif_flow
 docs/               # Arquitetura, backlog, features BDD, finep_source, agents_and_skills

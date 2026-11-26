@@ -80,7 +80,11 @@ def run_pipeline(
     # que a origem respondeu. Dentro do `if`, esse caso não emitia nada e o
     # runner caía no proxy de sequência — o falso alarme que as estatísticas
     # existem para evitar.
-    emit_flow_stats(raw_count=listing_count, new_count=len(valid_domains))
+    emit_flow_stats(
+        raw_count=listing_count,
+        new_count=len(valid_domains),
+        deferred_count=len(getattr(transform, "deferred", [])),
+    )
     rejection_store.record("proex_ifes", getattr(transform, "rejections", {}))
 
     if valid_domains:

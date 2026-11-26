@@ -6,8 +6,6 @@ import json
 import time
 from typing import Optional, Dict, Any, List, Callable, TypeVar
 
-import pdfplumber
-
 try:
     from mistralai import Mistral  # type: ignore[attr-defined]
 except ImportError:
@@ -16,7 +14,22 @@ except ImportError:
     except ImportError:
         from mistralai.client import MistralClient as Mistral
 
+from src.core.interfaces import IExtractionService
 from src.domain.models import EditalDomain
+from src.components.transforms.extraction_prompts import (
+    FINEP_CATEGORIES,
+    SYSTEM_CLASSIFY,
+    SYSTEM_EXTRACTION,
+    SYSTEM_FINEP,
+    build_classify_titles_prompt,
+    build_extraction_prompt,
+    build_finep_prompt,
+    extract_text_with_pdfplumber,
+    heuristic_title_classification,
+    map_schedule_item,
+    map_to_domain,
+    normalize_finep_category,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -82,15 +95,8 @@ def _is_rate_limit_error(exc: Exception) -> bool:
     return "429" in s or "rate" in s and "limit" in s or "rate_limited" in s
 
 
-def _extract_text_with_pdfplumber(pdf_bytes: bytes) -> str:
-    """Extrai texto localmente de um PDF via pdfplumber (fallback quando OCR da API está indisponível)."""
-    pages_text: List[str] = []
-    with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
-        for page in pdf.pages:
-            text = page.extract_text() or ""
-            if text.strip():
-                pages_text.append(text)
-    return "\n\n".join(pages_text).strip()
+# Nome antigo, mantido para quem importa daqui.
+_extract_text_with_pdfplumber = extract_text_with_pdfplumber
 
 
 def _call_with_rate_limit_retry(
@@ -154,7 +160,7 @@ def _call_with_rate_limit_retry(
     raise RuntimeError("Unexpected retry exit")
 
 
-class MistralExtractionService:
+class MistralExtractionService(IExtractionService):
     """
     Service to extract structured data from PDF editais using Mistral OCR and LLM.
     """
@@ -250,7 +256,7 @@ class MistralExtractionService:
                     lambda: self.client.chat.complete(
                         model=self.llm_model,
                         messages=[
-                            {"role": "system", "content": "Você é um especialista em análise de editais públicos de fomento (FAPES, CNPq, etc)."},
+                            {"role": "system", "content": SYSTEM_EXTRACTION},
                             {"role": "user", "content": prompt},
                         ],
                         response_format={"type": "json_object"},
@@ -285,23 +291,13 @@ class MistralExtractionService:
         if not titles:
             return {}
 
-        prompt = f"""
-Classifique cada título de documento abaixo em uma das seguintes categorias:
-- 'edital': O documento principal da chamada pública ou concurso.
-- 'anexo': Documentos técnicos, formulários, declarações ou manuais complementares.
-- 'alteração': Aditivos, retificações ou mudanças no edital original.
-
-Retorne APENAS um JSON onde a chave é o título exato e o valor é a categoria.
-
-Títulos:
-{json.dumps(titles, indent=2, ensure_ascii=False)}
-"""
+        prompt = build_classify_titles_prompt(titles)
         try:
             response = _call_with_rate_limit_retry(
                 lambda: self.client.chat.complete(
                     model=self.llm_model,
                     messages=[
-                        {"role": "system", "content": "Você é um assistente especializado em organizar documentos de editais de fomento."},
+                        {"role": "system", "content": SYSTEM_CLASSIFY},
                         {"role": "user", "content": prompt},
                     ],
                     response_format={"type": "json_object"},
@@ -314,19 +310,9 @@ Títulos:
             return classification
         except Exception as e:
             logger.error(f"Failed to classify titles: {e}")
-            # Fallback heuristic
-            fallback = {}
-            for t in titles:
-                tl = t.lower()
-                if "anexo" in tl or "formulário" in tl or "declaração" in tl:
-                    fallback[t] = "anexo"
-                elif "alteração" in tl or "retificação" in tl or "aditivo" in tl:
-                    fallback[t] = "alteração"
-                else:
-                    fallback[t] = "edital"
-            return fallback
+            return heuristic_title_classification(titles)
 
-    FINEP_CATEGORIES = ("divulgação de conhecimento", "extensão", "inovação")
+    FINEP_CATEGORIES = FINEP_CATEGORIES
 
     def categorize_finep_by_description(self, description: str) -> str:
         """
@@ -335,23 +321,13 @@ Títulos:
         """
         if not (description or "").strip():
             return "inovação"
-        prompt = f"""
-Classifique o edital de chamada pública FINEP abaixo em exatamente UMA destas categorias:
-- divulgação de conhecimento: difusão científica, popularização da ciência, museus, feiras, eventos de divulgação, educação científica para o público.
-- extensão: extensão universitária, projetos que levam conhecimento à comunidade, parcerias universidade-sociedade, ações extensionistas.
-- inovação: PD&I, desenvolvimento tecnológico, inovação em empresas, subvenção econômica, startups, produtos/processos inovadores.
-
-Retorne APENAS um JSON com uma única chave "categoria" e o valor sendo exatamente uma das três opções acima (use a grafia exata).
-
-Descrição do edital:
-{description[:4000]}
-"""
+        prompt = build_finep_prompt(description)
         try:
             response = _call_with_rate_limit_retry(
                 lambda: self.client.chat.complete(
                     model=self.llm_model,
                     messages=[
-                        {"role": "system", "content": "Você é um classificador de editais de fomento. Responda apenas com o JSON solicitado."},
+                        {"role": "system", "content": SYSTEM_FINEP},
                         {"role": "user", "content": prompt},
                     ],
                     response_format={"type": "json_object"},
@@ -359,13 +335,7 @@ Descrição do edital:
                 context="categorize_finep",
             )
             data = json.loads(response.choices[0].message.content or "{}")
-            cat = (data.get("categoria") or "").strip().lower()
-            if cat in self.FINEP_CATEGORIES:
-                return cat
-            for allowed in self.FINEP_CATEGORIES:
-                if allowed in cat or cat in allowed:
-                    return allowed
-            return "inovação"
+            return normalize_finep_category(data.get("categoria"))
         except Exception as e:
             # Devolve vazio, não um palpite: retornar "inovação" aqui tornava uma
             # chave de API inválida indistinguível de uma classificação real — o
@@ -375,57 +345,11 @@ Descrição do edital:
             return ""
 
     def _get_extraction_prompt(self, ocr_text: str) -> str:
-        return f"""
-Analise o seguinte texto OCR de um edital de fomento e extraia as informações estruturadas em formato JSON.
-
-Para preencher o campo 'descrição', procure especificamente pela seção 'Objeto' ou pela seção 'Finalidade' (ou termos similares) no texto do edital e utilize-a para redigir um resumo claro e conciso.
-
-O JSON deve seguir exatamente esta estrutura:
-{{
-    "nome": "Título oficial do edital",
-    "descrição": "Resumo conciso baseado na seção 'Objeto' ou 'Finalidade' do edital",
-    "orgão_fomento": "Nome da instituição (Ex: FAPES)",
-    "categoria": "extensão, pesquisa, inovação ou outros",
-    "status": "aberto",
-    "data_abertura": "YYYY-MM-DD",
-    "data_encerramento": "YYYY-MM-DD ou \"\"",
-    "cronograma": [
-        {{"evento": "Descrição da etapa", "data": "ISO YYYY-MM-DD ou texto original caso seja data relativa (ex: '5 dias úteis após...')", "chamada": "1ª chamada, ou \"\" se o edital não tiver chamadas"}}
-    ],
-    "tags": ["lista", "de", "palavras-chave", "(MÍNIMO 3 TAGS)"]
-}}
-
-IMPORTANTE para o CRONOGRAMA:
-1. Priorize o formato ISO YYYY-MM-DD.
-2. Se houver um intervalo (ex: 'Submissão: 10/11/2025 a 16/12/2025'), crie DOIS eventos: 'Início de <etapa>' com a primeira data e 'Encerramento de <etapa>' com a última, ambas em ISO (ex: 'Início da submissão' = '2025-11-10' e 'Encerramento da submissão' = '2025-12-16'). Nunca descarte a data final de um intervalo: ela costuma ser o prazo.
-3. Se o texto disser 'A partir de 26/10/2026', use '2026-10-26'.
-4. Se a data for relativa (ex: '5 dias úteis após o resultado preliminar'), mantenha o texto original para processamento posterior.
-5. Cada etapa deve ter o campo "chamada" com o nome da chamada, fase, ciclo ou etapa do processo a que pertence (ex: '1ª chamada', '2ª chamada', 'Ciclo 2'). Use "" quando o edital não dividir o processo seletivo em chamadas. Inclua TODAS as etapas de TODAS as chamadas.
-
-Texto do Edital:
-{ocr_text}
-"""
+        return build_extraction_prompt(ocr_text)
 
     @staticmethod
     def _map_schedule_item(item: Dict[str, Any]) -> Dict[str, str]:
-        """Etapa do cronograma; `chamada` só entra quando a IA a informou."""
-        mapped = {"evento": item.get("evento") or item.get("etapa", ""), "data": item.get("data") or ""}
-        chamada = (item.get("chamada") or "").strip()
-        if chamada:
-            mapped["chamada"] = chamada
-        return mapped
+        return map_schedule_item(item)
 
     def _map_to_domain(self, data: Dict[str, Any]) -> EditalDomain:
-        # Basic mapping and defaults
-        return EditalDomain(
-            nome=data.get("nome", "").upper(),
-            descrição=data.get("descrição", ""),
-            orgão_fomento=data.get("orgão_fomento", "FAPES").upper(),
-            categoria=data.get("categoria", "outros").lower(),
-            status=data.get("status", "aberto"),
-            data_abertura=data.get("data_abertura") or "2026-01-01", # Default if missing
-            data_encerramento=data.get("data_encerramento") or "",
-            link="", # This will be set by the normalizer who has the URL
-            cronograma=[self._map_schedule_item(item) for item in data.get("cronograma", [])],
-            tags=data.get("tags") if data.get("tags") and len(data.get("tags")) > 0 else ["fapes", "edital", "inovação"]
-        )
+        return map_to_domain(data)

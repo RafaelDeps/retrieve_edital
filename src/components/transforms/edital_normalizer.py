@@ -9,7 +9,11 @@ import pdfplumber
 from src.core.interfaces import ITransform
 from src.domain.models import RawEdital, EditalDomain
 from src.components.transforms import publication_rules
-from src.components.transforms.mistral_client import MistralExtractionService
+from src.core.interfaces import IExtractionService
+from src.components.transforms.extraction_service import (
+    AIUnavailableError,
+    get_extraction_service,
+)
 from src.components.transforms.date_utils import normalize_schedule_dates
 from src.components.transforms import schedule_rules
 from src.components.transforms.schedule_rules import (  # noqa: F401 — reexportados
@@ -115,10 +119,12 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
     
     def __init__(
         self,
-        extraction_service: Optional[MistralExtractionService] = None,
+        extraction_service: Optional[IExtractionService] = None,
         today: Optional[date] = None,
     ):
-        self.extraction_service = extraction_service or MistralExtractionService()
+        # Provedor escolhido por LLM_PROVIDER (Gemini por padrão); uma instância
+        # por processo, compartilhada com a fonte.
+        self.extraction_service = extraction_service or get_extraction_service()
         # Data de referência das regras de publicação (prazo vencido, status).
         # `None` usa o dia real; os testes a fixam para não depender de quando rodam.
         self.today = today
@@ -126,6 +132,11 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # índice de recusados para não repetir OCR de um edital que o portão já
         # rejeitou — sem isso, ele volta como novo em toda execução.
         self.rejections: Dict[str, str] = {}
+        # Itens não lidos porque a IA ficou indisponível (cota diária, chave).
+        # Não passam pela extração básica nem entram nas recusas: ficam fora dos
+        # dois índices e voltam na próxima execução. O fluxo informa a contagem
+        # ao runner, que marca Atenção.
+        self.deferred: List[str] = []
 
     def _reference_day(self) -> date:
         return self.today or date.today()
@@ -236,9 +247,14 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
 
                     return self._publish_or_discard(mistral_domain, raw_data)
                 else:
-                    logger.warning(f"Mistral returned no domain for {clean_title}, falling back to basic extraction.")
+                    logger.warning(f"A IA não devolveu edital para {clean_title}; seguindo com a extração básica.")
+            except AIUnavailableError as e:
+                logger.warning("Item adiado (IA indisponível: %s): %s", e.reason, clean_title[:70])
+                if raw_data.url:
+                    self.deferred.append(raw_data.url)
+                return None
             except Exception as e:
-                logger.error(f"Error during Mistral extraction for {clean_title}: {e}")
+                logger.error(f"Erro na extração por IA de {clean_title}: {e}")
 
         # Basic/Fallback extraction (for anexos or if Mistral fails)
         combined_text = (description + " " + clean_title).lower()
@@ -248,7 +264,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                 classified = self.extraction_service.categorize_finep_by_description(description)
                 if classified:
                     category = classified
-                    logger.info("FINEP edital categorizado por Mistral: %s", category)
+                    logger.info("FINEP edital categorizado pela IA: %s", category)
                 else:
                     # Classificador indisponível: mantém a categoria da fonte em
                     # vez de gravar um palpite como se fosse classificação.
@@ -257,7 +273,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
                         category,
                     )
             except Exception as e:
-                logger.warning("Mistral categorização FINEP falhou, usando fallback: %s", e)
+                logger.warning("Categorização FINEP pela IA falhou, usando fallback: %s", e)
         if not tags:
             tags = ["fapes", "documento"]
             if "FINEP" in (raw_data.raw_agency or "").upper():

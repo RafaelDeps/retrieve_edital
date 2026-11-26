@@ -1,5 +1,9 @@
 # Uso do Mistral: onde entra, quanto custa, onde dói
 
+> **Desde a spec 004, a Mistral é o provedor opcional** (`LLM_PROVIDER=mistral`). O padrão é o
+> Gemini, no nível gratuito: ver [ia_extracao.md](ia_extracao.md). Este documento descreve o
+> comportamento da Mistral quando ela é escolhida.
+
 Documento operacional sobre a dependência de LLM do pipeline. Existe porque o
 rate limit já apareceu em execuções reais e será o gargalo da expansão de fontes.
 

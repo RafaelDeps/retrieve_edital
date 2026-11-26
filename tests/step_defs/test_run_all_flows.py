@@ -404,6 +404,37 @@ class TestResolveResult:
         )
 
 
+class TestDeferredItemsResult:
+    """Itens adiados pela IA indisponível (spec 004) deixam o fluxo em Atenção."""
+
+    def test_deferred_items_are_a_warning(self):
+        assert (
+            run_all_flows.resolve_result("CAPES", 0, 2, 0, FlowStats(10, 2, 3))
+            == run_all_flows.RESULT_WARNING
+        )
+
+    def test_failure_still_wins_over_deferred(self):
+        assert (
+            run_all_flows.resolve_result("CAPES", 1, 0, 0, FlowStats(10, 0, 3))
+            == run_all_flows.RESULT_FAILURE
+        )
+
+    def test_observation_counts_deferred_items(self):
+        result, observations = run_all_flows.build_observations(
+            "CAPES", {"capes": 5}, {"capes": 7}, 100, [], 0,
+            stats=FlowStats(raw_count=10, new_count=2, deferred_count=3),
+        )
+        assert result == run_all_flows.RESULT_WARNING
+        assert "3 itens adiados por limite da IA" in observations
+
+    def test_without_deferred_nothing_changes(self):
+        _, observations = run_all_flows.build_observations(
+            "CAPES", {"capes": 5}, {"capes": 7}, 100, [], 0,
+            stats=FlowStats(raw_count=10, new_count=2),
+        )
+        assert "adiados" not in observations
+
+
 class TestBuildObservations:
     def test_reports_raw_count_and_flags_empty_source(self):
         result, observations = run_all_flows.build_observations(

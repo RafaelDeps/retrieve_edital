@@ -66,7 +66,7 @@ O documento principal para OCR é o rotulado exatamente como **`Chamada`**; sem 
 
 ## Categoria
 
-O source **não define `source_category`**, de propósito. Quando definido, o `EditalNormalizer` o impõe sobre a categoria que o Mistral extraiu do PDF, e o valor entraria como item novo no vocabulário de categorias que o portal consome. Sem ele, a categoria vem do conteúdo do edital, como nas demais fontes.
+O source **não define `source_category`**, de propósito. Quando definido, o `EditalNormalizer` o impõe sobre a categoria que a IA extraiu do PDF, e o valor entraria como item novo no vocabulário de categorias que o portal consome. Sem ele, a categoria vem do conteúdo do edital, como nas demais fontes.
 
 ## Filtro por ano
 

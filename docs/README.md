@@ -27,7 +27,8 @@ Este diretório contém a documentação do projeto `retrieve_edital`: extraçã
 ### Specs de Expansão de Fontes
 - 🟢 [Spec e Plano: FINEP, CNPq e Horizon Europe](spec_finep_cnpq_horizon.md)
   - FINEP e CNPq corrigidos, mais o canário anti-falha-silenciosa no runner. Resta **US-HORIZON**, com o dataset bulk do Horizon Europe já mapeado.
-- [Uso do Mistral](mistral_usage.md)
+- [Extração por IA: provedor, limites e adiamento](ia_extracao.md)
+- [Uso do Mistral (provedor opcional)](mistral_usage.md)
   - Onde o LLM entra, quais fontes disparam OCR, rate limit medido e o que fazer na expansão de fontes.
 - [Source Horizon Europe](horizon_source.md)
   - HorizonSource: dataset bulk público (a search-api do SEDIA responde 500), filtro temático obrigatório por divisão, EIC Accelerator incluído, cadência semanal.
@@ -59,7 +60,7 @@ Features Gherkin como contrato e Definition of Done:
 - **Fluxo** `ingest_finep_flow` (primeira página por padrão; `--all` para todas).
 - **Config** `get_reference_year()` e variável `REFERENCE_YEAR` para filtro de prazo FINEP (dinâmico: ano atual por padrão).
 - **RawEdital**: campos opcionais `raw_cronograma`, `raw_tags`, `raw_anexos`.
-- **EditalNormalizer**: mapeamento data publicação → `data_abertura`, prazo envio → `data_encerramento`; para FINEP, categorização via **Mistral** (divulgação de conhecimento / extensão / inovação).
+- **EditalNormalizer**: mapeamento data publicação → `data_abertura`, prazo envio → `data_encerramento`; para FINEP, categorização via **IA** (Gemini por padrão) (divulgação de conhecimento / extensão / inovação).
 - **MistralExtractionService**: método `categorize_finep_by_description(description)`.
 - **Registry (índice de processados)**: `registry/processed_editais.json` com chaves FAPES e FINEP para não reprocessar editais já baixados; `src/processed_store.py` (get_keys_set, add_many, build_index_from_output_dir); fluxos FAPES e FINEP usam o índice e atualizam após o sink.
 - **FinepSource** *(reescrito em 2026-07-27)*: consome a **API Liferay do portal** em vez de raspar HTML. O portal antigo passou a redirecionar para uma SPA e o source extraía zero itens desde 2026-03-15. Paginação pela própria API (`page`/`pageSize`, teto de segurança de 50 páginas), filtro de prazo a partir do ano de referência, e `processed_urls` reconhecendo tanto a URL nova quanto a chave do portal antigo. Sem Playwright. Ver [finep_source.md](finep_source.md).

@@ -43,6 +43,8 @@ jobs:
 
     - name: Run Horizon Europe Flow (runner)
       env:
+        LLM_PROVIDER: gemini
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
         # Divisões do Horizon Europe a indexar. `HORIZON` cobre o programa
         # inteiro, porque a comparação é por prefixo — foi a decisão de

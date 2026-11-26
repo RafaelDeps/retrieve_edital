@@ -11,3 +11,4 @@ playwright>=1.40.0
 BeautifulSoup4>=4.12.0
 pdfplumber>=0.11.0
 mistralai>=1.0.0
+google-genai>=3.0,<4

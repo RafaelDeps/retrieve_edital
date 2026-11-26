@@ -83,7 +83,7 @@ class TestStatsEmittedWhenEverythingIsRejected:
         for caminho in sorted(pathlib.Path("src/flows").glob("ingest_*_flow.py")):
             fonte = caminho.read_text(encoding="utf-8")
             emissao = re.search(
-                r"^(\s*)emit_flow_stats\(raw_count=listing_count, new_count=len\(",
+                r"^(\s*)emit_flow_stats\(\s*raw_count=listing_count,\s*new_count=len\(",
                 fonte,
                 re.M,
             )
@@ -93,3 +93,23 @@ class TestStatsEmittedWhenEverythingIsRejected:
                 f"{caminho.name} emite dentro de um bloco condicional: "
                 "itens todos rejeitados não gerariam sinal"
             )
+
+
+class TestDeferredItems:
+    """Itens adiados por falta de IA (spec 004): campo opcional na linha de estatísticas."""
+
+    def test_emit_includes_deferred_only_when_positive(self, capsys):
+        emit_flow_stats(raw_count=10, new_count=2, deferred_count=3)
+        emit_flow_stats(raw_count=10, new_count=2, deferred_count=0)
+        linhas = capsys.readouterr().out.strip().splitlines()
+        assert linhas == [
+            f"{FLOW_STATS_PREFIX} raw=10 new=2 deferred=3",
+            f"{FLOW_STATS_PREFIX} raw=10 new=2",
+        ]
+
+    def test_parse_reads_deferred(self):
+        stats = parse_flow_stats(f"{FLOW_STATS_PREFIX} raw=10 new=2 deferred=3")
+        assert stats == FlowStats(raw_count=10, new_count=2, deferred_count=3)
+
+    def test_old_lines_have_zero_deferred(self):
+        assert parse_flow_stats(f"{FLOW_STATS_PREFIX} raw=10 new=2").deferred_count == 0

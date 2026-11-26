@@ -82,3 +82,22 @@ def raw_fapes_html_mock():
         </body>
     </html>
     """
+
+
+# Variáveis de IA que nenhum teste offline deve herdar do ambiente nem do `.env`
+# (os fluxos chamam load_dotenv ao serem importados): com a chave real no
+# ambiente, a fábrica criaria um cliente de verdade e o teste abriria rede.
+AI_ENV_VARS = ("LLM_PROVIDER", "GEMINI_API_KEY", "MISTRAL_API_KEY", "GEMINI_MODEL")
+
+
+@pytest.fixture(autouse=True)
+def _isolated_extraction_service(request, monkeypatch):
+    """Cada teste começa sem instância de IA em cache e sem configuração herdada."""
+    from src.components.transforms.extraction_service import reset_extraction_service
+
+    if request.node.get_closest_marker("integration") is None:
+        for name in AI_ENV_VARS:
+            monkeypatch.delenv(name, raising=False)
+    reset_extraction_service()
+    yield
+    reset_extraction_service()

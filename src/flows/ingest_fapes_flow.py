@@ -22,7 +22,7 @@ def _processed_keys(editais) -> list:
     Registra a URL do edital **e** as dos seus anexos.
 
     O FapesSource agrupa os documentos de um edital e elege um como principal
-    conforme a classificação do Mistral, que varia entre execuções. Registrar só
+    conforme a classificação da IA, que varia entre execuções. Registrar só
     a URL do principal fazia a chave mudar de uma rodada para a outra: o mesmo
     edital voltava como novo, era reprocessado por OCR e sobrescrevia o arquivo
     anterior. Guardando todas as URLs do grupo, qualquer documento que reapareça
@@ -50,7 +50,7 @@ def run_pipeline(
     Uses processed_editais.json to skip already-processed editais.
     """
     # A FAPES deduplica por URL do documento, como as demais fontes. Antes a
-    # chave era o nome do arquivo, que vem do nome reescrito pelo Mistral e não
+    # chave era o nome do arquivo, que vem do nome reescrito pela IA e não
     # do título da página — as duas chaves não fechavam, e os mesmos editais
     # voltavam a cada execução consumindo OCR.
     processed_urls = get_keys_set("fapes", path=processed_index_path)
@@ -83,7 +83,7 @@ def run_pipeline(
     logger.info("Phase 2: Transformation (Parallel)")
     valid_domains = []
     
-    # Use ThreadPoolExecutor to parallelize Mistral API calls
+    # Use ThreadPoolExecutor to parallelize chamadas à IA
     # max_workers=2 is a safe default to avoid aggressive rate limiting
     with ThreadPoolExecutor(max_workers=2) as executor:
         # Map transform.process to the list of raw items
@@ -107,7 +107,11 @@ def run_pipeline(
     # que a origem respondeu. Dentro do `if`, esse caso não emitia nada e o
     # runner caía no proxy de sequência — o falso alarme que as estatísticas
     # existem para evitar.
-    emit_flow_stats(raw_count=listing_count, new_count=len(valid_domains))
+    emit_flow_stats(
+        raw_count=listing_count,
+        new_count=len(valid_domains),
+        deferred_count=len(getattr(transform, "deferred", [])),
+    )
     rejection_store.record("fapes", getattr(transform, "rejections", {}))
 
     if valid_domains:

@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 FLOW_STATS_PREFIX = "[flow-stats]"
 
 _FLOW_STATS_REGEX = re.compile(
-    rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(\d+)(?:\s+new=(\d+))?"
+    rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(\d+)(?:\s+new=(\d+))?(?:\s+deferred=(\d+))?"
 )
 
 
@@ -33,6 +33,9 @@ class FlowStats:
 
     raw_count: int
     new_count: Optional[int] = None
+    # Itens não lidos porque a IA ficou indisponível (cota diária, chave);
+    # voltam na próxima execução. Maior que zero vira Atenção no runner.
+    deferred_count: int = 0
 
     @property
     def source_returned_nothing(self) -> bool:
@@ -40,7 +43,9 @@ class FlowStats:
         return self.raw_count == 0
 
 
-def emit_flow_stats(raw_count: int, new_count: Optional[int] = None) -> None:
+def emit_flow_stats(
+    raw_count: int, new_count: Optional[int] = None, deferred_count: int = 0
+) -> None:
     """
     Publica as contagens do fluxo no stdout para o runner unificado ler.
 
@@ -51,6 +56,8 @@ def emit_flow_stats(raw_count: int, new_count: Optional[int] = None) -> None:
     line = f"{FLOW_STATS_PREFIX} raw={raw_count}"
     if new_count is not None:
         line += f" new={new_count}"
+    if deferred_count > 0:
+        line += f" deferred={deferred_count}"
     print(line, flush=True)
 
 
@@ -70,7 +77,8 @@ def parse_flow_stats(output: str) -> Optional[FlowStats]:
         return None
     raw_count = int(match.group(1))
     new_count = int(match.group(2)) if match.group(2) is not None else None
-    return FlowStats(raw_count=raw_count, new_count=new_count)
+    deferred_count = int(match.group(3)) if match.group(3) is not None else 0
+    return FlowStats(raw_count=raw_count, new_count=new_count, deferred_count=deferred_count)
 
 
 def warn_on_redirect(requested_url: str, final_url: str) -> bool:

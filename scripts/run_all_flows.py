@@ -168,9 +168,11 @@ def resolve_result(
         # e deve ceder à evidência — do contrário um fluxo saudável cujo portal
         # não publica nada há semanas fica em alerta permanente, e alerta que
         # dispara sempre não informa nada.
-        return (
-            RESULT_WARNING if stats.source_returned_nothing else RESULT_SUCCESS
-        )
+        # Itens adiados por falta de IA (cota diária, chave) não se perdem, mas
+        # o portal fica sem eles até a próxima execução: isso precisa aparecer.
+        if stats.source_returned_nothing or stats.deferred_count > 0:
+            return RESULT_WARNING
+        return RESULT_SUCCESS
     if REGISTRY_KEYS[flow_name] in LOW_VOLUME_FLOWS:
         return RESULT_SUCCESS
     if delta == 0 and zero_delta_streak >= ZERO_DELTA_ALERT_THRESHOLD:
@@ -209,6 +211,11 @@ def build_observations(
         if stats.source_returned_nothing:
             observations += (
                 " A origem não devolveu nenhum item — verificar se o portal mudou."
+            )
+        if stats.deferred_count > 0:
+            observations += (
+                f" {stats.deferred_count} itens adiados por limite da IA;"
+                " serão tentados na próxima execução."
             )
     if result == RESULT_WARNING and stats is None and added == 0:
         observations += (

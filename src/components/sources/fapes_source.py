@@ -5,7 +5,8 @@ from typing import List, Optional
 from playwright.sync_api import sync_playwright, TimeoutError
 from src.core.interfaces import ISource
 from src.domain.models import RawEdital
-from src.components.transforms.mistral_client import MistralExtractionService
+from src.core.interfaces import IExtractionService
+from src.components.transforms.extraction_service import get_extraction_service
 
 logger = logging.getLogger(__name__)
 
@@ -130,7 +131,7 @@ class FapesSource(ISource[RawEdital]):
     Complies with ISource interface returning a List of RawEdition models.
     """
     
-    def __init__(self, start_urls: List[str] = None, processed_urls: set = None, classifier: Optional[MistralExtractionService] = None):
+    def __init__(self, start_urls: List[str] = None, processed_urls: set = None, classifier: Optional[IExtractionService] = None):
         if start_urls is None:
             self.start_urls = [
                 "https://fapes.es.gov.br/editais-abertos-pesquisa-4",
@@ -146,7 +147,7 @@ class FapesSource(ISource[RawEdital]):
         # dos filtros. É o que permite ao runner distinguir "portal sem
         # novidade" de "source quebrado". Ver src/flow_health.py.
         self.last_listing_count = 0
-        self.classifier = classifier or MistralExtractionService()
+        self.classifier = classifier or get_extraction_service()
         
     def _download_pdf(self, url: str) -> Optional[bytes]:
         try:

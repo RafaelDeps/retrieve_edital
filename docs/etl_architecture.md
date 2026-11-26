@@ -42,7 +42,7 @@ graph TB
 
 | Fluxo | Arquivo | Source | Descrição |
 |-------|---------|--------|-----------|
-| FAPES | `src/flows/ingest_fapes_flow.py` | `FapesSource` | Editais FAPES em múltiplas seções, com OCR Mistral quando há PDF principal. |
+| FAPES | `src/flows/ingest_fapes_flow.py` | `FapesSource` | Editais FAPES em múltiplas seções, com leitura do PDF por IA quando há PDF principal. |
 | FINEP | `src/flows/ingest_finep_flow.py` | `FinepSource` | Chamadas abertas via **API Liferay do portal** (OAuth2 + `/o/c/chamadapublicas`), com cronograma, tags, anexos e filtro por ano de prazo. Sem Playwright. |
 | CONIF | `src/flows/ingest_conif_flow.py` | `ConifSource` | Editais do ano corrente, com leitura da página de detalhe e OCR do PDF principal. |
 | PRPPG_IFES | `src/flows/ingest_prppg_ifes_flow.py` | `PrppgIfesSource` | Editais do SIGPesq/Ifes com paginação ASP.NET, URL estável `?cod=` e download do anexo principal. |
@@ -56,7 +56,7 @@ graph TB
 - `src/config.py`: `get_reference_year(override)` para fontes que filtram por ano de referência.
 - Cronograma: quando há OCR, o cronograma da fonte é **unido** ao extraído do PDF, com a fonte tendo precedência em caso de mesmo evento. `data_abertura` e `data_encerramento` são derivadas do resultado, com precedência `abertura das inscrições` > `publicação` > primeira data. Nenhuma data é inventada: sem etapa datada, o campo sai vazio.
 - `src/flow_health.py`: sinais de saúde dos fluxos — os fluxos publicam a contagem bruta pelo stdout (`[flow-stats] raw=N new=M`) e o runner usa esse número para distinguir **"o portal não publicou nada"** de **"o source quebrou"**. Antes disso, as duas situações apareciam no log como `Sucesso, delta 0`, o que manteve as quedas da FINEP e do CNPq invisíveis por meses.
-- `.env`: `MISTRAL_API_KEY` para OCR e extrações estruturadas via Mistral.
+- `.env`: `GEMINI_API_KEY` para a extração estruturada por IA (Gemini, nível gratuito; `LLM_PROVIDER=mistral` usa a Mistral). Ver [ia_extracao.md](ia_extracao.md).
 - `registry/processed_editais.json`: índice de editais já processados por source (`fapes`, `finep`, `conif`, `prppg_ifes`, `proex_ifes`, `capes`, `cnpq`, `horizon`).
 - `src/components/transforms/publication_rules.py`: decide o que é oportunidade publicável e mantém os campos de filtro em vocabulário fechado. Descarta anexo/alteração solto, registro sem conteúdo extraído e prazo já encerrado; canoniza `status` em `aberto`/`encerrado` e `categoria` em `divulgação de conhecimento`, `extensão`, `inovação`, `pesquisa` ou `outros`. Resolve também `modalidade`, hoje limitada a marcar `fluxo-contínuo` quando a origem declara ou o texto do edital diz — o que distingue "aberto permanentemente" de "prazo desconhecido", antes indistinguíveis com `data_encerramento` vazio.
 - `scripts/curate_output.py`: cuida do acervo já gravado — realinha `status` ao prazo, canoniza `categoria` e preenche `orgão_fomento` pelo host do link (o runner chama a cada execução) e, com `--apply`, remove o que não é edital.
@@ -96,7 +96,7 @@ graph TB
 - **Atribuições principais**:
   - normalização de título e órgão
   - mapeamento de `raw_cronograma` para `cronograma`, `data_abertura` e `data_encerramento`
-  - OCR e extração estruturada com Mistral quando `pdf_content` está disponível
+  - extração estruturada por IA quando `pdf_content` está disponível (texto local + Gemini; itens são adiados quando a IA fica indisponível)
   - fallback por descrição/título quando não há extração completa
 - **Data de referência**: `EditalNormalizer(today=...)` fixa o "hoje" usado pelas regras de publicação
   (prazo vencido e `status`). Sem o parâmetro, vale o dia real; os testes sempre o informam, para não
@@ -135,7 +135,7 @@ graph TB
   Fontes de baixo volume declaradas em `LOW_VOLUME_FLOWS` ficam isentas da regra de sequência.
 - **Falha de um fluxo não interrompe os demais.** Antes o runner fazia `raise SystemExit` na primeira falha: com oito fontes, uma indisponível zerava a coleta de todas as outras. Agora o erro é registrado, os fluxos seguintes rodam, e o exit code final reflete que houve falha — a informação não se perde. O realinhamento de status roda de todo modo.
 - **Teto de duração por fluxo**: `--timeout` > variável `FLOW_TIMEOUT_SEC` > padrão de 40 min (7 fontes × 40 min = 280 min, abaixo das 6 h do job). Valor inválido é erro de uso. O teto vale pelo relógio, mesmo que o fluxo não escreva nada, e ao estourar o grupo de processos inteiro (inclusive o navegador) recebe `SIGTERM` e, 5 s depois, `SIGKILL`; o fluxo sai com exit code 124 e é registrado como falha.
-- **Sem paralelismo, deliberadamente.** O limite de requisições do Mistral é por chave de API, então rodar fluxos em paralelo multiplicaria os `429` em vez de acelerar. O ganho de tempo viria à custa de mais espera em backoff. Ver [mistral_usage.md](mistral_usage.md).
+- **Sem paralelismo, deliberadamente.** O limite de requisições do provedor de IA é por chave de API, então rodar fluxos em paralelo multiplicaria os `429` em vez de acelerar. O ganho de tempo viria à custa de mais espera em backoff. Ver [ia_extracao.md](ia_extracao.md).
 - **Evidência prevalece sobre proxy**: havendo `[flow-stats]`, a saúde da origem é fato — zero itens brutos é scraper quebrado, qualquer item prova que a origem respondeu. A regra de sequência só vale na ausência desse dado. Os oito fluxos publicam as estatísticas.
 - Os parsers de listagem devolvem **tudo** o que a origem trouxe; a comparação com o registry acontece no `read()`. Com a deduplicação dentro do parser, a contagem bruta mediria "quantos são novos" e um portal saudável sem novidade pareceria quebrado.
 - **Resumo no GitHub Actions**: com `GITHUB_STEP_SUMMARY` definida, o runner publica uma tabela com o resultado de cada fonte e destaca as falhas.
@@ -173,7 +173,7 @@ graph TB
 - **Linguagem**: Python 3.12+
 - **Extração Web**: `requests`, `BeautifulSoup`, `Playwright`, `curl` como fallback pontual na PROEX/IFES
 - **Normalização**: Python + `EditalNormalizer`
-- **OCR / Enriquecimento**: Mistral
+- **Extração / Enriquecimento**: IA (Gemini por padrão, Mistral opcional)
 - **Testes**: `pytest`, `pytest-bdd`
 - **Automação**: GitHub Actions
 
