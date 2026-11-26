@@ -32,6 +32,7 @@ Este diretório contém a documentação do projeto `retrieve_edital`: extraçã
   - Onde o LLM entra, quais fontes disparam OCR, rate limit medido e o que fazer na expansão de fontes.
 - [Source Horizon Europe](horizon_source.md)
   - HorizonSource: dataset bulk público (a search-api do SEDIA responde 500), filtro temático obrigatório por divisão, EIC Accelerator incluído, cadência semanal.
+- [Source CAPES](capes_source.md)
 - [Source CNPq](cnpq_source.md)
   - CnpqSource: listagem `abertas-para-submissao` no gov.br, período de inscrições com rótulos variáveis, anexos filtrados por caminho e OCR do documento principal.
 - [Plano de Execução: Fomento Empresarial](plan_fomento_empresarial.md)

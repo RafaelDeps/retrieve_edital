@@ -45,6 +45,9 @@ class UnavailableExtractionService(IExtractionService):
     def extract_from_pdf(self, pdf_bytes: bytes, filename: str):
         raise AIUnavailableError(self.reason)
 
+    def extract_from_text(self, text: str, filename: str):
+        raise AIUnavailableError(self.reason)
+
     def classify_document_titles(self, titles: List[str]) -> Dict[str, str]:
         return heuristic_title_classification(titles)
 

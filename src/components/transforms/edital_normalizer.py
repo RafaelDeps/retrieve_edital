@@ -197,13 +197,19 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
 
         # Mistral extraction from PDF if available
         # Only extract full content for 'edital' or 'alteração' types, and if pdf_content is present
-        if raw_data.pdf_content and raw_data.document_type in ["edital", "alteração"]:
+        pdf_text = getattr(raw_data, "pdf_text", None)
+        if (raw_data.pdf_content or pdf_text) and raw_data.document_type in ["edital", "alteração"]:
             try:
-                # Use Mistral for high-quality extraction
-                mistral_domain = self.extraction_service.extract_from_pdf(
-                    raw_data.pdf_content, 
-                    f"{clean_title}.pdf"
-                )
+                # Documento como arquivo (acesso direto) ou já como texto (desvio
+                # do gov.br pelo Jina, spec 006): a IA recebe o mesmo texto.
+                if raw_data.pdf_content:
+                    mistral_domain = self.extraction_service.extract_from_pdf(
+                        raw_data.pdf_content, f"{clean_title}.pdf"
+                    )
+                else:
+                    mistral_domain = self.extraction_service.extract_from_text(
+                        pdf_text, f"{clean_title}.pdf"
+                    )
                 
                 if mistral_domain:
                     # Enrich/Merge Mistral result with metadata

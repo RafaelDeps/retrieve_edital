@@ -6,7 +6,7 @@ def test_is_pdf_link_catches_the_gov_br_display_file_form():
     Só olhar a terminação `.pdf` não bastava: o gov.br serve o mesmo arquivo em
     `…/edital.pdf/@@display-file/file`, e esses escapavam. O Playwright tentava
     navegar para eles e falhava com `Page.goto: Download is starting`, o que
-    zerou a coleta da CAPES.
+    zerou a coleta da CAPES quando ela ainda usava navegador.
     """
     assert _is_pdf_link("https://www.gov.br/capes/edital.pdf") is True
     assert _is_pdf_link("https://www.gov.br/capes/edital.pdf/@@display-file/file") is True
@@ -106,19 +106,20 @@ def test_extract_pdf_links_and_select_main_pdf_url_prioritize_edital_document():
     )
 
 
-class FakePage:
-    def __init__(self, html_by_url):
+class FakeFetcher:
+    """Fetcher falso: devolve o HTML de cada página e um PDF fixo."""
+
+    def __init__(self, html_by_url, pdf=b"%PDF-1.4 fake"):
+        from src.components.sources.govbr_fetcher import FetchedDocument
+
         self.html_by_url = html_by_url
-        self.current_url = None
+        self.document = FetchedDocument(content=pdf, content_type="application/pdf")
 
-    def goto(self, url, timeout=None, wait_until=None):
-        self.current_url = url
+    def get_html(self, url, listing=False):
+        return self.html_by_url[url]
 
-    def wait_for_load_state(self, state, timeout=None):
-        return None
-
-    def content(self):
-        return self.html_by_url[self.current_url]
+    def get_document(self, url):
+        return self.document
 
 
 def test_extract_detail_page_collects_description_anexos_and_main_pdf():
@@ -136,9 +137,8 @@ def test_extract_detail_page_collects_description_anexos_and_main_pdf():
         """
     }
 
-    source = CapesSource(current_year=2026)
-    source._download_file_bytes = lambda url: b"%PDF-1.4 fake"
-    raw = source._extract_detail_page(FakePage(html_by_url), detail_url, "Fallback")
+    source = CapesSource(current_year=2026, fetcher=FakeFetcher(html_by_url))
+    raw = source._extract_detail_page(detail_url, "Fallback")
 
     assert raw.title == "Edital CAPES 2026"
     assert raw.raw_agency == "CAPES"
@@ -164,10 +164,9 @@ def test_extract_detail_page_discards_item_when_main_pdf_year_is_previous():
         """
     }
 
-    source = CapesSource(current_year=2026)
-    source._download_file_bytes = lambda url: b"%PDF-1.4 fake"
+    source = CapesSource(current_year=2026, fetcher=FakeFetcher(html_by_url))
     source._infer_year_from_text = lambda text: 2025
 
-    raw = source._extract_detail_page(FakePage(html_by_url), detail_url, "Fallback")
+    raw = source._extract_detail_page(detail_url, "Fallback")
 
     assert raw is None

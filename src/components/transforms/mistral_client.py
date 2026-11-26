@@ -238,10 +238,19 @@ class MistralExtractionService(IExtractionService):
         Processes PDF bytes through Mistral OCR (or local pdfplumber fallback) and
         extracts structured data using LLM.
         """
+        return self._extract(
+            lambda attempt: self._extract_pdf_text(pdf_bytes, filename, attempt), filename
+        )
+
+    def extract_from_text(self, text: str, filename: str) -> Optional[EditalDomain]:
+        """Só a etapa de LLM, para um documento que já chegou como texto (spec 006)."""
+        return self._extract(lambda attempt: text or "", filename)
+
+    def _extract(self, text_for_attempt, filename: str) -> Optional[EditalDomain]:
         max_retries = 3
         for attempt in range(1, max_retries + 1):
             try:
-                full_ocr_text = self._extract_pdf_text(pdf_bytes, filename, attempt)
+                full_ocr_text = text_for_attempt(attempt)
                 if not full_ocr_text.strip():
                     logger.warning("Nenhum texto extraído do PDF %s.", filename)
                     return None

@@ -171,7 +171,12 @@ def resolve_result(
         # dispara sempre não informa nada.
         # Itens adiados por falta de IA (cota diária, chave) não se perdem, mas
         # o portal fica sem eles até a próxima execução: isso precisa aparecer.
-        if stats.source_returned_nothing or stats.deferred_count > 0 or stats.closing_blocked:
+        if (
+            stats.source_returned_nothing
+            or stats.deferred_count > 0
+            or stats.closing_blocked
+            or stats.network == "failed"
+        ):
             return RESULT_WARNING
         return RESULT_SUCCESS
     if REGISTRY_KEYS[flow_name] in LOW_VOLUME_FLOWS:
@@ -209,9 +214,21 @@ def build_observations(
     )
     if stats is not None:
         observations += f" Origem devolveu {stats.raw_count} itens brutos."
-        if stats.source_returned_nothing:
+        if stats.network == "failed":
+            # Bloqueio de rede não é portal sem itens: a mensagem antiga mandava
+            # investigar o layout quando o problema era a conexão (issue #7).
+            observations += (
+                " Falha de rede: www.gov.br recusou a conexão e o desvio pelo Jina"
+                f" falhou ({stats.network_reason or 'motivo desconhecido'})."
+            )
+        elif stats.source_returned_nothing:
             observations += (
                 " A origem não devolveu nenhum item — verificar se o portal mudou."
+            )
+        if stats.network == "jina":
+            observations += (
+                " www.gov.br recusou o acesso direto;"
+                f" {stats.jina_pages} páginas buscadas pelo Jina."
             )
         if stats.created is not None:
             observations += (

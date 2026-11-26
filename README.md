@@ -22,7 +22,7 @@ Documentação detalhada: [docs/etl_architecture.md](docs/etl_architecture.md).
 
 ### Como rodar
 
-**Requisitos:** Python 3.12+, dependências em `requirements.txt`, Playwright (`playwright install chromium`). Para a leitura de PDFs e a categorização FINEP: `GEMINI_API_KEY` no `.env` (nível gratuito; Mistral opcional com `LLM_PROVIDER=mistral`). Ver [docs/ia_extracao.md](docs/ia_extracao.md).
+**Requisitos:** Python 3.12+, dependências em `requirements.txt`, Playwright (`playwright install chromium`). Para a leitura de PDFs e a categorização FINEP: `GEMINI_API_KEY` no `.env` (nível gratuito; Mistral opcional com `LLM_PROVIDER=mistral`). Ver [docs/ia_extracao.md](docs/ia_extracao.md). CAPES e CNPq acessam o `www.gov.br` com desvio automático pelo Jina Reader (gratuito, sem cadastro; `JINA_API_KEY` opcional) quando a conexão direta é recusada, como acontece no GitHub Actions: ver [docs/cnpq_source.md](docs/cnpq_source.md#bloqueio-no-github-e-desvio-pelo-jina-issue-7-spec-006).
 
 ```bash
 # Instalar dependências

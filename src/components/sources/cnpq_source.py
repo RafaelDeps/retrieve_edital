@@ -25,7 +25,7 @@ from bs4 import BeautifulSoup, Tag
 
 from src.core.interfaces import ISource
 from src.domain.models import RawEdital
-from src.flow_health import warn_on_redirect
+from src.components.sources.govbr_fetcher import GovBrFetcher
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +98,7 @@ class CnpqSource(ISource[RawEdital]):
         current_year: Optional[int] = None,
         timeout: int = 30,
         session: Optional[requests.Session] = None,
+        fetcher: Optional[GovBrFetcher] = None,
     ) -> None:
         self.listing_url = listing_url
         self.processed_urls = processed_urls or set()
@@ -105,22 +106,24 @@ class CnpqSource(ISource[RawEdital]):
             current_year if current_year is not None else datetime.now().year
         )
         self.timeout = timeout
-        self.session = session or requests.Session()
+        # Todo acesso ao www.gov.br passa pelo fetcher, que desvia pelo Jina
+        # quando a conexão direta é recusada (GitHub Actions, issue #7).
+        self.fetcher = fetcher or GovBrFetcher(
+            direct_session=session or requests.Session(), timeout=timeout, source_name="CNPq"
+        )
         # Quantas chamadas a origem devolveu antes da deduplicação. O runner usa
         # esse número para distinguir "nada novo" de "source quebrado".
         self.last_listing_count = 0
 
     def read(self) -> List[RawEdital]:
         try:
-            response = self.session.get(self.listing_url, timeout=self.timeout)
-            response.raise_for_status()
-            warn_on_redirect(self.listing_url, response.url)
+            listing_html = self.fetcher.get_html(self.listing_url, listing=True)
         except requests.RequestException as exc:
             logger.error("Erro ao ler a listagem de chamadas do CNPq: %s", exc)
             self.last_listing_count = 0
             return []
 
-        listing_entries = self._extract_listing_entries(response.text)
+        listing_entries = self._extract_listing_entries(listing_html)
         self.last_listing_count = len(listing_entries)
         logger.info("CnpqSource encontrou %s chamadas na listagem.", len(listing_entries))
 
@@ -166,9 +169,7 @@ class CnpqSource(ISource[RawEdital]):
     def _build_raw_edital(
         self, detail_url: str, listing_title: str
     ) -> Optional[RawEdital]:
-        response = self.session.get(detail_url, timeout=self.timeout)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, "html.parser")
+        soup = BeautifulSoup(self.fetcher.get_html(detail_url), "html.parser")
 
         title = self._extract_title(soup) or listing_title
         if not title:
@@ -189,7 +190,7 @@ class CnpqSource(ISource[RawEdital]):
             return None
 
         anexos = self._extract_anexos(soup)
-        pdf_content = self._download_main_pdf(anexos)
+        pdf_content, pdf_text = self._download_main_pdf(anexos)
 
         return RawEdital(
             title=title,
@@ -202,6 +203,7 @@ class CnpqSource(ISource[RawEdital]):
             raw_agency="CNPq",
             raw_description=self._extract_description(soup),
             pdf_content=pdf_content,
+            pdf_text=pdf_text,
             document_type="edital",
             raw_status="aberto",
             raw_cronograma=self._build_cronograma(
@@ -286,26 +288,29 @@ class CnpqSource(ISource[RawEdital]):
             )
         return anexos
 
-    def _download_main_pdf(self, anexos: List[Dict[str, str]]) -> Optional[bytes]:
+    def _download_main_pdf(
+        self, anexos: List[Dict[str, str]]
+    ) -> Tuple[Optional[bytes], Optional[str]]:
+        """O documento principal: bytes no acesso direto, texto pelo Jina."""
         main_pdf_url = self._select_main_pdf_url(anexos)
         if not main_pdf_url:
-            return None
+            return None, None
         try:
-            response = self.session.get(main_pdf_url, timeout=self.timeout)
-            response.raise_for_status()
+            document = self.fetcher.get_document(main_pdf_url)
         except requests.RequestException as exc:
             logger.warning("Erro ao baixar o PDF %s: %s", main_pdf_url, exc)
-            return None
+            return None, None
 
-        content_type = (response.headers.get("content-type") or "").lower()
-        if "application/pdf" not in content_type:
+        if document.text is not None:
+            return None, document.text
+        if "application/pdf" not in document.content_type:
             logger.info(
                 "Documento principal do CNPq não é PDF, ignorando para OCR: %s (%s)",
                 main_pdf_url,
-                content_type or "desconhecido",
+                document.content_type or "desconhecido",
             )
-            return None
-        return response.content
+            return None, None
+        return document.content, None
 
     @staticmethod
     def _select_main_pdf_url(anexos: List[Dict[str, str]]) -> str:

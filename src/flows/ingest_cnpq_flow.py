@@ -9,7 +9,7 @@ from src.components.sources.cnpq_source import CnpqSource
 from src.components.transforms.edital_normalizer import EditalNormalizer
 from src.core.interfaces import ISink, ISource, ITransform
 from src.domain.models import EditalDomain, RawEdital
-from src.flow_health import emit_flow_stats
+from src.flow_health import emit_flow_stats, network_stats
 from src import rejection_store
 from src.processed_store import DEFAULT_PATH, add_many, get_keys_set
 
@@ -45,7 +45,7 @@ def run_pipeline(
     listing_count = getattr(source, "last_listing_count", len(raw_data_list))
 
     if not raw_data_list:
-        emit_flow_stats(raw_count=listing_count, new_count=0)
+        emit_flow_stats(raw_count=listing_count, new_count=0, **network_stats(source))
         logger.warning("Extraction returned empty. Halting pipeline.")
         return
 
@@ -77,6 +77,7 @@ def run_pipeline(
         raw_count=listing_count,
         new_count=len(valid_domains),
         deferred_count=len(getattr(transform, "deferred", [])),
+        **network_stats(source),
     )
     rejection_store.record("cnpq", getattr(transform, "rejections", {}))
 

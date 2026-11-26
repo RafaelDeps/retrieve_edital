@@ -272,7 +272,10 @@ class GeminiExtractionService(IExtractionService):
 
     def extract_from_pdf(self, pdf_bytes: bytes, filename: str):
         text = extraction_prompts.extract_text_with_pdfplumber(pdf_bytes)
-        if not text.strip():
+        return self.extract_from_text(text, filename)
+
+    def extract_from_text(self, text: str, filename: str):
+        if not (text or "").strip():
             logger.warning("Falha de extração: PDF sem texto (%s); IA não chamada.", filename)
             return None
         try:

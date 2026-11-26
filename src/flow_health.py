@@ -26,6 +26,7 @@ _FLOW_STATS_REGEX = re.compile(
     rf"{re.escape(FLOW_STATS_PREFIX)}\s+raw=(\d+)(?:\s+new=(\d+))?(?:\s+deferred=(\d+))?"
     r"(?:\s+created=(\d+)\s+updated=(\d+)\s+unchanged=(\d+)\s+closed=(\d+))?"
     r"(?:\s+closing_blocked=(1))?"
+    r"(?:\s+network=(\w+))?(?:\s+jina_pages=(\d+))?(?:\s+network_reason=(\S+))?"
 )
 
 
@@ -45,6 +46,12 @@ class FlowStats:
     unchanged: Optional[int] = None
     closed: Optional[int] = None
     closing_blocked: bool = False
+    # Acesso à origem quando ela recusa o GitHub (www.gov.br, spec 006): None é o
+    # acesso direto; "jina" é o desvio (com o número de páginas); "failed" é a
+    # falha de rede, com o motivo.
+    network: Optional[str] = None
+    jina_pages: int = 0
+    network_reason: Optional[str] = None
 
     @property
     def source_returned_nothing(self) -> bool:
@@ -61,6 +68,9 @@ def emit_flow_stats(
     unchanged: int = 0,
     closed: int = 0,
     closing_blocked: bool = False,
+    network: Optional[str] = None,
+    jina_pages: int = 0,
+    network_reason: Optional[str] = None,
 ) -> None:
     """
     Publica as contagens do fluxo no stdout para o runner unificado ler.
@@ -78,7 +88,28 @@ def emit_flow_stats(
         line += f" created={created} updated={updated} unchanged={unchanged} closed={closed}"
     if closing_blocked:
         line += " closing_blocked=1"
+    if network and network != "direct":
+        line += f" network={network}"
+        if network == "jina":
+            line += f" jina_pages={jina_pages}"
+        if network == "failed" and network_reason:
+            line += f" network_reason={network_reason}"
     print(line, flush=True)
+
+
+def network_stats(source) -> dict:
+    """
+    Estado de rede de uma fonte com `fetcher` (www.gov.br, spec 006), pronto para
+    `emit_flow_stats(**...)`. Acesso direto não gera campo nenhum.
+    """
+    fetcher = getattr(source, "fetcher", None)
+    mode = getattr(fetcher, "mode", "direct")
+    if fetcher is None or mode == "direct":
+        return {}
+    stats = {"network": mode, "jina_pages": getattr(fetcher, "jina_pages", 0)}
+    if mode == "failed":
+        stats["network_reason"] = getattr(fetcher, "failure_reason", None)
+    return stats
 
 
 def parse_flow_stats(output: str) -> Optional[FlowStats]:
@@ -111,6 +142,9 @@ def parse_flow_stats(output: str) -> Optional[FlowStats]:
         new_count=new_count,
         deferred_count=deferred_count,
         closing_blocked=match.group(8) is not None,
+        network=match.group(9),
+        jina_pages=int(match.group(10)) if match.group(10) is not None else 0,
+        network_reason=match.group(11),
         **changes,
     )
 

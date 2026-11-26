@@ -3,13 +3,13 @@ import re
 from datetime import datetime
 from typing import Dict, List, Optional, Set
 from urllib.parse import urljoin
-from urllib.request import urlopen
 
+import requests
 from bs4 import BeautifulSoup
-from playwright.sync_api import sync_playwright
 
 from src.core.interfaces import ISource
 from src.domain.models import RawEdital
+from src.components.sources.govbr_fetcher import FetchedDocument, GovBrFetcher
 
 logger = logging.getLogger(__name__)
 
@@ -32,9 +32,9 @@ def _is_pdf_link(url: str) -> bool:
     True para links de documento, não de página.
 
     Só olhar a terminação `.pdf` não basta: o gov.br serve o mesmo arquivo em
-    `…/edital.pdf/@@display-file/file`, e esses escapavam do filtro. O Playwright
-    então tentava navegar para eles e falhava com `Page.goto: Download is
-    starting`, derrubando o item — foi o que zerou a coleta da CAPES.
+    `…/edital.pdf/@@display-file/file`, e esses escapavam do filtro. Quando a
+    fonte usava navegador, ele tentava abrir esses links como página e falhava
+    com `Page.goto: Download is starting`, derrubando o item.
     """
     lowered = url.lower()
     return ".pdf" in lowered or lowered.endswith((".doc", ".docx", ".odt"))
@@ -52,8 +52,13 @@ class CapesSource(ISource[RawEdital]):
         start_url: str = CAPES_EDITAIS_URL,
         processed_urls: Optional[Set[str]] = None,
         current_year: Optional[int] = None,
+        fetcher: Optional[GovBrFetcher] = None,
     ) -> None:
         self.start_url = start_url
+        # A página é HTML estático: não precisa de navegador. Todo acesso ao
+        # www.gov.br passa pelo fetcher, que desvia pelo Jina quando a conexão
+        # direta é recusada (GitHub Actions, issue #7).
+        self.fetcher = fetcher or GovBrFetcher(source_name="CAPES")
         self.processed_urls = processed_urls or set()
         self.current_year = current_year if current_year is not None else datetime.now().year
         # Quantos itens a listagem da origem devolveu, antes da deduplicação e
@@ -163,24 +168,20 @@ class CapesSource(ISource[RawEdital]):
 
         return best_url if best_score > 0 else None
 
-    def _download_file_bytes(self, url: str) -> Optional[bytes]:
+    def _download_main_document(self, url: str) -> FetchedDocument:
+        """O documento principal: bytes no acesso direto, texto pelo Jina."""
         try:
-            with urlopen(url, timeout=30) as response:
-                return response.read()
-        except Exception as exc:
+            return self.fetcher.get_document(url)
+        except requests.RequestException as exc:
             logger.error("Error downloading CAPES file %s: %s", url, exc)
-            return None
+            return FetchedDocument()
 
     def _extract_detail_page(
         self,
-        page,
         detail_url: str,
         fallback_title: str,
     ) -> Optional[RawEdital]:
-        page.goto(detail_url, timeout=60000, wait_until="domcontentloaded")
-        page.wait_for_load_state("networkidle", timeout=20000)
-
-        html = page.content()
+        html = self.fetcher.get_html(detail_url)
         soup = BeautifulSoup(html, "html.parser")
         title_el = soup.find(["h1", "h2"])
         title = title_el.get_text(" ", strip=True) if title_el else fallback_title
@@ -205,43 +206,40 @@ class CapesSource(ISource[RawEdital]):
         )
         if inferred_year is not None and inferred_year < self.current_year:
             return None
-        pdf_content = self._download_file_bytes(main_pdf_url) if main_pdf_url else None
+        document = self._download_main_document(main_pdf_url) if main_pdf_url else FetchedDocument()
 
         return RawEdital(
             title=title or fallback_title,
             url=detail_url,
             raw_agency="CAPES",
             raw_description=description,
-            pdf_content=pdf_content,
+            pdf_content=document.content,
+            pdf_text=document.text,
             raw_tags=["capes"],
             raw_anexos=anexos,
         )
 
     def read(self) -> List[RawEdital]:
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True)
-                page = browser.new_page()
-                page.goto(self.start_url, timeout=60000, wait_until="domcontentloaded")
-                page.wait_for_load_state("networkidle", timeout=20000)
-
-                listing_entries = self._extract_listing_entries(page.content())
-                self.last_listing_count = len(listing_entries)
-                raw_editais: List[RawEdital] = []
-
-                for item in listing_entries:
-                    if item["url"] in self.processed_urls:
-                        continue
-                    try:
-                        raw = self._extract_detail_page(page, item["url"], item["title"])
-                        if raw:
-                            raw_editais.append(raw)
-                    except Exception as exc:
-                        logger.error("Error extracting CAPES detail %s: %s", item["url"], exc)
-
-                browser.close()
-                logger.info("CapesSource extracted %s editais.", len(raw_editais))
-                return raw_editais
-        except Exception as exc:
+            listing_html = self.fetcher.get_html(self.start_url, listing=True)
+        except requests.RequestException as exc:
             logger.error("Error during CAPES extraction: %s", exc)
+            self.last_listing_count = 0
             return []
+
+        listing_entries = self._extract_listing_entries(listing_html)
+        self.last_listing_count = len(listing_entries)
+        raw_editais: List[RawEdital] = []
+
+        for item in listing_entries:
+            if item["url"] in self.processed_urls:
+                continue
+            try:
+                raw = self._extract_detail_page(item["url"], item["title"])
+                if raw:
+                    raw_editais.append(raw)
+            except Exception as exc:
+                logger.error("Error extracting CAPES detail %s: %s", item["url"], exc)
+
+        logger.info("CapesSource extracted %s editais.", len(raw_editais))
+        return raw_editais

@@ -9,6 +9,10 @@ class RawEdital:
     raw_agency: Optional[str] = None
     raw_description: Optional[str] = None
     pdf_content: Optional[bytes] = None
+    # Texto do documento principal quando ele não veio como arquivo: o www.gov.br
+    # recusa o GitHub e o desvio pelo Jina devolve o PDF já como texto (spec 006).
+    # No máximo um dos dois vem preenchido.
+    pdf_text: Optional[str] = None
     document_type: str = "edital"  # edital, anexo, alteração, desconhecido
     group_id: Optional[str] = None
     is_main: bool = True

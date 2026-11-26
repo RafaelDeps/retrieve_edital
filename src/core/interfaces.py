@@ -75,6 +75,14 @@ class IExtractionService(ABC):
         """
 
     @abstractmethod
+    def extract_from_text(self, text: str, filename: str) -> Any:
+        """
+        Same as `extract_from_pdf`, for a document that already arrived as text
+        (the gov.br detour through the Jina Reader). Empty text returns `None`
+        without calling the AI.
+        """
+
+    @abstractmethod
     def classify_document_titles(self, titles: List[str]) -> Dict[str, str]:
         """Maps each title to "edital", "anexo" or "alteração". Never raises."""
 
