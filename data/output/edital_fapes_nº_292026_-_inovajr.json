@@ -5,7 +5,7 @@
     "categoria": "inovação",
     "status": "aberto",
     "data_abertura": "2027-06-01",
-    "data_encerramento": "2027-06-01",
+    "data_encerramento": "",
     "link": "https://fapes.es.gov.br/media/Editais/edital_fapes_n_29-2026_-_programa_inovajr_-_lancamento.pdf?v=1793993618000",
     "cronograma": [
         {
@@ -79,5 +79,10 @@
     "ambito_geografico": "estadual-ES",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "fapes"
+    "fonte_key": "fapes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Resultado preliminar da seleção dos desafios",
+        "data": "2026-12-30"
+    }
 }

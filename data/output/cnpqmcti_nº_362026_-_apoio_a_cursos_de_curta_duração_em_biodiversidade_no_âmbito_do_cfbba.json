@@ -71,5 +71,10 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "cnpq"
+    "fonte_key": "cnpq",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Prazo para envio de propostas",
+        "data": "2027-02-12"
+    }
 }

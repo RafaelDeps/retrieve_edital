@@ -48,5 +48,10 @@
     "ambito_geografico": "estadual-ES",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "fapes"
+    "fonte_key": "fapes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Prazo para envio de dúvidas sobre o edital",
+        "data": "2026-11-26"
+    }
 }
