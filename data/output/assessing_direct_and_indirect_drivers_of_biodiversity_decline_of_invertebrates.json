@@ -1,6 +1,6 @@
 {
     "nome": "ASSESSING DIRECT AND INDIRECT DRIVERS OF BIODIVERSITY DECLINE OF INVERTEBRATES",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Biodiversity and Natural Resources; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-01.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-01.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,10 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Biodiversity and Natural Resources",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
         "Global Challenges and European Industrial Competitiveness",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources",
+        "Horizon Europe (HORIZON)",
         "Biodiversity characterisation",
         "Biodiversity conservation",
         "Causes and mechanisms of loss",
@@ -36,7 +37,13 @@
         "Soil biodiversity",
         "Sustainable development and nature protection"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46792?topic=HORIZON-NATURE-2027-02-01",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

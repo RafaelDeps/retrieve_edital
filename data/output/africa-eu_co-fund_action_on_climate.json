@@ -25,7 +25,13 @@
         "Climate, Energy and Mobility",
         "Climate Science and Solutions"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Programme Cofund Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47851?topic=HORIZON-CL5-2027-01-D1-11",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

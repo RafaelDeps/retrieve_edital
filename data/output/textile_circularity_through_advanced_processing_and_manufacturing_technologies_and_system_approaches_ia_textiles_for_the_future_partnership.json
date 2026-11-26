@@ -4,13 +4,13 @@
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
-    "data_abertura": "2026-09-22",
+    "data_abertura": "2026-10-13",
     "data_encerramento": "2027-02-02",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL4-2027-01-MAT-PROD-08",
     "cronograma": [
         {
             "evento": "Abertura das inscrições",
-            "data": "2026-09-22"
+            "data": "2026-10-13"
         },
         {
             "evento": "Prazo para envio de propostas",
@@ -24,7 +24,13 @@
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46825?topic=HORIZON-CL4-2027-01-MAT-PROD-08",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

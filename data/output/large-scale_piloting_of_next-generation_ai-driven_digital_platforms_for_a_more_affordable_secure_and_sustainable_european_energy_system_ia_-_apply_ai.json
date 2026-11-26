@@ -1,6 +1,6 @@
 {
     "nome": "LARGE-SCALE PILOTING OF NEXT-GENERATION AI-DRIVEN DIGITAL PLATFORMS FOR A MORE AFFORDABLE, SECURE AND SUSTAINABLE EUROPEAN ENERGY SYSTEM (IA) - APPLY AI",
-    "descrição": "Chamada: Bridging actions 2027. Área: Digital, Industry and Space; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-12.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-12.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,9 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Digital, Industry and Space",
-        "Global Challenges and European Industrial Competitiveness",
         "Horizon Europe (HORIZON)",
+        "Global Challenges and European Industrial Competitiveness",
+        "Digital, Industry and Space",
         "Artificial intelligence, intelligent systems, multi agent systems",
         "Cyber-physical systems",
         "Energy end-use efficiency and energy services",
@@ -39,7 +39,13 @@
         "Sustainable energy communities",
         "Systems engineering, sensorics, actorics, automation"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47092?topic=HORIZON-BRIDGING-2027-01-12",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

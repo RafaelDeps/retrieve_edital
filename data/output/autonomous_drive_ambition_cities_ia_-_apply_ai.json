@@ -1,6 +1,6 @@
 {
     "nome": "AUTONOMOUS DRIVE AMBITION CITIES (IA) - APPLY AI",
-    "descrição": "Chamada: Bridging actions 2027. Área: Climate, Energy and Mobility; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-10.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-10.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,9 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Climate, Energy and Mobility",
-        "Global Challenges and European Industrial Competitiveness",
         "Horizon Europe (HORIZON)",
+        "Global Challenges and European Industrial Competitiveness",
+        "Climate, Energy and Mobility",
         "Artificial intelligence, intelligent systems, multi agent systems",
         "Cyber-physical systems",
         "Energy end-use efficiency and energy services",
@@ -35,7 +35,13 @@
         "Renewable electricity",
         "Systems engineering, sensorics, actorics, automation"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47091?topic=HORIZON-BRIDGING-2027-01-10",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

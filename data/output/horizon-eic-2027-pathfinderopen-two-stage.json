@@ -1,6 +1,6 @@
 {
     "nome": "HORIZON-EIC-2027-PATHFINDEROPEN-TWO-STAGE",
-    "descrição": "Chamada: EIC PATHFINDER 2027. Área: The European Innovation Council (EIC); Innovative Europe; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-EIC-2027-PATHFINDEROPEN-two-stage.",
+    "descrição": "Chamada: EIC PATHFINDER 2027. Área: Innovative Europe; The European Innovation Council (EIC); Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-EIC-2027-PATHFINDEROPEN-two-stage.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "inovação",
     "status": "aberto",
@@ -24,12 +24,18 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Innovative Europe",
         "eic",
         "The European Innovation Council (EIC)",
-        "Innovative Europe",
         "Horizon Europe (HORIZON)"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON EIC Grants",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47710?topic=HORIZON-EIC-2027-PATHFINDEROPEN-two-stage",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

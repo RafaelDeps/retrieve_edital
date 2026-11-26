@@ -1,30 +1,30 @@
 {
     "nome": "PERSONALISED APPROACHES TO REDUCE RISKS FROM ADVERSE DRUG REACTIONS DUE TO ADMINISTRATION OF MULTIPLE MEDICATIONS",
-    "descrição": "Chamada: Cluster 1 - Health (Single stage - 2027/1). Área: Global Challenges and European Industrial Competitiveness; Health; Tools, Technologies and Digital Solutions for Health and Care, including personalised medicine; Health Care Systems; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-HLTH-2027-01-CARE-02.",
+    "descrição": "Chamada: Cluster 1 - Health (Single stage - 2027/1). Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Health; Tools, Technologies and Digital Solutions for Health and Care, including personalised medicine; Health Care Systems. Identificador da chamada no Funding & Tenders Portal: HORIZON-HLTH-2027-01-CARE-02.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
-    "data_abertura": "2027-02-10",
-    "data_encerramento": "2027-04-13",
+    "data_abertura": "2026-10-29",
+    "data_encerramento": "2027-02-17",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-HLTH-2027-01-CARE-02",
     "cronograma": [
         {
             "evento": "Abertura das inscrições",
-            "data": "2027-02-10"
+            "data": "2026-10-29"
         },
         {
             "evento": "Prazo para envio de propostas",
-            "data": "2027-04-13"
+            "data": "2027-02-17"
         }
     ],
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Health",
         "Tools, Technologies and Digital Solutions for Health and Care, including personalised medicine",
         "Health Care Systems",
-        "Horizon Europe (HORIZON)",
         "Biobanks",
         "Clinical Pharmacology",
         "Co-morbidity",
@@ -34,7 +34,13 @@
         "Pharmacovigilance",
         "Tertiary prevention"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47201?topic=HORIZON-HLTH-2027-01-CARE-02",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",
@@ -46,7 +52,7 @@
     "fonte_key": "horizon",
     "chamadas": [],
     "proxima_etapa": {
-        "evento": "Abertura das inscrições",
-        "data": "2027-02-10"
+        "evento": "Prazo para envio de propostas",
+        "data": "2027-02-17"
     }
 }

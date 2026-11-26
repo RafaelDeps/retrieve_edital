@@ -1,6 +1,6 @@
 {
     "nome": "EU AI MEDIA PLATFORM – MODULAR MULTILINGUAL PUBLIC-INTEREST INFRASTRUCTURE FOR EUROPEAN NEWS AND AUDIOVISUAL MEDIA (IA) - APPLY AI",
-    "descrição": "Chamada: Bridging actions 2027. Área: Culture, creativity and inclusive society; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-09.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Culture, creativity and inclusive society. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-09.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,16 +20,22 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Culture, creativity and inclusive society",
-        "Global Challenges and European Industrial Competitiveness",
         "Horizon Europe (HORIZON)",
+        "Global Challenges and European Industrial Competitiveness",
+        "Culture, creativity and inclusive society",
         "Artificial intelligence, intelligent systems, multi agent systems",
         "Communication networks, media, information society",
         "Journalism",
         "Media and communication strategies, campaigns, outreach activities",
         "Multilingualism, language diversity"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47090?topic=HORIZON-BRIDGING-2027-01-09",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

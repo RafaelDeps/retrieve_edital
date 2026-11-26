@@ -1,6 +1,6 @@
 {
     "nome": "ENERGY EFFICIENCY AND SUSTAINABILITY OF AI DATA PROCESSING IN DATA CENTRES (IA)",
-    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Artificial Intelligence and Robotics; Advanced Computing and Big Data; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-09.",
+    "descrição": "Chamada: DIGITAL. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Artificial Intelligence and Robotics; Advanced Computing and Big Data. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-09.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,14 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space",
         "Artificial Intelligence and Robotics",
         "Advanced Computing and Big Data",
-        "Horizon Europe (HORIZON)",
         "Computer sciences, information science and bioinformatics"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47654?topic=HORIZON-CL4-2027-04-DATA-09",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

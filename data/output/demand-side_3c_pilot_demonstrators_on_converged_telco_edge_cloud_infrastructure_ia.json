@@ -1,6 +1,6 @@
 {
     "nome": "DEMAND-SIDE 3C PILOT DEMONSTRATORS ON CONVERGED TELCO EDGE CLOUD INFRASTRUCTURE (IA)",
-    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Artificial Intelligence and Robotics; Next Generation Internet; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-08.",
+    "descrição": "Chamada: DIGITAL. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Key Digital Technologies; Artificial Intelligence and Robotics; Next Generation Internet. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-08.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,15 +20,21 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space",
         "Key Digital Technologies",
         "Artificial Intelligence and Robotics",
         "Next Generation Internet",
-        "Horizon Europe (HORIZON)",
         "Communication engineering and systems telecommunications"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47653?topic=HORIZON-CL4-2027-04-DATA-08",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

@@ -1,6 +1,6 @@
 {
     "nome": "BETTER UNDERSTANDING, ANTICIPATING AND ADDRESSING THE BIODIVERSITY BENEFITS AND IMPACTS OF THE CLEAN AND DIGITAL INDUSTRIES",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Digital, Industry and Space; Biodiversity and Natural Resources; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON); Food, Bioeconomy Natural Resources, Agriculture and Environment. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-01-02.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-01-02.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,13 +20,19 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Digital, Industry and Space",
-        "Biodiversity and Natural Resources",
-        "Global Challenges and European Industrial Competitiveness",
         "Horizon Europe (HORIZON)",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment"
+        "Global Challenges and European Industrial Competitiveness",
+        "Digital, Industry and Space",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46811?topic=HORIZON-NATURE-2027-01-02",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

@@ -26,7 +26,13 @@
         "Key Digital Technologies",
         "Artificial intelligence, intelligent systems, multi agent systems"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47656?topic=HORIZON-CL4-2027-04-DIGITAL-EMERGING-06",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

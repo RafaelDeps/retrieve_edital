@@ -1,6 +1,6 @@
 {
     "nome": "EXCELLENCE HUBS",
-    "descrição": "Área: Widening participation and spreading excellence; Widening Participation and Strengthening the European Research Area; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-WIDERA-2027-04-WIDENING-01.",
+    "descrição": "Área: Widening Participation and Strengthening the European Research Area; Widening participation and spreading excellence; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-WIDERA-2027-04-WIDENING-01.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,11 +20,17 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Widening participation and spreading excellence",
         "Widening Participation and Strengthening the European Research Area",
+        "Widening participation and spreading excellence",
         "Horizon Europe (HORIZON)"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/45431?topic=HORIZON-WIDERA-2027-04-WIDENING-01",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

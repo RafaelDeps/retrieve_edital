@@ -26,7 +26,13 @@
         "Key Digital Technologies",
         "Computer graphics, computer vision, multi media, computer games"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47651?topic=HORIZON-CL4-2027-04-HUMAN-02",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

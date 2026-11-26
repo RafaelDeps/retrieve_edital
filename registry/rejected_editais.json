@@ -229,6 +229,53 @@
       "valida_ate": "2026-12-01"
     }
   },
+  "horizon": {
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-01": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-02": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-03": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-04": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-CHALLENGES-05": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-2025-ACCELERATOR-02-OPEN-01": {
+      "motivo": "prazo encerrado em 2025-10-01",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-PATHFINDERCHALLENGES-01-01": {
+      "motivo": "prazo encerrado em 2026-10-28",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-PATHFINDERCHALLENGES-01-02": {
+      "motivo": "prazo encerrado em 2026-10-28",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    },
+    "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-EIC-PATHFINDERCHALLENGES-01-03": {
+      "motivo": "prazo encerrado em 2026-10-28",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    }
+  },
   "proex_ifes": {
     "https://agifes.ifes.edu.br/wp-content/uploads/2026/03/Edital-Premio-Assistec-Inova-EPT-Edital-No-04.2026-1.pdf": {
       "motivo": "prazo encerrado em 2026-03-31",

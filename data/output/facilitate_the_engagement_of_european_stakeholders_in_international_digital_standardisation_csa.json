@@ -27,7 +27,13 @@
         "Artificial intelligence, intelligent systems, multi agent systems",
         "Computer graphics, computer vision, multi media, computer games"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47652?topic=HORIZON-CL4-2027-04-HUMAN-07",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

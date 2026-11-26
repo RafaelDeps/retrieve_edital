@@ -1,6 +1,6 @@
 {
     "nome": "EU FRONTIER AI INITIATIVE: ADVANCED SCALING FRAMEWORKS FOR HIGH-PERFORMANCE AI MODELS (RIA) - APPLY AI",
-    "descrição": "Chamada: Bridging actions 2027. Área: Digital, Industry and Space; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-13.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-01-13.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,15 +20,21 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Digital, Industry and Space",
-        "Global Challenges and European Industrial Competitiveness",
         "Horizon Europe (HORIZON)",
+        "Global Challenges and European Industrial Competitiveness",
+        "Digital, Industry and Space",
         "Algorithms, distributed, parallel and network algorithms, algorithmic game theory",
         "Artificial intelligence, intelligent systems, multi agent systems",
         "High performance computing",
         "Machine learning, statistical data processing and applications using signal processing (e.g. speech, image, video)"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47093?topic=HORIZON-BRIDGING-2027-01-13",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

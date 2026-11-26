@@ -1,6 +1,6 @@
 {
     "nome": "NEW APPROACHES FOR DECENTRALIZED, FEDERATED AND SUSTAINABLE AI DATA PROCESSING (RIA)",
-    "descrição": "Chamada: DIGITAL. Área: Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Artificial Intelligence and Robotics; Advanced Computing and Big Data; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-03.",
+    "descrição": "Chamada: DIGITAL. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Digital, Industry and Space; Artificial Intelligence and Robotics; Advanced Computing and Big Data. Identificador da chamada no Funding & Tenders Portal: HORIZON-CL4-2027-04-DATA-03.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,14 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
         "Digital, Industry and Space",
         "Artificial Intelligence and Robotics",
         "Advanced Computing and Big Data",
-        "Horizon Europe (HORIZON)",
         "Computer sciences, information science and bioinformatics"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47657?topic=HORIZON-CL4-2027-04-DATA-03",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

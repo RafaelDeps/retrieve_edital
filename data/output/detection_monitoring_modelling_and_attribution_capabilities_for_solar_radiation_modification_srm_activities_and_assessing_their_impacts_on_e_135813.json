@@ -1,6 +1,6 @@
 {
     "nome": "DETECTION, MONITORING, MODELLING, AND ATTRIBUTION CAPABILITIES FOR SOLAR RADIATION MODIFICATION (SRM) ACTIVITIES AND ASSESSING THEIR IMPACTS ON EARTH'S CLIMATE AND ECOSYSTEMS",
-    "descrição": "Chamada: Bridging actions 2027. Área: Climate Science and Solutions; Biodiversity and Natural Resources; Climate, Energy and Mobility; Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-04-11.",
+    "descrição": "Chamada: Bridging actions 2027. Área: Horizon Europe (HORIZON); Global Challenges and European Industrial Competitiveness; Climate, Energy and Mobility; Climate Science and Solutions; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources. Identificador da chamada no Funding & Tenders Portal: HORIZON-BRIDGING-2027-04-11.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,13 +20,20 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Climate Science and Solutions",
-        "Biodiversity and Natural Resources",
-        "Climate, Energy and Mobility",
+        "Horizon Europe (HORIZON)",
         "Global Challenges and European Industrial Competitiveness",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment"
+        "Climate, Energy and Mobility",
+        "Climate Science and Solutions",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON  Research and Innovation Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/47456?topic=HORIZON-BRIDGING-2027-04-11",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

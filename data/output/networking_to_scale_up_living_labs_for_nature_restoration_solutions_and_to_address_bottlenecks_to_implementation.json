@@ -1,6 +1,6 @@
 {
     "nome": "NETWORKING TO SCALE UP LIVING LABS FOR NATURE RESTORATION SOLUTIONS AND TO ADDRESS BOTTLENECKS TO IMPLEMENTATION",
-    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Biodiversity and Natural Resources; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness. Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-03.",
+    "descrição": "Chamada: Transformative change towards a nature-positive economy and society. Área: Global Challenges and European Industrial Competitiveness; Food, Bioeconomy Natural Resources, Agriculture and Environment; Biodiversity and Natural Resources; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-NATURE-2027-02-03.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -20,9 +20,10 @@
     "tags": [
         "horizon europe",
         "internacional",
-        "Biodiversity and Natural Resources",
-        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
         "Global Challenges and European Industrial Competitiveness",
+        "Food, Bioeconomy Natural Resources, Agriculture and Environment",
+        "Biodiversity and Natural Resources",
+        "Horizon Europe (HORIZON)",
         "Agriculture",
         "Agrobiodiversity",
         "Agroecology",
@@ -56,7 +57,13 @@
         "Sustainable development and nature protection",
         "Water resources"
     ],
-    "anexos": [],
+    "anexos": [
+        {
+            "titulo": "HORIZON Coordination and Support Actions",
+            "link": "https://ec.europa.eu/research/participants/submission/manage/screen/submission/create-draft/46790?topic=HORIZON-NATURE-2027-02-03",
+            "tipo": "link"
+        }
+    ],
     "modalidade": "",
     "publico_alvo": [
         "pesquisador",

@@ -5,7 +5,7 @@
     "categoria": "pesquisa",
     "status": "aberto",
     "data_abertura": "2027-06-03",
-    "data_encerramento": "2027-09-22",
+    "data_encerramento": "2027-09-16",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-HLTH-2027-03-TOOL-04",
     "cronograma": [
         {
@@ -14,7 +14,7 @@
         },
         {
             "evento": "Prazo para envio de propostas",
-            "data": "2027-09-22"
+            "data": "2027-09-16"
         }
     ],
     "tags": [
