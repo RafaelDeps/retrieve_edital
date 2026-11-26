@@ -39,5 +39,10 @@
     "ambito_geografico": "internacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "horizon"
+    "fonte_key": "horizon",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Prazo da fase 1",
+        "data": "2027-02-25"
+    }
 }

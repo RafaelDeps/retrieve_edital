@@ -45,5 +45,10 @@
     "ambito_geografico": "estadual-ES",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "prppg_ifes"
+    "fonte_key": "prppg_ifes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "fim do período do edital",
+        "data": "2026-11-30"
+    }
 }

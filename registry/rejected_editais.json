@@ -106,6 +106,13 @@
       "valida_ate": "2026-12-01"
     }
   },
+  "comunidade": {
+    "https://www.banestes.com.br/publicacoes_legais/concurso2026.htm": {
+      "motivo": "fora do tema: concurso público",
+      "recusado_em": "2026-11-26",
+      "valida_ate": "2026-12-03"
+    }
+  },
   "conif": {
     "https://portal.conif.org.br/editais/2026/edital-5-curso-virtual-de-espanhol-anuies": {
       "motivo": "prazo encerrado em 2026-07-03",
