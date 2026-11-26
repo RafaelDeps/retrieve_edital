@@ -74,5 +74,10 @@
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
-    "fonte_key": "cnpq"
+    "fonte_key": "cnpq",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Prazo para impugnação da Chamada",
+        "data": "2026-11-30"
+    }
 }
