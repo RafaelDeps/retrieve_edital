@@ -1,0 +1,26 @@
+{
+ "nome": "CHAMADA ENCERRADA",
+ "descrição": "Química.",
+ "orgão_fomento": "CNPQ",
+ "categoria": "pesquisa",
+ "status": "encerrado",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2026-10-01",
+ "link": "https://exemplo/cnpq_encerrado",
+ "cronograma": [],
+ "tags": [],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "cnpq",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "",
+  "areas_conhecimento": [],
+  "requisitos_resumo": ""
+ }
+}

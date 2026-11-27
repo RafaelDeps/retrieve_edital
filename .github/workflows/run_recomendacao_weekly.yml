@@ -1,0 +1,59 @@
+name: Weekly Recommendations
+
+# Spec 012: toda segunda (08:00 de Brasília) recomenda editais a professores do
+# campus no grupo do Telegram. Professores do Horizon ETL (arquivo público), editais
+# de data/output/. Sem TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID roda em modo prévia.
+on:
+  schedule:
+    - cron: "0 11 * * 1"
+  workflow_dispatch:
+
+# Mesmo grupo dos workflows de coleta: nunca dois commits de dados ao mesmo tempo.
+concurrency:
+  group: data-commit-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  recommend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Recommend editais to professors
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        RECOMENDACAO_CAMPUS: ${{ vars.RECOMENDACAO_CAMPUS || 'Serra' }}
+      run: python -m src.flows.recommend_flow
+
+    - name: Commit recommendation state
+      # Roda mesmo com falha no envio: o cache de vetores e a cópia do Horizon
+      # continuam úteis. O índice de enviados só muda quando o envio deu certo.
+      if: ${{ !cancelled() }}
+      run: |
+        set -euo pipefail
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        for f in registry/recomendacoes_enviadas.json registry/embeddings_cache.json registry/horizon_researchers_serra.json; do
+          if [ -f "$f" ]; then git add -- "$f"; fi
+        done
+        if git diff --staged --quiet; then
+          echo "Nada a commitar."
+          exit 0
+        fi
+        git commit -m "chore: atualiza estado da recomendação semanal [skip ci]"
+        git pull --rebase origin "$GITHUB_REF_NAME"
+        git push origin "HEAD:$GITHUB_REF_NAME"

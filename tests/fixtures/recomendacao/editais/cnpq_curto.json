@@ -1,0 +1,26 @@
+{
+ "nome": "CHAMADA CNPQ QUE FECHA LOGO",
+ "descrição": "Pesquisa em inteligência artificial.",
+ "orgão_fomento": "CNPQ",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2026-12-02",
+ "link": "https://exemplo/cnpq_curto",
+ "cronograma": [],
+ "tags": [],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "cnpq",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "doutorado",
+  "areas_conhecimento": [],
+  "requisitos_resumo": ""
+ }
+}

@@ -1,0 +1,222 @@
+[
+ {
+  "name": "Ana Souza",
+  "campus": {
+   "id": 10,
+   "name": "Serra"
+  },
+  "resume": "Pesquisadora em sociologia da violência de gênero.",
+  "academic_education": [
+   {
+    "institution": "UFES",
+    "degree": "Graduação",
+    "course_name": "Ciências Sociais",
+    "start_year": 2001,
+    "end_year": 2005
+   },
+   {
+    "institution": "UFES",
+    "degree": "Doutorado",
+    "course_name": "Sociologia",
+    "start_year": 2010,
+    "end_year": 2014
+   }
+  ],
+  "articles": [
+   {
+    "title": "Violência doméstica e políticas públicas no Espírito Santo",
+    "year": 2024
+   }
+  ],
+  "initiatives": [
+   {
+    "name": "Observatório da violência de gênero no ES"
+   }
+  ],
+  "research_groups": [
+   {
+    "name": "Estudos de Gênero"
+   }
+  ],
+  "knowledge_areas": [
+   {
+    "name": "Sociologia"
+   }
+  ],
+  "advisorships": []
+ },
+ {
+  "name": "Bruno Lima",
+  "campus": {
+   "id": 10,
+   "name": "Serra"
+  },
+  "resume": "Pesquisa em inteligência artificial e aprendizado de máquina.",
+  "academic_education": [
+   {
+    "institution": "UFES",
+    "degree": "Mestrado",
+    "course_name": "Informática",
+    "start_year": 2006,
+    "end_year": 2010
+   },
+   {
+    "institution": "UFES",
+    "degree": "Doutorado",
+    "course_name": "Ciência da Computação",
+    "start_year": 2012,
+    "end_year": 2016
+   }
+  ],
+  "articles": [
+   {
+    "title": "Deep learning for intrusion detection",
+    "year": 2025
+   }
+  ],
+  "initiatives": [
+   {
+    "name": "Inteligência artificial aplicada à cibersegurança"
+   }
+  ],
+  "research_groups": [
+   {
+    "name": "Laboratório de IA"
+   }
+  ],
+  "knowledge_areas": [
+   {
+    "name": "Inteligência artificial"
+   }
+  ],
+  "advisorships": [
+   {
+    "name": "Redes neurais para detecção de fraudes"
+   }
+  ]
+ },
+ {
+  "name": "Carla Mendes",
+  "campus": {
+   "id": 10,
+   "name": "Serra"
+  },
+  "resume": "Engenheira eletricista, pesquisa em energia renovável e smart grids.",
+  "academic_education": [
+   {
+    "institution": "UFES",
+    "degree": "Graduação",
+    "course_name": "Engenharia Elétrica",
+    "start_year": 2004,
+    "end_year": 2008
+   },
+   {
+    "institution": "UFES",
+    "degree": "Mestrado",
+    "course_name": "Engenharia Elétrica",
+    "start_year": 2008,
+    "end_year": 2012
+   }
+  ],
+  "articles": [],
+  "initiatives": [
+   {
+    "name": "Energia solar fotovoltaica em prédios públicos"
+   }
+  ],
+  "research_groups": [
+   {
+    "name": "Grupo de Energia"
+   }
+  ],
+  "knowledge_areas": [
+   {
+    "name": "Energia renovável"
+   }
+  ],
+  "advisorships": []
+ },
+ {
+  "name": "Diego Rocha",
+  "campus": {
+   "id": 10,
+   "name": "Serra"
+  },
+  "resume": null,
+  "academic_education": [],
+  "articles": [],
+  "initiatives": [
+   {
+    "name": "Cultivo de café conilon com manejo sustentável"
+   }
+  ],
+  "research_groups": [
+   {
+    "name": "Agronomia e Agroecologia"
+   }
+  ],
+  "knowledge_areas": [
+   {
+    "name": "Agronomia"
+   }
+  ],
+  "advisorships": []
+ },
+ {
+  "name": "Elisa Prado",
+  "campus": {
+   "id": 10,
+   "name": "Serra"
+  },
+  "resume": "Química analítica e materiais.",
+  "academic_education": [
+   {
+    "institution": "UFES",
+    "degree": "Doutorado",
+    "course_name": "Química",
+    "start_year": 2007,
+    "end_year": 2011
+   }
+  ],
+  "articles": [
+   {
+    "title": "Nanomateriais para catálise",
+    "year": 2023
+   }
+  ],
+  "initiatives": [],
+  "research_groups": [
+   {
+    "name": "Química de Materiais"
+   }
+  ],
+  "knowledge_areas": [
+   {
+    "name": "Química"
+   }
+  ],
+  "advisorships": []
+ },
+ {
+  "name": "Fábio Outro",
+  "campus": {
+   "id": 2,
+   "name": "Vitória"
+  },
+  "resume": "Pesquisa em violência de gênero.",
+  "academic_education": [
+   {
+    "institution": "UFES",
+    "degree": "Doutorado",
+    "course_name": "Sociologia",
+    "start_year": 2006,
+    "end_year": 2010
+   }
+  ],
+  "articles": [],
+  "initiatives": [],
+  "research_groups": [],
+  "knowledge_areas": [],
+  "advisorships": []
+ }
+]

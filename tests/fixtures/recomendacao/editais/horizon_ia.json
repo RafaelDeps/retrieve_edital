@@ -1,0 +1,30 @@
+{
+ "nome": "ARTIFICIAL INTELLIGENCE FOR CYBERSECURITY",
+ "descrição": "Chamada: Horizon Europe. Cybersecurity.",
+ "orgão_fomento": "HORIZON",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2027-02-10",
+ "link": "https://exemplo/horizon_ia",
+ "cronograma": [],
+ "tags": [
+  "cybersecurity"
+ ],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "horizon",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "",
+  "areas_conhecimento": [
+   "Engenharias"
+  ],
+  "requisitos_resumo": ""
+ }
+}

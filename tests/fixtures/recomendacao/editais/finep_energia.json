@@ -1,0 +1,24 @@
+{
+ "nome": "FINEP ENERGIA RENOVÁVEL",
+ "descrição": "Inovação em energia solar e renovável.",
+ "orgão_fomento": "FINEP",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2027-01-10",
+ "link": "https://exemplo/finep_energia",
+ "cronograma": [],
+ "tags": [
+  "energia"
+ ],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "finep",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": null
+}

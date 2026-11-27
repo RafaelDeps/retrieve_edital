@@ -1,0 +1,31 @@
+{
+ "nome": "CHAMADA CNPQ Nº 38/2026 - VIOLÊNCIA DE GÊNERO",
+ "descrição": "Pesquisas sobre violência de gênero contra as mulheres.",
+ "orgão_fomento": "CNPQ",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2026-12-20",
+ "link": "https://exemplo/cnpq_genero",
+ "cronograma": [],
+ "tags": [
+  "gênero",
+  "violência"
+ ],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "cnpq",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "doutorado",
+  "areas_conhecimento": [
+   "Ciências Humanas"
+  ],
+  "requisitos_resumo": ""
+ }
+}

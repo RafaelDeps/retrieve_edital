@@ -1,0 +1,28 @@
+{
+ "nome": "FAPES FLUXO CONTÍNUO CAFÉ",
+ "descrição": "Apoio à cafeicultura sustentável.",
+ "orgão_fomento": "FAPES",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "",
+ "link": "https://exemplo/fapes_continuo",
+ "cronograma": [],
+ "tags": [
+  "café"
+ ],
+ "anexos": [],
+ "modalidade": "fluxo-contínuo",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "fapes",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "",
+  "areas_conhecimento": [],
+  "requisitos_resumo": ""
+ }
+}

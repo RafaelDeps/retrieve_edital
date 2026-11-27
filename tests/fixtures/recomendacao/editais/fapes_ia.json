@@ -1,0 +1,30 @@
+{
+ "nome": "EDITAL FAPES Nº 40/2026 - INTELIGÊNCIA ARTIFICIAL",
+ "descrição": "Projetos de inteligência artificial aplicada.",
+ "orgão_fomento": "FAPES",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2026-12-15",
+ "link": "https://exemplo/fapes_ia",
+ "cronograma": [],
+ "tags": [
+  "inteligência artificial"
+ ],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "fapes",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "mestrado",
+  "areas_conhecimento": [
+   "Ciências Exatas e da Terra"
+  ],
+  "requisitos_resumo": ""
+ }
+}

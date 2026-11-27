@@ -78,6 +78,11 @@ grandes áreas do CNPq e um resumo dos requisitos, e `publico_alvo` no vocabulá
 da recomendação pelo Lattes. A releitura diária completa os abertos que ainda não têm elegibilidade
 (`RELEITURA_ELEGIBILIDADE_MAX`).
 
+**Recomendação semanal no Telegram (spec 012)**: toda segunda, o workflow `run_recomendacao_weekly.yml`
+manda a um grupo do Telegram os editais abertos ainda não recomendados, cada um com até 5 professores do
+campus Serra (dados do Horizon ETL) e o motivo. Sem `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID`, só mostra a
+prévia no log. Ver [docs/recomendacao_telegram.md](docs/recomendacao_telegram.md).
+
 Variável opcional para FINEP: **`REFERENCE_YEAR`** (ano de referência para filtrar por prazo de envio). Ver [docs/finep_source.md](docs/finep_source.md) e `.env.example`.
 
 ## O que foi modificado / novidades

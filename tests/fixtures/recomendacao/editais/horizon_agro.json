@@ -1,0 +1,30 @@
+{
+ "nome": "SUSTAINABLE COFFEE AGRICULTURE",
+ "descrição": "Chamada: Horizon Europe. Agriculture.",
+ "orgão_fomento": "HORIZON",
+ "categoria": "pesquisa",
+ "status": "aberto",
+ "data_abertura": "2026-11-01",
+ "data_encerramento": "2027-03-01",
+ "link": "https://exemplo/horizon_agro",
+ "cronograma": [],
+ "tags": [
+  "agriculture"
+ ],
+ "anexos": [],
+ "modalidade": "",
+ "publico_alvo": [],
+ "ambito_geografico": "",
+ "valor_estimado": null,
+ "trl_exigido": "",
+ "fonte_key": "horizon",
+ "chamadas": [],
+ "proxima_etapa": null,
+ "elegibilidade": {
+  "titulacao_minima": "",
+  "areas_conhecimento": [
+   "Ciências Agrárias"
+  ],
+  "requisitos_resumo": ""
+ }
+}
