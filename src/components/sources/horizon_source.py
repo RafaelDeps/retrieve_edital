@@ -435,10 +435,11 @@ class HorizonSource(ISource[RawEdital]):
     @staticmethod
     def _publico_alvo_of(item: Dict[str, Any]) -> List[str]:
         """
-        Toda chamada do Horizon interessa a pesquisador e é internacional. As do
-        EIC financiam inovação empresarial, então incluem empresa.
+        Toda chamada do Horizon interessa a pesquisador. As do EIC financiam
+        inovação empresarial, então incluem empresa. "Internacional" é âmbito
+        (`ambito_geografico`), não público (spec 011).
         """
-        publico = ["pesquisador", "internacional"]
+        publico = ["pesquisador"]
         for division in _divisions_of(item):
             if _abbreviation_of(division).startswith(EIC_DIVISION_PREFIX):
                 publico.append("empresa")

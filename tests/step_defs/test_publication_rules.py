@@ -477,15 +477,24 @@ class TestCamposDeFonte:
         edital = build_edital(orgão_fomento="AGÊNCIA NOVA")
         assert publication_rules.resolve_ambito_geografico(edital, build_raw()) == ""
 
-    def test_publico_alvo_so_com_o_que_a_origem_declara(self):
-        raw = build_raw(raw_publico_alvo=["empresa", "ict-empresa"])
-        assert publication_rules.resolve_publico_alvo(build_edital(), raw) == [
-            "empresa",
-            "ict-empresa",
-        ]
+    def test_publico_alvo_da_origem_convertido_ao_vocabulario_novo(self):
+        """Spec 011: o vocabulário antigo da origem é convertido."""
+        raw = build_raw(raw_publico_alvo=["empresa", "ict-empresa", "internacional"])
+        assert publication_rules.resolve_publico_alvo(build_edital(), raw) == ["empresa", "ict"]
 
-    def test_publico_alvo_vazio_quando_a_origem_nao_informa(self):
-        """Inferir do texto produziria rótulo plausível e não verificável."""
+    def test_publico_alvo_da_origem_vence_o_lido_no_documento(self):
+        edital = build_edital()
+        edital.publico_alvo = ["docente"]
+        raw = build_raw(raw_publico_alvo=["pesquisador"])
+        assert publication_rules.resolve_publico_alvo(edital, raw) == ["pesquisador"]
+
+    def test_publico_alvo_lido_no_documento_sem_declaracao_da_origem(self):
+        """Spec 011: sem declaração da origem, vale o que a IA leu no edital."""
+        edital = build_edital()
+        edital.publico_alvo = ["docente", "pesquisador", "inventado"]
+        assert publication_rules.resolve_publico_alvo(edital, build_raw()) == ["pesquisador", "docente"]
+
+    def test_publico_alvo_vazio_quando_nem_origem_nem_documento_informam(self):
         assert publication_rules.resolve_publico_alvo(build_edital(), build_raw()) == []
 
     def test_publico_alvo_descarta_valor_fora_do_vocabulario(self):

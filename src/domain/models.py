@@ -47,6 +47,9 @@ class RawEdital:
     document_role: str = "completo"
     # "documento" (PDF, ou original com alterações) ou "página" (o <main> do gov.br).
     document_origin: str = "documento"
+    # Elegibilidade já gravada (spec 011): o Horizon reescreve tudo toda semana e
+    # passa aqui o que já foi lido, para não ler de novo.
+    known_elegibilidade: Optional[Dict] = None
 
 @dataclass
 class EditalDomain:
@@ -82,3 +85,6 @@ class EditalDomain:
     chamadas: List[Dict[str, str]] = field(default_factory=list)
     # Próxima etapa do cronograma com data >= hoje: {"evento", "data"}; None sem etapa futura.
     proxima_etapa: Optional[Dict[str, str]] = None
+    # Quem pode propor (spec 011, issue #12): {"titulacao_minima", "areas_conhecimento",
+    # "requisitos_resumo"}. None = não lido; valores vazios = lido, sem requisitos.
+    elegibilidade: Optional[Dict] = None

@@ -340,6 +340,29 @@ class MistralExtractionService(IExtractionService):
 
     FINEP_CATEGORIES = FINEP_CATEGORIES
 
+    def read_eligibility(self, text: str, filename: str, finep: bool = False):
+        if not (text or "").strip():
+            return {}
+        from src.components.transforms import extraction_prompts
+
+        try:
+            response = _call_with_rate_limit_retry(
+                lambda: self.client.chat.complete(
+                    model=self.llm_model,
+                    messages=[
+                        {"role": "system", "content": extraction_prompts.SYSTEM_ELIGIBILITY},
+                        {"role": "user", "content": extraction_prompts.build_eligibility_prompt(text, finep)},
+                    ],
+                    response_format={"type": "json_object"},
+                ),
+                context=f"eligibility {filename}",
+            )
+            data = json.loads(response.choices[0].message.content or "{}")
+            return extraction_prompts.parse_eligibility_response(data, finep)
+        except Exception as e:
+            logger.warning("Mistral read_eligibility failed for %s: %s", filename, e)
+            return {}
+
     def categorize_finep_by_description(self, description: str) -> str:
         """
         Classifica um edital FINEP em uma das categorias, com base na descrição.

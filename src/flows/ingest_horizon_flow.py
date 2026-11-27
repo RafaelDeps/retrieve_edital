@@ -4,6 +4,7 @@ from typing import Optional, Sequence
 from dotenv import load_dotenv
 
 from src.components import horizon_sync
+from src.components.transforms.eligibility_rules import is_eligibility
 from src.flows.common import error_stats, record_transform_errors, transform_all
 from src.components.sinks.json_sink import LocalJSONSink
 from src.components.sources.horizon_source import HorizonSource
@@ -72,6 +73,12 @@ def run_pipeline(
         return
 
     logger.info("Extracted %s raw records.", len(raw_data_list))
+    # Spec 011: a elegibilidade já lida acompanha a chamada reescrita; só as
+    # chamadas sem ela passam pela leitura curta.
+    for raw in raw_data_list:
+        gravado = (saved.get(raw.url) or (None, {}))[1]
+        if is_eligibility(gravado.get("elegibilidade")):
+            raw.known_elegibilidade = gravado["elegibilidade"]
     logger.info("Phase 2: Transformation (Parallel)")
     outcome = transform_all(transform, raw_data_list)
     valid_domains = outcome.valid
@@ -119,6 +126,7 @@ def run_pipeline(
         unchanged=counts[horizon_sync.CHANGE_UNCHANGED],
         closed=closed,
         closing_blocked=closing_blocked,
+        eligibility_pending=len(getattr(transform, "eligibility_pending", None) or []),
         **error_stats(outcome.errors),
     )
     logger.info("Pipeline completed.")

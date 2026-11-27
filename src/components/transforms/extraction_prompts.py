@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Tuple
 
 import pdfplumber
 
+from src.components.transforms import eligibility_rules
 from src.domain.models import EditalDomain
 
 SYSTEM_EXTRACTION = (
@@ -86,11 +87,23 @@ CONTINUOUS_FLOW_TEXT_MARKERS = (
     "sem prazo de encerramento",
 )
 
-DOCUMENT_RULE = """
+_VOCAB = eligibility_rules.prompt_vocabulary()
+
+# Elegibilidade (spec 011): quem pode propor, para recomendar editais pelo Lattes.
+ELIGIBILITY_FIELDS = f"""ELEGIBILIDADE de quem PROPÕE (não invente; use "" ou [] quando o texto não disser):
+"elegibilidade": {{"titulacao_minima": um de {_VOCAB["titulacoes"]} ou "", "areas_conhecimento": lista de grandes áreas do CNPq entre: {_VOCAB["areas"]}, "requisitos_resumo": "uma frase curta com os principais requisitos"}}
+- As áreas seguem o TEMA do edital (título e objeto): um edital sobre saúde pública é "Ciências da Saúde"; sobre violência de gênero, "Ciências Humanas" e "Ciências Sociais Aplicadas"; sobre mineração, "Engenharias" e "Ciências Exatas e da Terra".
+- Responda ["Todas as áreas"] SÓ quando o edital não tiver tema próprio e aceitar propostas de qualquer área (ex.: bolsa de produtividade, apoio a eventos de qualquer área). Use "Multidisciplinar" só para programa declaradamente multi ou interdisciplinar.
+- A titulação mínima é a que o proponente JÁ POSSUI: exige "estar cursando doutorado" → "mestrado"; "estar cursando mestrado" → "graduacao". Quando quem propõe é uma instituição, empresa, FAP ou dirigente institucional (não uma pessoa pela sua formação), use "".
+- O resumo traz só requisitos escritos no texto. Se não houver, use "". Nunca escreva frases genéricas como "consulte o portal" ou "conforme as regras do programa".
+PÚBLICO: "publico_alvo": lista entre {_VOCAB["publicos"]}."""
+
+DOCUMENT_RULE = f"""
 IMPORTANTE para o TIPO DE DOCUMENTO e o PRAZO:
 1. Diga se o documento é um edital, chamada ou programa com inscrição de propostas ("edital") ou um documento de apoio: termo, guia, diretriz, manual, resultado, portaria ou página apenas informativa ("apoio").
 2. Diga se o documento declara inscrição a qualquer tempo, fluxo contínuo ou ausência de prazo de encerramento.
 Inclua no JSON: "tipo_documento": "edital" ou "apoio", e "fluxo_continuo": true ou false.
+3. {ELIGIBILITY_FIELDS}
 """
 
 COMBINED_MARKER = "=== "
@@ -228,6 +241,45 @@ Descrição do edital:
 """
 
 
+SYSTEM_ELIGIBILITY = (
+    "Você é um analista de editais de fomento. Responda apenas com o JSON solicitado."
+)
+ELIGIBILITY_DESCRIPTION_MAX_CHARS = 4000
+
+
+def build_eligibility_prompt(description: str, finep: bool = False) -> str:
+    """
+    Leitura curta (spec 011): só a descrição da fonte, para Horizon e FINEP, que
+    não passam pela extração completa. Na FINEP também pede a categoria, no lugar
+    da chamada separada de `build_finep_prompt`.
+    """
+    categoria = ""
+    if finep:
+        categoria = (
+            '\nCATEGORIA: "categoria": exatamente uma de "divulgação de conhecimento", '
+            '"extensão" ou "inovação".'
+        )
+    return f"""
+Leia a descrição da chamada de fomento abaixo e responda só com um JSON.
+{ELIGIBILITY_FIELDS}{categoria}
+
+Descrição:
+{(description or "")[:ELIGIBILITY_DESCRIPTION_MAX_CHARS]}
+"""
+
+
+def parse_eligibility_response(data: Any, finep: bool = False) -> Dict[str, Any]:
+    """{"elegibilidade", "publico_alvo"[, "categoria"]}, já nos vocabulários fechados."""
+    data = data if isinstance(data, dict) else {}
+    parsed: Dict[str, Any] = {
+        "elegibilidade": eligibility_rules.build_eligibility(data),
+        "publico_alvo": eligibility_rules.normalize_publico(data.get("publico_alvo")),
+    }
+    if finep:
+        parsed["categoria"] = normalize_finep_category(data.get("categoria"))
+    return parsed
+
+
 def normalize_finep_category(raw: Any) -> str:
     """Casa a resposta com uma categoria permitida; sem casamento, a categoria padrão."""
     category = str(raw or "").strip().lower()
@@ -268,4 +320,7 @@ def map_to_domain(data: Dict[str, Any], text: str = "") -> EditalDomain:
     )
     if declares_continuous_flow(data, text):
         edital.modalidade = MODALITY_CONTINUOUS
+    # Spec 011: o documento foi lido, então a elegibilidade existe (talvez vazia).
+    edital.elegibilidade = eligibility_rules.build_eligibility(data)
+    edital.publico_alvo = eligibility_rules.normalize_publico(data.get("publico_alvo"))
     return edital

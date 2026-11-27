@@ -48,6 +48,7 @@ from src.components.transforms.publication_rules import (  # noqa: E402
 )
 
 from src.components.transforms import schedule_rules  # noqa: E402
+from src.components.transforms.eligibility_rules import convert_legacy_publico  # noqa: E402
 
 OUTPUT_DIR = Path("data/output")
 REGISTRY_PATH = Path("registry/processed_editais.json")
@@ -382,6 +383,7 @@ def curate(
     print(f"{len(editais)} arquivos em {OUTPUT_DIR}\n")
 
     status_changes: List[Tuple[Path, str, str]] = []
+    publico_changes: List[Tuple[Path, list, list]] = []
     category_changes: List[Tuple[Path, str, str]] = []
     agency_changes: List[Tuple[Path, str, str]] = []
     opening_changes: List[Tuple[Path, str, str]] = []
@@ -442,6 +444,13 @@ def curate(
             )
             edital["categoria"] = wanted_category
             dirty = True
+        # Spec 011: público no vocabulário novo (ict-empresa → ict + empresa…).
+        publico = edital.get("publico_alvo") or []
+        wanted_publico = convert_legacy_publico(publico)
+        if publico and wanted_publico != publico:
+            publico_changes.append((path, publico, wanted_publico))
+            edital["publico_alvo"] = wanted_publico
+            dirty = True
         if dirty and apply:
             path.write_text(
                 json.dumps(edital, ensure_ascii=False, indent=4), encoding="utf-8"
@@ -452,6 +461,8 @@ def curate(
             archivals.append((path, edital))
 
     verb = "" if apply else " (simulação)"
+    if publico_changes:
+        print(f"Público convertido{verb}: {len(publico_changes)}")
     print(f"Status a corrigir{verb}: {len(status_changes)}")
     for path, before, after in status_changes[:10]:
         print(f"  {before or '(vazio)'!r} -> {after!r}  {path.name[:64]}")

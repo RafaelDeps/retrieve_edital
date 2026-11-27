@@ -48,6 +48,58 @@ não estiver, é fluxo contínuo.
   (`RELEITURA_FLUXO_CONTINUO_DIAS`), para pegar o edital que entra no site depois da coleta. A
   origem fica em `registry/fluxo_continuo.json`, fora do JSON do portal.
 
+## Elegibilidade e público (spec 011, issue #12)
+
+Base da recomendação pelo Lattes no portal e da recomendação semanal (spec 012). **Ponto de
+contato com o portal.**
+
+```json
+"publico_alvo": ["pesquisador", "docente"],
+"elegibilidade": {
+  "titulacao_minima": "doutorado",
+  "areas_conhecimento": ["Ciências da Saúde"],
+  "requisitos_resumo": "Coordenador com doutorado e vínculo com instituição brasileira."
+}
+```
+
+### O bloco `elegibilidade`
+
+- **`null` ou ausente**: o edital ainda não foi lido. Objeto com valores vazios: foi lido e não tem
+  requisitos explícitos.
+- **`titulacao_minima`**: `ensino_medio`, `graduacao`, `especializacao`, `mestrado`, `doutorado` ou
+  `""` (não exige). É a titulação de quem **propõe**.
+- **`areas_conhecimento`**: subconjunto das 9 grandes áreas do CNPq, na grafia oficial do Lattes:
+  - Ciências Exatas e da Terra;
+  - Ciências Biológicas;
+  - Engenharias;
+  - Ciências da Saúde;
+  - Ciências Agrárias;
+  - Ciências Sociais Aplicadas;
+  - Ciências Humanas;
+  - Linguística, Letras e Artes;
+  - Multidisciplinar.
+
+  Um edital aberto a todas as áreas recebe as 9.
+- **`requisitos_resumo`**: até 300 caracteres, só com o que o edital diz.
+
+### `publico_alvo`
+
+- **Vocabulário**: `estudante_graduacao`, `pos_graduando`, `pesquisador`, `docente`, `empresa`,
+  `startup`, `ict`.
+- **De onde vem**: da fonte quando ela declara; senão, do documento.
+- **Conversão do vocabulário antigo**, feita pelo realinhamento diário em `data/output/`
+  (`data/arquivo/` fica congelado):
+
+| Antigo | Novo |
+|---|---|
+| `ict-empresa` | `ict`, `empresa` |
+| `estudante` | `estudante_graduacao`, `pos_graduando` |
+| `internacional` | removido (continua em `ambito_geografico`) |
+
+### Garantias
+
+Valores fora dos vocabulários nunca são publicados. Os JSONs antigos continuam válidos.
+
 ## Prazos e etapas
 
 Todos os campos abaixo vêm do `cronograma` e são **recalculados todo dia** pelo realinhamento

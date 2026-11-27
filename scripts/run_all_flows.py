@@ -187,6 +187,7 @@ def resolve_result(
             or stats.closing_blocked
             or stats.network == "failed"
             or stats.errors > 0
+            or stats.eligibility_pending > 0
         ):
             return RESULT_WARNING
         return RESULT_SUCCESS
@@ -265,6 +266,11 @@ def build_observations(
             observations += (
                 f" {stats.deferred_count} itens adiados por limite da IA;"
                 " serão tentados na próxima execução."
+            )
+        if stats.eligibility_pending > 0:
+            observations += (
+                f" {stats.eligibility_pending} item(ns) sem elegibilidade (cota da IA);"
+                " completados depois."
             )
     if result == RESULT_WARNING and stats is None and added == 0:
         observations += (
@@ -504,19 +510,20 @@ REREAD_SOURCES = frozenset(OCR_SOURCES | {"finep"})
 CONTINUOUS_FLOW_MODALITY = "fluxo-contínuo"
 
 
-def select_continuous_flow_rereads(
-    output_dir: Path,
-    store_path: str,
-    today: date,
-    days: int,
-) -> dict[str, list[str]]:
-    """
-    Editais abertos a reler, agrupados por fonte (spec 010): os em fluxo contínuo
-    por falta de prazo lidos há `days` dias ou mais (ou sem registro no índice),
-    e os abertos sem prazo e sem modalidade, o estado que a issue #9 corrige.
-    """
-    store = continuous_flow_store.load(store_path)
-    targets: dict[str, list[str]] = {}
+ELIGIBILITY_REREAD_MAX_ENV = "RELEITURA_ELEGIBILIDADE_MAX"
+DEFAULT_ELIGIBILITY_REREAD_MAX = 40
+
+
+def eligibility_reread_max() -> int:
+    raw = os.getenv(ELIGIBILITY_REREAD_MAX_ENV)
+    try:
+        value = int(raw) if raw and raw.strip() else DEFAULT_ELIGIBILITY_REREAD_MAX
+    except ValueError:
+        value = DEFAULT_ELIGIBILITY_REREAD_MAX
+    return value if value > 0 else DEFAULT_ELIGIBILITY_REREAD_MAX
+
+
+def _load_open_editais(output_dir: Path):
     for path in sorted(Path(output_dir).glob("*.json")):
         try:
             edital = json.loads(path.read_text(encoding="utf-8"))
@@ -524,20 +531,56 @@ def select_continuous_flow_rereads(
             continue
         fonte = (edital.get("fonte_key") or "").strip()
         link = (edital.get("link") or "").strip()
-        if (
-            fonte in REREAD_SOURCES
-            and link
-            and edital.get("status") == "aberto"
-            and (
-                (
-                    edital.get("modalidade") == CONTINUOUS_FLOW_MODALITY
-                    and continuous_flow_store.due_for_reread(store.get(link), today, days)
-                )
-                or (not edital.get("data_encerramento") and not edital.get("modalidade"))
-            )
-        ):
+        if fonte in REREAD_SOURCES and link and edital.get("status") == "aberto":
+            yield fonte, link, edital
+
+
+def select_continuous_flow_rereads(
+    output_dir: Path,
+    store_path: str,
+    today: date,
+    days: int,
+) -> dict[str, list[str]]:
+    """
+    Editais abertos a reler por prazo, agrupados por fonte (spec 010): os em fluxo
+    contínuo por falta de prazo lidos há `days` dias ou mais (ou sem registro no
+    índice), e os abertos sem prazo e sem modalidade, o estado que a issue #9 corrige.
+    """
+    store = continuous_flow_store.load(store_path)
+    targets: dict[str, list[str]] = {}
+    for fonte, link, edital in _load_open_editais(output_dir):
+        continuous = edital.get("modalidade") == CONTINUOUS_FLOW_MODALITY and (
+            continuous_flow_store.due_for_reread(store.get(link), today, days)
+        )
+        undecided = not edital.get("data_encerramento") and not edital.get("modalidade")
+        if continuous or undecided:
             targets.setdefault(fonte, []).append(link)
     return {fonte: sorted(links) for fonte, links in sorted(targets.items())}
+
+
+def select_eligibility_rereads(output_dir: Path, limit: int) -> dict[str, list[str]]:
+    """
+    Abertos sem `elegibilidade` (spec 011), no máximo `limit`, os de prazo mais
+    próximo primeiro (sem prazo por último). O Horizon fica de fora: ele ganha a
+    elegibilidade na própria execução semanal.
+    """
+    pending = [
+        ((edital.get("data_encerramento") or "9999-12-31"), fonte, link)
+        for fonte, link, edital in _load_open_editais(output_dir)
+        if not edital.get("elegibilidade")
+    ]
+    targets: dict[str, list[str]] = {}
+    for _, fonte, link in sorted(pending)[:limit]:
+        targets.setdefault(fonte, []).append(link)
+    return {fonte: sorted(links) for fonte, links in sorted(targets.items())}
+
+
+def select_rereads(output_dir: Path, store_path: str, today: date, days: int, limit: int):
+    """(releitura por prazo, releitura por elegibilidade), cada uma por fonte."""
+    return (
+        select_continuous_flow_rereads(output_dir, store_path, today, days),
+        select_eligibility_rereads(output_dir, limit),
+    )
 
 
 STEP_SUMMARY_ENV = "GITHUB_STEP_SUMMARY"
@@ -606,15 +649,22 @@ def main(argv: Optional[list] = None) -> int:
         )
     # Spec 010: o fluxo contínuo deduzido da falta de prazo é relido de tempos em
     # tempos, para pegar o edital que entrou no site depois da coleta.
-    rereads = select_continuous_flow_rereads(
+    prazo_rereads, eligibility_rereads = select_rereads(
         repo_root / OUTPUT_PATH,
         str(repo_root / continuous_flow_store.DEFAULT_PATH),
         date.today(),
         continuous_flow_store.reread_days(),
+        eligibility_reread_max(),
     )
-    reread_links = {link for links in rereads.values() for link in links}
+    reread_links = {link for links in prazo_rereads.values() for link in links}
+    eligibility_links = {link for links in eligibility_rereads.values() for link in links}
     print(f"[run_all_flows] Releitura de fluxo contínuo: {len(reread_links)} itens.")
-    reextract_links |= reread_links
+    print(f"[run_all_flows] Releitura para elegibilidade: {len(eligibility_links)} itens.")
+    rereads = {
+        fonte: prazo_rereads.get(fonte, []) + eligibility_rereads.get(fonte, [])
+        for fonte in set(prazo_rereads) | set(eligibility_rereads)
+    }
+    reextract_links |= reread_links | eligibility_links
     if args.reextrair_abertos:
         # Só os fluxos com algo a reler: os da reextração e os da releitura.
         relidas = set(targets) | set(rereads)

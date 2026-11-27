@@ -33,6 +33,18 @@ O prompt de extração pede sempre, na mesma chamada:
 Com vários documentos (original, alterações, página), uma regra a mais diz que vale a data da
 alteração mais recente e o aviso da página.
 
+### Elegibilidade (spec 011)
+
+- **Extração completa**: o mesmo bloco de regras pede `elegibilidade` (titulação mínima de quem
+  propõe, grandes áreas do CNPq, resumo dos requisitos) e `publico_alvo`. É a mesma chamada.
+- **Horizon e FINEP sem documento lido**: uma leitura curta só da descrição (`read_eligibility`, até
+  4 000 caracteres). Na FINEP, ela também devolve a categoria, no lugar de
+  `categorize_finep_by_description`.
+- **Validação**: as regras de `eligibility_rules.py` validam tudo contra vocabulários fechados.
+- **Sem cota** na leitura curta: o item é publicado com `elegibilidade: null` e completado depois.
+- **Carga do acervo**: a releitura diária completa os abertos sem elegibilidade, até
+  `RELEITURA_ELEGIBILIDADE_MAX` (40) por execução.
+
 ### Leitura que falha (spec 010)
 
 Quando havia documento ou página, mas a leitura falhou (download, PDF sem texto, IA sem edital

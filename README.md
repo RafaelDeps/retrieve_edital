@@ -73,6 +73,11 @@ publicados. Todo dia o runner relê os itens em fluxo contínuo por falta de pra
 (`RELEITURA_FLUXO_CONTINUO_DIAS`; índice em `registry/fluxo_continuo.json`). Ver
 [docs/output_contract.md](docs/output_contract.md).
 
+**Elegibilidade (spec 011, issue #12)**: cada edital traz `elegibilidade`, com a titulação mínima, as
+grandes áreas do CNPq e um resumo dos requisitos, e `publico_alvo` no vocabulário novo. São a base
+da recomendação pelo Lattes. A releitura diária completa os abertos que ainda não têm elegibilidade
+(`RELEITURA_ELEGIBILIDADE_MAX`).
+
 Variável opcional para FINEP: **`REFERENCE_YEAR`** (ano de referência para filtrar por prazo de envio). Ver [docs/finep_source.md](docs/finep_source.md) e `.env.example`.
 
 ## O que foi modificado / novidades

@@ -392,14 +392,16 @@ class TestPublicoAlvoEAmbito:
         return source.read()[0]
 
     def test_startup_e_cooperativa_viram_empresa(self):
+        # Spec 011: startup ganhou valor próprio no vocabulário do portal.
         raw = self._read_one(build_api_item())
-        assert raw.raw_publico_alvo == ["empresa"]
+        assert raw.raw_publico_alvo == ["startup", "empresa"]
 
     def test_ict_vira_ict_empresa(self):
         item = build_api_item(
             publicoAlvo=[{"key": "ict", "name": "ICT"}, {"key": "startup", "name": "Startup"}]
         )
-        assert self._read_one(item).raw_publico_alvo == ["ict-empresa", "empresa"]
+        # Spec 011: "ict-empresa" virou "ict" + "empresa".
+        assert self._read_one(item).raw_publico_alvo == ["ict", "empresa", "startup"]
 
     def test_faixas_de_receita_viram_empresa(self):
         item = build_api_item(

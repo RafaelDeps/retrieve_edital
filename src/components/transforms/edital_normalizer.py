@@ -9,6 +9,7 @@ import pdfplumber
 from src.core.interfaces import ITransform
 from src.domain.models import RawEdital, EditalDomain
 from src.components.transforms import publication_rules
+from src.components.transforms.eligibility_rules import build_eligibility, is_eligibility
 from src.core.interfaces import IExtractionService
 from src.components.transforms.extraction_service import (
     AIUnavailableError,
@@ -38,6 +39,9 @@ logger = logging.getLogger(__name__)
 
 # RawEdital.document_role: o documento só complementa prazo e modalidade (FINEP).
 DOCUMENT_ROLE_DEADLINE = "prazo"
+# Fontes sem extração completa cuja descrição passa pela leitura curta de
+# elegibilidade (spec 011), pelo órgão em maiúsculas.
+ELIGIBILITY_SHORT_READ_AGENCIES = ("HORIZON EUROPE", "FINEP")
 
 
 def combine_schedule_views(
@@ -153,6 +157,9 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # ou "sem-prazo"). O roteiro comum grava em registry/fluxo_continuo.json,
         # e o runner relê os "sem-prazo" de tempos em tempos (spec 010).
         self.continuous_flow: Dict[str, str] = {}
+        # Itens publicados sem elegibilidade porque a leitura curta não aconteceu
+        # (cota da IA, spec 011). O fluxo conta em `eligibility_pending`.
+        self.eligibility_pending: List[str] = []
 
     def _reference_day(self) -> date:
         return self.today or date.today()
@@ -317,7 +324,10 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
         # Basic/Fallback extraction (for anexos or if Mistral fails)
         combined_text = (description + " " + clean_title).lower()
         category = raw_data.source_category or "outros"
-        if "FINEP" in (raw_data.raw_agency or "").upper() and description:
+        eligibility, read_publico, short_category = self._short_eligibility(raw_data, clean_title, description)
+        if short_category:
+            category = short_category
+        elif "FINEP" in (raw_data.raw_agency or "").upper() and description:
             try:
                 classified = self.extraction_service.categorize_finep_by_description(description)
                 if classified:
@@ -367,6 +377,8 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             tags.append("bolsa")
 
         edital = EditalDomain(
+            publico_alvo=read_publico,
+            elegibilidade=eligibility,
             nome=clean_title,
             descrição=description or f"Edital de fomento {clean_agency}: {clean_title}",
             orgão_fomento=clean_agency,
@@ -380,6 +392,41 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             anexos=anexos
         )
         return self._publish_or_discard(edital, raw_data)
+
+    def _short_eligibility(self, raw_data: RawEdital, clean_title: str, description: str):
+        """
+        (elegibilidade, público lido, categoria FINEP) para o caminho sem documento.
+
+        Horizon reescreve tudo toda semana: o que já foi lido vem em
+        `known_elegibilidade` e não é lido de novo. Sem cota, o item sai com
+        `None` e fica pendente; a publicação não espera por um campo opcional.
+        """
+        known = getattr(raw_data, "known_elegibilidade", None)
+        if is_eligibility(known):
+            return known, [], ""
+        agency = (raw_data.raw_agency or "").strip().upper()
+        reader = getattr(self.extraction_service, "read_eligibility", None)
+        if agency not in ELIGIBILITY_SHORT_READ_AGENCIES or reader is None or not description.strip():
+            return None, [], ""
+        is_finep = agency == "FINEP"
+        try:
+            # O título diz o tema; no Horizon a descrição é só metadado da chamada.
+            answer = reader(f"Título: {clean_title}\n{description}", f"{clean_title}.txt", finep=is_finep)
+        except NotImplementedError:
+            return None, [], ""
+        except AIUnavailableError as e:
+            logger.warning("Elegibilidade pendente (IA indisponível: %s): %s", e.reason, clean_title[:70])
+            answer = {}
+        except Exception as e:  # a leitura curta nunca derruba o item
+            logger.warning("Elegibilidade pendente (%s): %s", type(e).__name__, clean_title[:70])
+            answer = {}
+        if not isinstance(answer, dict):
+            return None, [], ""  # serviço que não implementa a leitura curta
+        if not answer:
+            if raw_data.url:
+                self.eligibility_pending.append(raw_data.url)
+            return None, [], ""
+        return answer.get("elegibilidade"), answer.get("publico_alvo") or [], answer.get("categoria") or ""
 
     def _complete_deadline_from_document(
         self,
@@ -411,6 +458,7 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             domain = EditalDomain(
                 nome="", descrição="", orgão_fomento="", categoria="", status="",
                 data_abertura="", data_encerramento="", link="", cronograma=[], tags=[],
+                elegibilidade=build_eligibility({}),
             )
         except AIUnavailableError as e:
             logger.warning("Item adiado (IA indisponível: %s): %s", e.reason, clean_title[:70])
@@ -439,6 +487,8 @@ class EditalNormalizer(ITransform[RawEdital, EditalDomain]):
             tags=list(dict.fromkeys(tags + ([raw_data.source_category] if raw_data.source_category else []))),
             anexos=anexos,
             modalidade=(domain.modalidade or "") if domain else "",
+            publico_alvo=list(domain.publico_alvo or []) if domain else [],
+            elegibilidade=domain.elegibilidade if domain else None,
         )
         return self._publish_or_discard(edital, raw_data, document_read=domain is not None)
 

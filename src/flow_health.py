@@ -31,6 +31,7 @@ _FLOW_STATS_REGEX = re.compile(
     r"(?:\s+closing_blocked=(?P<closing_blocked>1))?"
     r"(?:\s+network=(?P<network>\w+))?(?:\s+jina_pages=(?P<jina_pages>\d+))?"
     r"(?:\s+network_reason=(?P<network_reason>\S+))?"
+    r"(?:\s+eligibility_pending=(?P<eligibility_pending>\d+))?"
 )
 
 
@@ -58,6 +59,9 @@ class FlowStats:
     # acesso direto; "jina" é o desvio (com o número de páginas); "failed" é a
     # falha de rede, com o motivo.
     network: Optional[str] = None
+    # Itens publicados sem elegibilidade porque a leitura curta não aconteceu
+    # (cota da IA, spec 011); completados depois. Maior que zero vira Atenção.
+    eligibility_pending: int = 0
     jina_pages: int = 0
     network_reason: Optional[str] = None
 
@@ -81,6 +85,7 @@ def emit_flow_stats(
     network: Optional[str] = None,
     jina_pages: int = 0,
     network_reason: Optional[str] = None,
+    eligibility_pending: int = 0,
 ) -> None:
     """
     Publica as contagens do fluxo no stdout para o runner unificado ler.
@@ -106,6 +111,8 @@ def emit_flow_stats(
             line += f" jina_pages={jina_pages}"
         if network == "failed" and network_reason:
             line += f" network_reason={network_reason}"
+    if eligibility_pending > 0:
+        line += f" eligibility_pending={eligibility_pending}"
     print(line, flush=True)
 
 
@@ -156,6 +163,7 @@ def parse_flow_stats(output: str) -> Optional[FlowStats]:
         network=fields["network"],
         jina_pages=number("jina_pages", 0),
         network_reason=fields["network_reason"],
+        eligibility_pending=number("eligibility_pending", 0),
         **changes,
     )
 

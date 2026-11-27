@@ -95,6 +95,8 @@ def check_json_keys(context, datatable):
         # Contrato com o portal (docs/output_contract.md, portal#11).
         "chamadas",
         "proxima_etapa",
+        # Spec 011 (issue #12): quem pode propor; null quando não lido.
+        "elegibilidade",
     }
     
     for filepath in context["expected_files"]:

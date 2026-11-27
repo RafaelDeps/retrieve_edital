@@ -61,15 +61,15 @@ LEGACY_DETAIL_TEMPLATE = (
 CONTINUOUS_FLOW_MODALITY = "fluxo-contínuo"
 
 # A taxonomia `publicoAlvo` da API é rica em detalhe comercial — faixas de receita,
-# tipo de organização — e mapeia para o vocabulário canônico do portal. `ICT`
+# tipo de organização — e mapeia para o vocabulário do portal (spec 011). `ICT`
 # indica cooperação instituição-empresa; os demais indicam empresa.
 PUBLICO_ALVO_BY_KEY = {
-    "ict": "ict-empresa",
-    "startup": "empresa",
-    "cooperativa": "empresa",
-    "fundosDeInvestimento": "empresa",
+    "ict": ["ict", "empresa"],
+    "startup": ["startup"],
+    "cooperativa": ["empresa"],
+    "fundosDeInvestimento": ["empresa"],
 }
-PUBLICO_ALVO_REVENUE_PREFIX = "empresa"
+PUBLICO_ALVO_REVENUE_PREFIX = ["empresa"]
 
 # `regiao` da API descreve o alcance da chamada. "Todo Brasil" é o âmbito
 # nacional; qualquer outro valor é recorte regional e é preservado como está.
@@ -519,12 +519,13 @@ class FinepSource(ISource[RawEdital]):
             if not isinstance(entrada, dict):
                 continue
             chave = (entrada.get("key") or "").strip()
-            valor = PUBLICO_ALVO_BY_KEY.get(chave)
-            if valor is None and chave.startswith("empresa"):
+            valores = PUBLICO_ALVO_BY_KEY.get(chave)
+            if valores is None and chave.startswith("empresa"):
                 # `empresa1`..`empresa5` são faixas de receita.
-                valor = PUBLICO_ALVO_REVENUE_PREFIX
-            if valor and valor not in resultado:
-                resultado.append(valor)
+                valores = PUBLICO_ALVO_REVENUE_PREFIX
+            for valor in valores or []:
+                if valor not in resultado:
+                    resultado.append(valor)
         return resultado
 
     @staticmethod

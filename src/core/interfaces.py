@@ -85,6 +85,14 @@ class IExtractionService(ABC):
         opportunity; when it is not, `OffTopicError(motivo)` is raised (spec 009).
         """
 
+    def read_eligibility(self, text: str, filename: str, finep: bool = False) -> Dict[str, Any]:
+        """
+        Leitura curta da descrição (spec 011): devolve {"elegibilidade",
+        "publico_alvo"} e, com `finep`, também "categoria". Levanta
+        `AIUnavailableError` sem cota; outros erros devolvem `{}`.
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def classify_document_titles(self, titles: List[str]) -> Dict[str, str]:
         """Maps each title to "edital", "anexo" or "alteração". Never raises."""

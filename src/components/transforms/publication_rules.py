@@ -20,6 +20,7 @@ from dataclasses import dataclass
 from datetime import date
 from typing import Optional
 
+from src.components.transforms import eligibility_rules
 from src.domain.models import EditalDomain, RawEdital
 
 logger = logging.getLogger(__name__)
@@ -82,19 +83,9 @@ SOURCE_PROFILES = {
     "HORIZON EUROPE": ("internacional", "horizon"),
 }
 
-# Valores canônicos de `publico_alvo`, conforme o §3.2 do PDF de análise.
-PUBLICO_PESQUISADOR = "pesquisador"
-PUBLICO_ESTUDANTE = "estudante"
-PUBLICO_EMPRESA = "empresa"
-PUBLICO_ICT_EMPRESA = "ict-empresa"
-PUBLICO_INTERNACIONAL = "internacional"
-CANONICAL_PUBLICO_ALVO = (
-    PUBLICO_PESQUISADOR,
-    PUBLICO_ESTUDANTE,
-    PUBLICO_EMPRESA,
-    PUBLICO_ICT_EMPRESA,
-    PUBLICO_INTERNACIONAL,
-)
+# Valores canônicos de `publico_alvo` (spec 011, issue #12): o vocabulário que
+# separa graduando, pós-graduando, pesquisador e docente, para recomendar editais.
+CANONICAL_PUBLICO_ALVO = eligibility_rules.PUBLICOS
 
 
 @dataclass(frozen=True)
@@ -296,19 +287,15 @@ def resolve_fonte_key(edital: EditalDomain, raw_data: RawEdital) -> str:
 
 def resolve_publico_alvo(edital: EditalDomain, raw_data: RawEdital) -> list:
     """
-    Público-alvo, apenas com o que a origem declara.
+    Público-alvo no vocabulário novo (spec 011).
 
-    Fonte que não informa fica com lista vazia. Inferir do texto produziria
-    rótulo plausível e não verificável — o mesmo erro que fazia uma chave de API
-    inválida parecer classificação.
+    O que a fonte declara vale primeiro, convertido do vocabulário antigo. Sem
+    declaração da fonte, vale o que a IA leu no documento (é evidência do próprio
+    edital, não suposição). Sem nenhum dos dois, lista vazia.
     """
-    declarado = raw_data.raw_publico_alvo or edital.publico_alvo or []
-    vistos = []
-    for valor in declarado:
-        normalizado = (str(valor) or "").strip().lower()
-        if normalizado in CANONICAL_PUBLICO_ALVO and normalizado not in vistos:
-            vistos.append(normalizado)
-    return vistos
+    if raw_data.raw_publico_alvo:
+        return eligibility_rules.convert_legacy_publico(raw_data.raw_publico_alvo)
+    return eligibility_rules.convert_legacy_publico(edital.publico_alvo or [])
 
 
 def resolve_status(edital: EditalDomain, today: Optional[date] = None) -> str:

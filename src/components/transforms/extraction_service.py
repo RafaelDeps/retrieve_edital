@@ -54,6 +54,9 @@ class UnavailableExtractionService(IExtractionService):
     def categorize_finep_by_description(self, description: str) -> str:
         return ""
 
+    def read_eligibility(self, text: str, filename: str, finep: bool = False):
+        raise AIUnavailableError(self.reason)
+
 
 _instance: Optional[IExtractionService] = None
 _instance_lock = threading.Lock()

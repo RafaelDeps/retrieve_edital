@@ -89,9 +89,11 @@ Sem prazo também no edital, a chamada é publicada como `fluxo-contínuo`. Sem 
 dedução antiga (sem prazo, vigência nem tipo de oportunidade → `fluxo-contínuo`), e o item entra na
 releitura semanal.
 
-## Categorização (Transform)
+## Categorização e elegibilidade (Transform)
 
-No **EditalNormalizer**, a **categoria** dos editais FINEP continua sendo definida pela **IA** (Gemini por padrão; Mistral opcional) a partir da descrição, em uma de: **divulgação de conhecimento**, **extensão**, **inovação**. Requer `GEMINI_API_KEY` (ou `MISTRAL_API_KEY` com `LLM_PROVIDER=mistral`); sem chave, mantém a categoria da fonte.
+No **EditalNormalizer**, a **categoria** dos editais FINEP é definida pela **IA** (Gemini por padrão; Mistral opcional) a partir da descrição, em uma de: **divulgação de conhecimento**, **extensão**, **inovação**. Requer `GEMINI_API_KEY` (ou `MISTRAL_API_KEY` com `LLM_PROVIDER=mistral`); sem chave, mantém a categoria da fonte.
+
+**Spec 011**: uma **leitura curta** da descrição (`read_eligibility`) devolve, numa chamada só, a categoria **e** a elegibilidade (titulação, grandes áreas, requisitos) e o público. Ela substitui a categorização separada, então o custo continua sendo 1 chamada. Quando o edital é lido para achar o prazo (spec 010), a elegibilidade vem dessa leitura. O público declarado pela API vale sobre o lido; o vocabulário passou a ser `ict` (+ `empresa`), `startup` e `empresa`.
 
 É uma chamada de texto barata, não OCR — o source nunca baixa PDF para a IA. Manter essa etapa preserva o enum de categorias que o portal espera.
 

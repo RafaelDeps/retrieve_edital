@@ -246,6 +246,7 @@ def run_standard_pipeline(
         raw_count=listing_count,
         new_count=len(outcome.valid),
         deferred_count=len(getattr(transform, "deferred", [])),
+        eligibility_pending=len(getattr(transform, "eligibility_pending", None) or []),
         **error_stats(outcome.errors),
         **network_stats(source),
     )

@@ -323,6 +323,22 @@ class GeminiExtractionService(IExtractionService):
             )
             return heuristic_title_classification(titles)
 
+    def read_eligibility(self, text: str, filename: str, finep: bool = False):
+        if not (text or "").strip():
+            return {}
+        try:
+            raw = self._generate(
+                extraction_prompts.SYSTEM_ELIGIBILITY,
+                extraction_prompts.build_eligibility_prompt(text, finep),
+                f"eligibility {filename}",
+            )
+            return extraction_prompts.parse_eligibility_response(json.loads(raw or "{}"), finep)
+        except AIUnavailableError:
+            raise
+        except Exception as exc:
+            logger.warning("Leitura curta de elegibilidade falhou (%s): %s", filename, _describe(exc))
+            return {}
+
     def categorize_finep_by_description(self, description: str) -> str:
         if not (description or "").strip():
             return extraction_prompts.FINEP_DEFAULT_CATEGORY

@@ -107,6 +107,17 @@ O dataset **não traz texto descritivo** — só título, identificador, datas, 
 
 Derivada da divisão, dentro do vocabulário que o portal já usa: divisão do EIC → `inovação`; demais → `pesquisa`. Sem isso, as 185 chamadas caíam todas em `outros`, já que sem texto descritivo a inferência por palavra-chave do normalizer não tem onde se apoiar.
 
+### Elegibilidade (spec 011)
+
+Cada chamada recebe a elegibilidade (titulação, grandes áreas do CNPq, requisitos) por uma
+**leitura curta** da descrição, só uma vez.
+- **Preservação**: como o Horizon reescreve tudo a cada semana, o fluxo copia a elegibilidade já
+  gravada para a chamada reescrita (`known_elegibilidade`). Só as chamadas novas são lidas.
+- **Sem cota**: a chamada sai com `elegibilidade: null` e é completada na semana seguinte. O
+  `[flow-stats]` mostra `eligibility_pending=N`, e o runner marca Atenção.
+- **Público**: passou a ser `pesquisador` (+ `empresa` no EIC). "Internacional" fica só em
+  `ambito_geografico`.
+
 ## Download: janelas de Range
 
 O arquivo tem **126 MB**, e baixá-lo numa transferência só falha de forma
