@@ -39,6 +39,9 @@ CONTINUOUS_FLOW = "fluxo-contínuo"
 HORIZON_SOURCE = "horizon"
 EDITAL_DESCRIPTION_CHARS = 2000
 REASON_MAX_CHARS = 120
+# Título citado no motivo: curto e com o que ele é ('projeto: "…"').
+ITEM_TITLE_MAX_CHARS = 60
+ITEM_KIND_FALLBACK = "trabalho"
 MIN_WORD_LENGTH = 4
 NO_DEGREE_WARNING = "sem Lattes no Horizon: confirmar titulação"
 
@@ -137,14 +140,30 @@ def _tag_matches(tag: str, edital_words: set) -> bool:
 
 def evidence(professor: Professor, edital: dict) -> Tuple[List[str], str]:
     """(tags em comum, item do perfil com mais palavras em comum): o porquê da indicação."""
+    temas, best, _ = _evidence(professor, edital)
+    return temas, best
+
+
+def _evidence(professor: Professor, edital: dict) -> Tuple[List[str], str, str]:
     edital_words = _plain_words(edital_text(edital))
     temas = [t for t in getattr(professor, "temas", []) if _tag_matches(t, edital_words)]
-    best, best_overlap = "", 0
-    for item in professor.itens:
+    kinds = getattr(professor, "tipos_itens", []) or []
+    best, best_kind, best_overlap = "", "", 0
+    for index, item in enumerate(professor.itens):
         overlap = len(_plain_words(item) & edital_words)
         if overlap > best_overlap:
             best, best_overlap = item, overlap
-    return temas, best
+            best_kind = kinds[index] if index < len(kinds) else ITEM_KIND_FALLBACK
+    return temas, best, best_kind
+
+
+def _short_title(title: str) -> str:
+    title = " ".join((title or "").split())
+    if len(title) <= ITEM_TITLE_MAX_CHARS:
+        return title
+    cut = title[: ITEM_TITLE_MAX_CHARS - 1]
+    space = cut.rfind(" ")
+    return (cut[:space] if space > ITEM_TITLE_MAX_CHARS // 2 else cut).rstrip(" ,;:-") + "…"
 
 
 def reason(professor: Professor, edital: dict) -> str:
@@ -153,11 +172,11 @@ def reason(professor: Professor, edital: dict) -> str:
     if professor.titulacao in ("doutorado", "mestrado") and professor.curso_titulacao:
         nivel = "Doutorado" if professor.titulacao == "doutorado" else "Mestrado"
         parts.append(f"{nivel} em {professor.curso_titulacao}")
-    temas, best = evidence(professor, edital)
+    temas, best, kind = _evidence(professor, edital)
     if temas:
         parts.append("temas: " + ", ".join(temas[:3]))
     elif best:
-        parts.append(f'"{best}"')
+        parts.append(f'{kind}: "{_short_title(best)}"')
     text = "; ".join(parts)
     return text if len(text) <= REASON_MAX_CHARS else text[: REASON_MAX_CHARS - 1].rstrip() + "…"
 

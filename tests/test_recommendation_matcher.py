@@ -74,14 +74,18 @@ def test_degree_ok(titulacao, minima, esperado):
 
 def test_reason_uses_degree_and_closest_item():
     p = prof(itens=["Robótica educacional", "Observatório da violência de gênero no ES"])
+    p.tipos_itens = ["artigo", "projeto"]
     edital = {"nome": "Chamada sobre violência de gênero", "descrição": ""}
-    assert matcher.reason(p, edital) == 'Doutorado em Sociologia; "Observatório da violência de gênero no ES"'
+    # O motivo diz o que o título é (pedido do responsável, 27/11/2026).
+    assert matcher.reason(p, edital) == 'Doutorado em Sociologia; projeto: "Observatório da violência de gênero no ES"'
 
 
 def test_reason_without_degree_and_cut():
-    p = prof(titulacao=None, curso="", itens=["Violência " + "x" * 200])
+    p = prof(titulacao=None, curso="", itens=["Violência de gênero e políticas públicas no Espírito Santo entre 2010 e 2020"])
+    p.tipos_itens = ["artigo"]
     texto = matcher.reason(p, {"nome": "violência", "descrição": ""})
-    assert len(texto) <= matcher.REASON_MAX_CHARS and texto.endswith("…")
+    assert texto == 'artigo: "Violência de gênero e políticas públicas no Espírito Santo…"'
+    assert len(texto) <= matcher.REASON_MAX_CHARS
 
 
 def test_tie_puts_lattes_first(monkeypatch):

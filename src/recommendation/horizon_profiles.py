@@ -80,6 +80,9 @@ class Professor:
     texto: str = ""
     hash: str = ""
     temas: List[str] = field(default_factory=list)
+    # O que é cada item de `itens` ("projeto", "artigo", "grupo", "orientação"),
+    # para o motivo dizer o que o título é (pedido do responsável, 27/11/2026).
+    tipos_itens: List[str] = field(default_factory=list)
 
 
 def _plain(text: Any) -> str:
@@ -119,7 +122,8 @@ def fix_text(value: Any) -> str:
 
 
 COURSE_PREFIXES = ("curso de ", "pos-graduacao em ", "programa de pos-graduacao em ", "doutorado em ",
-                   "mestrado em ", "doctorado en ", "mestrado profissional em ")
+                   "mestrado em ", "doctorado en ", "mestrado profissional em ", "phd in ",
+                   "ph.d. in ", "master in ", "master of science in ")
 
 
 def clean_course(course: str) -> str:
@@ -214,6 +218,8 @@ def build_professor(
         curso_titulacao=curso,
         tem_lattes=bool(resumo or record.get("academic_education")),
         itens=projetos + artigos + grupos + orientacoes,
+        tipos_itens=["projeto"] * len(projetos) + ["artigo"] * len(artigos)
+        + ["grupo"] * len(grupos) + ["orientação"] * len(orientacoes),
         texto=texto,
         hash=hashlib.sha256(texto.encode("utf-8")).hexdigest(),
         temas=temas,

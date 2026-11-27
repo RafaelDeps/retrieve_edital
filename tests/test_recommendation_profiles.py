@@ -42,6 +42,11 @@ def test_campus_filter_and_profiles():
     # As tags são a base do perfil (pedido do responsável, 27/11/2026).
     assert ana.texto.startswith("Temas: Sociologia") and "Projetos: Observatório da violência de gênero no ES" in ana.texto
     assert len(ana.hash) == 64
+    assert dict(zip(ana.itens, ana.tipos_itens)) == {
+        "Observatório da violência de gênero no ES": "projeto",
+        "Violência doméstica e políticas públicas no Espírito Santo": "artigo",
+        "Estudos de Gênero": "grupo",
+    }
     diego = profs[3]
     assert diego.titulacao is None and not diego.tem_lattes
     assert "Agronomia e Agroecologia" in diego.itens
@@ -114,3 +119,4 @@ def test_text_repairs_from_the_real_preview():
     assert hp.clean_course("Curso de Doutorado em Educação") == "Educação"
     assert hp.clean_course("Doctorado en Educacion") == "Educacion"
     assert hp.clean_course("Mestrado em Informática") == "Informática"
+    assert hp.clean_course("PhD in Computer Science") == "Computer Science"
