@@ -7,11 +7,6 @@ on:
   schedule:
     - cron: "0 11 * * 1"
   workflow_dispatch:
-  # TEMPORÁRIO: primeiro envio real antes do merge (workflow novo não pode ser
-  # disparado à mão fora da main). Removido no commit seguinte.
-  push:
-    branches: [012-recomendacao-telegram]
-    paths: [.github/workflows/run_recomendacao_weekly.yml]
 
 # Mesmo grupo dos workflows de coleta: nunca dois commits de dados ao mesmo tempo.
 concurrency:
