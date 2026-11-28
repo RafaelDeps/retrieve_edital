@@ -119,6 +119,9 @@ class Env:
                             functools.partial(rejection_store.record, path=rejected, today=TODAY))
         monkeypatch.setattr(rejection_store, "get_active_keys",
                             functools.partial(rejection_store.get_active_keys, path=rejected, today=TODAY))
+        monkeypatch.setattr(rejection_store, "get_active_reasons",
+                            functools.partial(rejection_store.get_active_reasons, path=rejected, today=TODAY))
+        self.rejected = rejected
 
     def fetch(self, url):
         self.fetched.append(url)
@@ -132,7 +135,10 @@ class Env:
 
     def run(self, reply_token):
         self.client = FakeIssues(self.issues, can_reply=reply_token, fail=self.fail_reply)
-        source = ComunidadeSource(client=self.client, fetch=self.fetch, known_links=lambda: set(self.known))
+        # Como o fluxo real: links já resolvidos (processados ou recusados) e o motivo das recusas.
+        reasons = rejection_store.get_active_reasons("comunidade")
+        source = ComunidadeSource(client=self.client, fetch=self.fetch, known_links=lambda: set(self.known),
+                                  resolved_links=set(reasons), resolved_reasons=reasons)
         self.result = ingest_comunidade_flow.run_pipeline(
             source=source,
             transform=EditalNormalizer(extraction_service=self.ai, today=TODAY),
@@ -203,6 +209,14 @@ def invalid_and_down(env):
 @given("the portal has only a regular issue")
 def regular(env):
     env.issues = [issue(14, "https://exemplo.org/x.pdf", title="Editais encerrados passam para data/arquivo/")]
+
+
+@given("the suggestion was refused on an earlier run without the reply token")
+def refused_earlier(env):
+    """Caso real: a portal#15 foi recusada em 26/11, antes do PORTAL_ISSUES_TOKEN."""
+    link = parse_indicacao(env.issues[0]["body"])["link"].strip()
+    rejection_store.record("comunidade", {link: "fora do tema: concurso público"},
+                           path=env.rejected, today=date(2026, 11, 26))
 
 
 @given("answering on the portal fails")

@@ -72,6 +72,23 @@ def get_active_keys(
     return ativos
 
 
+def get_active_reasons(
+    source: str,
+    path: str = DEFAULT_PATH,
+    today: Optional[date] = None,
+) -> Dict[str, str]:
+    """{url: motivo} das recusas que ainda valem."""
+    reference_day = today or date.today()
+    motivos: Dict[str, str] = {}
+    for key, info in (_load(path).get(source) or {}).items():
+        try:
+            if date.fromisoformat((info or {}).get("valida_ate") or "") >= reference_day:
+                motivos[key] = (info or {}).get("motivo") or ""
+        except ValueError:
+            continue
+    return motivos
+
+
 def record(
     source: str,
     rejections: Dict[str, str],

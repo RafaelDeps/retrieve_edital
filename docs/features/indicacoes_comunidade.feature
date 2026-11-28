@@ -71,3 +71,11 @@ Feature: Indicações de editais pela comunidade
     And answering on the portal fails
     When the community flow runs on 2026-11-26 with the reply token
     Then the edital is published with source "comunidade" and the community tag
+
+  Scenario: A suggestion refused before the reply token existed is answered later
+    Given the portal has the real suggestion "issue_banestes" pointing to the Banestes page
+    And the suggestion was refused on an earlier run without the reply token
+    When the community flow runs on 2026-11-28 with the reply token
+    Then the link was not fetched
+    And the AI was not called
+    And suggestion 15 is answered with "❌ Não publicado: fora do tema: concurso público" and closed

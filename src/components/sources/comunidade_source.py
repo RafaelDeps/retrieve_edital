@@ -155,6 +155,7 @@ class ComunidadeSource(ISource[RawEdital]):
         fetch: Optional[Callable[[str], Tuple[Optional[bytes], Optional[str], str]]] = None,
         known_links: Optional[Callable[[], Set[str]]] = None,
         resolved_links: Optional[Set[str]] = None,
+        resolved_reasons: Optional[Dict[str, str]] = None,
         max_per_run_value: Optional[int] = None,
         govbr_fetcher=None,
     ) -> None:
@@ -169,6 +170,11 @@ class ComunidadeSource(ISource[RawEdital]):
         self.fetch = fetch
         self.known_links = known_links or load_known_links
         self.resolved_links = set(resolved_links or ())
+        # Motivo das recusas já registradas. Uma indicação ainda ABERTA cujo link
+        # já foi resolvido não foi respondida (ex.: recusada antes de existir o
+        # PORTAL_ISSUES_TOKEN, 26/11/2026): responde com o resultado guardado,
+        # sem reler o link nem gastar IA.
+        self.resolved_reasons = dict(resolved_reasons or {})
         self.max_per_run = max_per_run_value or max_per_run()
         self.last_listing_count = 0
         self.rejections: Dict[str, str] = {}
@@ -198,10 +204,15 @@ class ComunidadeSource(ISource[RawEdital]):
                 logger.info("Indicação #%s sem link válido.", number)
                 self.invalid_issues.append(number)
                 continue
-            if link in self.resolved_links:
-                continue  # já respondida (ou já tentada) antes
             if link in self.issues_by_link:
                 continue  # o mesmo link em outra indicação desta execução
+            if link in self.resolved_links:
+                self.issues_by_link[link] = number
+                if link in self.resolved_reasons:
+                    self.results[link] = (RESULT_REFUSED, self.resolved_reasons[link])
+                else:
+                    self.results[link] = (RESULT_ALREADY, "")
+                continue
             self.issues_by_link[link] = number
             if link in known:
                 self.results[link] = (RESULT_ALREADY, "")

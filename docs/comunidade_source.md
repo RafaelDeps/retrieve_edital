@@ -54,3 +54,12 @@ execução diária e lê essas indicações.
 
 O formulário marca as issues com o rótulo `indicacao-edital`, mas o rótulo não existe no
 repositório. Enquanto não for criado, o coletor acha as indicações pelo título `[Indicação]`.
+
+## Indicação aberta com resultado já guardado (28/11/2026)
+
+Uma indicação que continua **aberta** ainda não foi respondida, mesmo que o coletor já conheça o
+resultado. Exemplo: a portal#15 foi recusada em 26/11, quando ainda não existia o
+`PORTAL_ISSUES_TOKEN`. Nesse caso o coletor responde com o resultado guardado, sem reler o link e sem
+IA:
+- **recusa ainda válida**: "❌ Não publicado: <motivo da recusa>";
+- **link já processado**: "✅ Já está no portal".

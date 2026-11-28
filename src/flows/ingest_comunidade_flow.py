@@ -41,7 +41,8 @@ def run_pipeline(
     built = {}
 
     def make_source(seen):
-        built["source"] = ComunidadeSource(client=client, resolved_links=seen)
+        reasons = rejection_store.get_active_reasons(SPEC.fonte_key)
+        built["source"] = ComunidadeSource(client=client, resolved_links=seen, resolved_reasons=reasons)
         return built["source"]
 
     result = run_standard_pipeline(
