@@ -19,11 +19,18 @@
     ],
     "anexos": [],
     "modalidade": "fluxo-contínuo",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "empresa"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "finep",
     "chamadas": [],
-    "proxima_etapa": null
+    "proxima_etapa": null,
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [],
+        "requisitos_resumo": "Ser Entidade Fechada de Previdência Complementar - EFPC."
+    }
 }

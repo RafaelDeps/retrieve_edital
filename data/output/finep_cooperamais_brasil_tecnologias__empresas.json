@@ -82,5 +82,13 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2027-04-30"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Engenharias",
+            "Ciências Agrárias"
+        ],
+        "requisitos_resumo": "Empresas que estabeleçam parcerias para o desenvolvimento com cooperativas cadastradas no CAF com no mínimo 70% de agricultores familiares associados."
     }
 }

@@ -1,5 +1,5 @@
 {
-    "nome": "CHAMADA CNPQ Nº 38/2026 CIÊNCIA, TECNOLOGIA E INOVAÇÃO PARA ENFRENTAMENTO AO FEMINICÍDIO E ÀS VIOLÊNCIAS DE GÊNERO CONTRA AS MULHERES NO BRASIL",
+    "nome": "CHAMADA CNPQ Nº 38/2026 - CIÊNCIA, TECNOLOGIA E INOVAÇÃO PARA ENFRENTAMENTO AO FEMINICÍDIO E ÀS VIOLÊNCIAS DE GÊNERO CONTRA AS MULHERES NO BRASIL",
     "descrição": "Apoiar projetos de pesquisa que visem contribuir para o desenvolvimento científico e tecnológico e para a inovação no País nas temáticas relacionadas à proteção, à prevenção e ao enfrentamento ao feminicídio e às violências de gênero contra as mulheres em toda a sua diversidade.",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
@@ -33,15 +33,15 @@
             "data": "2027-03-02"
         },
         {
-            "evento": "Início de Período de Julgamento",
+            "evento": "Início do Período de Julgamento",
             "data": "2027-04-05"
         },
         {
-            "evento": "Encerramento de Período de Julgamento",
+            "evento": "Encerramento do Período de Julgamento",
             "data": "2027-04-30"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União, por extrato, e na página do CNPq na internet",
+            "evento": "Divulgação do resultado preliminar do julgamento",
             "data": "2027-05-20"
         },
         {
@@ -49,16 +49,16 @@
             "data": "2027-05-31"
         },
         {
-            "evento": "Divulgação da decisão no Diário Oficial da União, por extrato, e na página do CNPq na internet",
+            "evento": "Divulgação da decisão final no Diário Oficial da União",
             "data": "2027-07-15"
         }
     ],
     "tags": [
         "feminicídio",
         "violência de gênero",
-        "pesquisa científica",
-        "inovação tecnológica",
+        "direitos humanos",
         "políticas públicas",
+        "inovação social",
         "cnpq",
         "chamada pública"
     ],
@@ -70,14 +70,27 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "cnpq",
     "chamadas": [],
     "proxima_etapa": {
-        "evento": "Abertura das inscrições",
-        "data": "2026-11-26"
+        "evento": "Prazo para impugnação da Chamada",
+        "data": "2026-12-07"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Possuir título de doutor, currículo Lattes atualizado e vínculo formal com instituição de execução do projeto (ICT)."
     }
 }

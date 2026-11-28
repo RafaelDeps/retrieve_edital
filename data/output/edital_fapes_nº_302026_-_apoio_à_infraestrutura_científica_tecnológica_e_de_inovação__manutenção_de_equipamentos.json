@@ -1,0 +1,77 @@
+{
+    "nome": "EDITAL FAPES Nº 30/2026 - APOIO À INFRAESTRUTURA CIENTÍFICA, TECNOLÓGICA E DE INOVAÇÃO – MANUTENÇÃO DE EQUIPAMENTOS",
+    "descrição": "Apoiar a infraestrutura científica, tecnológica e de inovação, indispensável ao desenvolvimento de pesquisas, mediante a concessão de recursos financeiros para a execução de projetos que visem à manutenção preventiva e/ou corretiva de equipamentos multiusuários, que não estejam no período de garantia, utilizados na execução de projetos de pesquisa em andamento, situados em laboratórios de IES/P, públicas ou privadas sem fins lucrativos, localizadas no estado do Espírito Santo.",
+    "orgão_fomento": "FAPES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2026-11-06",
+    "data_encerramento": "2026-11-30",
+    "link": "https://fapes.es.gov.br/media/Editais/edital_fapes_30_2026_manutencao_de_equipamentos_06nov2026.pdf?v=1793994012000",
+    "cronograma": [
+        {
+            "evento": "Publicação do edital",
+            "data": "2026-11-06"
+        },
+        {
+            "evento": "Início do envio da proposta e documentos via SigFapes",
+            "data": "2026-11-06"
+        },
+        {
+            "evento": "Prazo para envio de dúvidas a respeito do edital",
+            "data": "2026-11-26"
+        },
+        {
+            "evento": "Encerramento do envio da proposta e documentos via SigFapes",
+            "data": "2026-11-30"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar da seleção",
+            "data": "2026-12-07"
+        },
+        {
+            "evento": "Prazo para recorrer",
+            "data": "5 dias úteis após o resultado preliminar de análise de mérito"
+        },
+        {
+            "evento": "Divulgação do resultado final da seleção",
+            "data": "2026-12-21"
+        }
+    ],
+    "tags": [
+        "infraestrutura",
+        "manutenção de equipamentos",
+        "multiusuário",
+        "pesquisa",
+        "FAPES"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "fapes",
+    "chamadas": [],
+    "proxima_etapa": {
+        "evento": "Encerramento do envio da proposta e documentos via SigFapes",
+        "data": "2026-11-30"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Pesquisador doutor com vínculo celetista ou estatutário por tempo indeterminado em IES/P pública ou privada sem fins lucrativos no ES, integrado a Grupo de Pesquisa no CNPq."
+    }
+}

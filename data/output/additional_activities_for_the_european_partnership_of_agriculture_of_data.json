@@ -3,7 +3,7 @@
     "descrição": "Chamada: Call 04 - single stage (2026). Área: Agriculture, Forestry and Rural Areas; Environmental Observation; Food, Bioeconomy Natural Resources, Agriculture and Environment; Global Challenges and European Industrial Competitiveness; Horizon Europe (HORIZON). Identificador da chamada no Funding & Tenders Portal: HORIZON-CL6-2026-04-GOVERNANCE-01.",
     "orgão_fomento": "HORIZON EUROPE",
     "categoria": "pesquisa",
-    "status": "aberto",
+    "status": "encerrado",
     "data_abertura": "2026-08-25",
     "data_encerramento": "2026-11-26",
     "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL6-2026-04-GOVERNANCE-01",
@@ -37,16 +37,12 @@
     "anexos": [],
     "modalidade": "",
     "publico_alvo": [
-        "pesquisador",
-        "internacional"
+        "pesquisador"
     ],
     "ambito_geografico": "internacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "horizon",
     "chamadas": [],
-    "proxima_etapa": {
-        "evento": "Prazo para envio de propostas",
-        "data": "2026-11-26"
-    }
+    "proxima_etapa": null
 }

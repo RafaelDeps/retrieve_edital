@@ -1,6 +1,6 @@
 {
     "nome": "CHAMADA PÚBLICA MCTI/CNPQ CISB SAAB AB Nº 37/2026",
-    "descrição": "Seleção de bolsistas para desenvolvimento de pesquisas doutorais ou pós-doutorais na Suécia em áreas estratégicas como redes de comunicação, sistemas autônomos, engenharia aeronáutica, propulsão, materiais e desempenho humano, com foco em colaboração científica e tecnológica entre Brasil e Suécia.",
+    "descrição": "Selecionar candidatos para desenvolver parte de suas pesquisas doutorais ou projeto de pós-doutorado na Suécia em áreas de pesquisa definidas consensualmente entre o CNPq, o CISB e a SAAB AB, visando apoiar bolsistas de Pós-doutorado no exterior (PDE) e Doutorado-sanduíche no exterior (SWE).",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -33,8 +33,12 @@
             "data": "2027-03-12"
         },
         {
-            "evento": "Período de Julgamento",
+            "evento": "Início do período de julgamento",
             "data": "2027-03-01"
+        },
+        {
+            "evento": "Encerramento do período de julgamento",
+            "data": "2027-05-31"
         },
         {
             "evento": "Divulgação do resultado preliminar do julgamento",
@@ -45,29 +49,25 @@
             "data": "2027-06-11"
         },
         {
-            "evento": "Divulgação da decisão final do julgamento",
+            "evento": "Divulgação da decisão",
             "data": "2027-07-01"
         },
         {
             "evento": "Início da implementação das bolsas",
-            "data": "2027-08"
+            "data": "2027-08-01"
         },
         {
-            "evento": "Início das atividades no país estrangeiro (Suécia)",
-            "data": "2028-01"
+            "evento": "Início das atividades no país estrangeiro",
+            "data": "2028-01-01"
         }
     ],
     "tags": [
-        "bolsa de doutorado",
-        "bolsa de pós-doutorado",
-        "cooperação internacional",
-        "pesquisa aeronáutica",
-        "cibersegurança",
-        "sistemas autônomos",
-        "Suécia",
-        "CNPq",
-        "inovação tecnológica",
-        "defesa e aerospace",
+        "doutorado-sanduíche",
+        "pós-doutorado",
+        "suécia",
+        "engenharia aeronáutica",
+        "defesa",
+        "inovação",
         "cnpq",
         "chamada pública"
     ],
@@ -79,14 +79,25 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pos_graduando",
+        "pesquisador"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "cnpq",
     "chamadas": [],
     "proxima_etapa": {
-        "evento": "Período de Julgamento",
+        "evento": "Início do período de julgamento",
         "data": "2027-03-01"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "mestrado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Engenharias"
+        ],
+        "requisitos_resumo": "Ser brasileiro ou estrangeiro com visto permanente, possuir currículo Lattes atualizado, e estar cursando doutorado no Brasil (para sanduíche) ou possuir título de doutor (para pós-doutorado)."
     }
 }

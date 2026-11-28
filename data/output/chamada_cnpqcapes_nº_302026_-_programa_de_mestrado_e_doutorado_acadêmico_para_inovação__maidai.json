@@ -1,6 +1,6 @@
 {
-    "nome": "CHAMADA PÚBLICA CNPQ/CAPES Nº 30/2026 - PROGRAMA DE MESTRADO E DOUTORADO ACADÊMICO PARA INOVAÇÃO (MAI/DAI)",
-    "descrição": "O edital visa apoiar Instituições Científicas, Tecnológicas e de Inovação (ICTs) na execução do Programa de Mestrado e Doutorado Acadêmico para Inovação (MAI/DAI), fortalecendo a pesquisa aplicada, desenvolvimento tecnológico e inovação. O programa busca fomentar parcerias entre ICTs e setores empresarial, governamental e terceiro setor, promovendo a formação de recursos humanos em níveis de graduação e pós-graduação, além de gerar produtos e processos inovadores com relevância econômica e social para o país. São duas linhas de submissão: Linha 1 para ICTs com histórico consolidado de parcerias em PD&I, e Linha 2 para ICTs com trajetória inicial de parcerias.",
+    "nome": "CHAMADA CNPQ/CAPES Nº 30/2026 - PROGRAMA DE MESTRADO E DOUTORADO ACADÊMICO PARA INOVAÇÃO – MAI/DAI",
+    "descrição": "Apoiar propostas de ICTs, que demonstrem capacidade para a execução do Programa MAI/DAI – Mestrado e Doutorado Acadêmico para Inovação, fortalecendo a pesquisa, o empreendedorismo e a inovação por meio do envolvimento de estudantes em projetos de interesse do setor empresarial, governamental e terceiro setor.",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -29,11 +29,11 @@
             "data": "2026-08-29"
         },
         {
-            "evento": "Data de início do período de submissão das propostas",
+            "evento": "Início do período de submissão das propostas",
             "data": "2026-08-20"
         },
         {
-            "evento": "Data limite para submissão das propostas",
+            "evento": "Encerramento do período de submissão das propostas",
             "data": "2026-12-11"
         },
         {
@@ -41,33 +41,28 @@
             "data": "2027-01"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq e CAPES",
+            "evento": "Divulgação do resultado preliminar do julgamento",
             "data": "2027-01"
         },
         {
             "evento": "Prazo final para interposição de recurso administrativo",
-            "data": "texto original: 10 dias após a divulgação do resultado preliminar"
+            "data": "10 dias após a divulgação do resultado preliminar"
         },
         {
-            "evento": "Divulgação da decisão final no Diário Oficial da União e nas páginas do CNPq e CAPES",
+            "evento": "Divulgação da decisão dos recursos",
             "data": "2027-02"
         },
         {
-            "evento": "Prazo limite para implementação das bolsas de doutorado pela Instituição Executora",
-            "data": "texto original: 6 meses após a divulgação do resultado final"
+            "evento": "Prazo limite para a implementação das bolsas de doutorado pela Instituição Executora",
+            "data": "6 meses após a divulgação do resultado final"
         }
     ],
     "tags": [
-        "bolsas de mestrado",
-        "bolsas de doutorado",
-        "instituições científicas e tecnológicas",
         "inovação",
-        "parcerias empresariais",
-        "pesquisa aplicada",
-        "desenvolvimento tecnológico",
-        "CAPES",
-        "CNPq",
-        "PD&I",
+        "pós-graduação",
+        "mestrado",
+        "doutorado",
+        "parceria empresa-universidade",
         "cnpq",
         "chamada pública"
     ],
@@ -99,7 +94,13 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "estudante_graduacao",
+        "pos_graduando",
+        "pesquisador",
+        "empresa",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -108,5 +109,20 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-12-11"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Proponente deve ser o Representante Institucional (RID) indicado pelo dirigente máximo da ICT, com vínculo formal e currículo Lattes atualizado."
     }
 }

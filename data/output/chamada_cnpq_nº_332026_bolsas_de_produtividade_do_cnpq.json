@@ -1,6 +1,6 @@
 {
-    "nome": "CHAMADA CNPQ Nº 33/2026 - BOLSAS DE PRODUTIVIDADE EM PESQUISA E DESENVOLVIMENTO TECNOLÓGICO",
-    "descrição": "Edital para concessão de bolsas de produtividade nas modalidades Desenvolvimento Tecnológico e Extensão Inovadora (DT), Pesquisa (PQ) e Pesquisa Sênior (PQ-Sr). Objetiva valorizar pesquisadores com produção científica, tecnológica e de inovação de destaque, incentivar a produção de qualidade e selecionar projetos rigorosos e metodologicamente sólidos. As bolsas são destinadas a pesquisadores com doutorado, vinculados a instituições cadastradas no CNPq.",
+    "nome": "CHAMADA CNPQ Nº 33/2026 BOLSAS DE PRODUTIVIDADE DO CNPQ",
+    "descrição": "Conceder bolsas nas seguintes modalidades: Produtividade em Desenvolvimento Tecnológico e Extensão Inovadora (DT), Produtividade em Pesquisa (PQ) e Produtividade em Pesquisa Sênior (PQ-Sr), visando valorizar pesquisadores com produção científica, tecnológica e de inovação de destaque.",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -33,11 +33,15 @@
             "data": "2027-01-07"
         },
         {
-            "evento": "Período de Julgamento",
+            "evento": "Início do Período de Julgamento",
             "data": "2027-03-01"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "evento": "Encerramento do Período de Julgamento",
+            "data": "2027-04-02"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento",
             "data": "2027-05-05"
         },
         {
@@ -45,18 +49,15 @@
             "data": "2027-05-17"
         },
         {
-            "evento": "Divulgação da decisão final no Diário Oficial da União e na página do CNPq",
+            "evento": "Divulgação da decisão",
             "data": "2027-06-30"
         }
     ],
     "tags": [
-        "bolsas de produtividade",
-        "pesquisa científica",
+        "bolsas",
+        "produtividade",
+        "pesquisa",
         "desenvolvimento tecnológico",
-        "extensão inovadora",
-        "CNPq",
-        "pesquisadores doutores",
-        "financiamento público",
         "cnpq",
         "chamada pública"
     ],
@@ -88,7 +89,10 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -97,5 +101,20 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2027-01-07"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Possuir o título de Doutor, currículo na Plataforma Lattes atualizado e vínculo formal com a instituição de execução do projeto."
     }
 }

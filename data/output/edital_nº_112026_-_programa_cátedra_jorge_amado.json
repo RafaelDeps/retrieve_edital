@@ -1,6 +1,6 @@
 {
     "nome": "EDITAL Nº 11/2026 - PROGRAMA CÁTEDRA JORGE AMADO",
-    "descrição": "O presente Edital selecionará 1 (um) bolsista da modalidade Cátedra, o qual poderá indicar 1 (um) bolsista de Pós-Doutorado, 1 (um) bolsista de Doutorado Sanduíche e 1 (um) bolsista Professor Visitante no Brasil para promover a colaboração em educação e pesquisa entre Cuba e o Brasil, bem como aperfeiçoar o conhecimento sobre o Brasil em Cuba.",
+    "descrição": "Selecionar bolsistas nas modalidades Cátedra, Pós-Doutorado, Doutorado Sanduíche e Professor Visitante para promover a colaboração em educação e pesquisa entre Cuba e o Brasil, bem como aperfeiçoar o conhecimento sobre o Brasil em Cuba, no âmbito do acordo entre a CAPES e a Universidade de Havana (UH).",
     "orgão_fomento": "CAPES",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -10,7 +10,7 @@
     "cronograma": [
         {
             "evento": "Data-limite para solicitação do proponente para cadastramento de instituição brasileira ou estrangeira",
-            "data": "2026-12-28"
+            "data": "2026-12-21"
         },
         {
             "evento": "Prazo para envio de dúvidas e questionamentos a respeito do Edital",
@@ -22,15 +22,15 @@
         },
         {
             "evento": "Publicação da relação das inscrições recebidas",
-            "data": "Até 15 (quinze) dias úteis após o encerramento das inscrições."
+            "data": "Até 15 (quinze) dias úteis após o encerramento das inscrições"
         },
         {
             "evento": "Análise das propostas",
-            "data": "2027-06-01"
+            "data": "2027-06-30"
         },
         {
             "evento": "Interposição do recurso administrativo",
-            "data": "Em até 3 (três) dias úteis após a comunicação realizada pela CAPES."
+            "data": "Em até 3 (três) dias úteis após a comunicação realizada pela CAPES"
         },
         {
             "evento": "Divulgação do resultado final",
@@ -44,9 +44,9 @@
     "tags": [
         "Cátedra Jorge Amado",
         "CAPES",
+        "Cooperação Internacional",
         "Cuba",
-        "Bolsas no exterior",
-        "Cooperação internacional",
+        "Bolsas no Exterior",
         "capes"
     ],
     "anexos": [
@@ -92,7 +92,11 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pos_graduando",
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -100,6 +104,14 @@
     "chamadas": [],
     "proxima_etapa": {
         "evento": "Data-limite para solicitação do proponente para cadastramento de instituição brasileira ou estrangeira",
-        "data": "2026-12-28"
+        "data": "2026-12-21"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Humanas",
+            "Linguística, Letras e Artes"
+        ],
+        "requisitos_resumo": "Ser brasileiro nato, naturalizado ou estrangeiro com residência permanente, possuir título de doutorado há pelo menos 15 anos para a modalidade cátedra, ser docente e orientador em programa de pós-graduação recomendado pela CAPES nas áreas de cultura e literatura em geral."
     }
 }

@@ -80,7 +80,9 @@
         }
     ],
     "modalidade": "fluxo-contínuo",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "ict"
+    ],
     "ambito_geografico": "Norte",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -89,5 +91,20 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-12-01"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Agências de fomento, individualmente ou em consórcio."
     }
 }

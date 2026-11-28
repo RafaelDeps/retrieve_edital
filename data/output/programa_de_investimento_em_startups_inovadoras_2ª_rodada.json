@@ -28,11 +28,23 @@
     ],
     "anexos": [],
     "modalidade": "fluxo-contínuo",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "empresa",
+        "startup"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "finep",
     "chamadas": [],
-    "proxima_etapa": null
+    "proxima_etapa": null,
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Engenharias",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Ser empresa brasileira nascente de base tecnológica (startup)."
+    }
 }

@@ -1,6 +1,6 @@
 {
     "nome": "PRÊMIO CAPES DE TESE",
-    "descrição": "O Prêmio CAPES de Tese reconhece os melhores trabalhos de conclusão de doutorado defendidos em programas de pós-graduação brasileiros, com base na originalidade, relevância para o desenvolvimento científico, tecnológico, cultural, social e de inovação, e valor agregado pelo sistema educacional.",
+    "descrição": "Reconhece os melhores trabalhos de conclusão de doutorado defendidos em programas de pós-graduação brasileiros, considerando originalidade, relevância científica, tecnológica, cultural, social e de inovação.",
     "orgão_fomento": "CAPES",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -11,17 +11,35 @@
     "tags": [
         "tese",
         "doutorado",
-        "prêmio",
-        "pós-graduação",
+        "premio",
+        "pos-graduacao",
         "capes"
     ],
     "anexos": [],
     "modalidade": "fluxo-contínuo",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "capes",
     "chamadas": [],
-    "proxima_etapa": null
+    "proxima_etapa": null,
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Possuir tese de doutorado defendida em programa de pós-graduação brasileiro."
+    }
 }

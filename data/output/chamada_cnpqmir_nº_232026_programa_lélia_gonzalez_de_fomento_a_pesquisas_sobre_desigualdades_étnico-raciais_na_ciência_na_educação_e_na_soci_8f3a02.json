@@ -1,6 +1,6 @@
 {
-    "nome": "CHAMADA CNPQ/MIR Nº 23/2026 - PROGRAMA LÉLIA GONZALEZ DE FOMENTO A PESQUISAS SOBRE DESIGUALDADES ÉTNICO-RACIAIS",
-    "descrição": "Fomentar a produção científica sobre processos de formação e reprodução das desigualdades étnico-raciais e suas implicações na ciência, educação e sociedade brasileira. Inclui análise do racismo estrutural, fundamentos históricos e sociais, além de subsidiar políticas públicas de enfrentamento ao racismo e promover divulgação científica dos resultados.",
+    "nome": "CHAMADA CNPQ/MIR Nº 23/2026 PROGRAMA LÉLIA GONZALEZ DE FOMENTO A PESQUISAS SOBRE DESIGUALDADES ÉTNICO-RACIAIS NA CIÊNCIA, NA EDUCAÇÃO E NA SOCIEDADE BRASILEIRAS",
+    "descrição": "Fomentar a produção científica a respeito dos processos de formação e reprodução das desigualdades étnico-raciais e de suas implicações para a ciência, a educação e a sociedade brasileiras.",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -33,11 +33,15 @@
             "data": "2027-03-01"
         },
         {
-            "evento": "Período de Julgamento",
+            "evento": "Início de Período de Julgamento",
             "data": "2027-04-05"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "evento": "Encerramento de Período de Julgamento",
+            "data": "2027-04-09"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União, por extrato, e na página do CNPq na internet",
             "data": "2027-05-11"
         },
         {
@@ -45,20 +49,17 @@
             "data": "2027-05-21"
         },
         {
-            "evento": "Divulgação da decisão final no Diário Oficial da União e na página do CNPq",
+            "evento": "Divulgação da decisão no Diário Oficial da União, por extrato, e na página do CNPq na internet",
             "data": "2027-06-23"
         }
     ],
     "tags": [
         "desigualdades étnico-raciais",
-        "pesquisa científica",
+        "ciência",
+        "educación",
+        "sociedade brasileira",
         "racismo estrutural",
         "políticas públicas",
-        "divulgação científica",
-        "CNPq",
-        "MIR",
-        "educação",
-        "sociedade brasileira",
         "cnpq",
         "chamada pública"
     ],
@@ -70,7 +71,11 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -79,5 +84,14 @@
     "proxima_etapa": {
         "evento": "Prazo para impugnação da Chamada",
         "data": "2026-11-30"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Possuir título de doutor, currículo Lattes atualizado, ser coordenador e ter vínculo formal com instituição de execução (ICT)."
     }
 }

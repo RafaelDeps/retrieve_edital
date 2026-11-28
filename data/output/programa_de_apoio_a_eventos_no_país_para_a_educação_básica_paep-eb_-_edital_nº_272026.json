@@ -1,11 +1,11 @@
 {
-    "nome": "PROGRAMA DE APOIO A EVENTOS NO PAÍS PARA A EDUCAÇÃO BÁSICA (PAEP-EB) - EDITAL Nº 27/2026 (ALTERAÇÃO)",
-    "descrição": "Programa de fomento da CAPES voltado para o apoio financeiro a eventos no país relacionados à educação básica, visando promover a formação, atualização e discussão de temas relevantes para o ensino fundamental e médio.",
+    "nome": "PROGRAMA DE APOIO A EVENTOS NO PAÍS PARA A EDUCAÇÃO BÁSICA (PAEP-EB) - EDITAL Nº 27/2026",
+    "descrição": "Selecionar propostas para apoio financeiro à realização de eventos de curta duração no país, de caráter acadêmico, científico, tecnológico ou de extensão universitária, com abrangência regional, nacional ou internacional, que envolvam pesquisadores, docentes e discentes de cursos de licenciatura e de pós-graduação, e profissionais da rede pública de educação básica.",
     "orgão_fomento": "CAPES",
     "categoria": "extensão",
     "status": "aberto",
-    "data_abertura": "2026-10-01",
-    "data_encerramento": "2026-12-22",
+    "data_abertura": "2026-12-07",
+    "data_encerramento": "2026-12-11",
     "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/programa-de-apoio-a-eventos-no-pais-para-a-educacao-basica-paep-eb",
     "cronograma": [
         {
@@ -17,57 +17,83 @@
             "data": "2026-10-06"
         },
         {
-            "evento": "Solicitação de cadastro de instituição (para instituições sem cadastro prévio)",
+            "evento": "Início da solicitação de cadastro de instituição",
             "data": "2026-10-13"
         },
         {
-            "evento": "Submissão de propostas",
+            "evento": "Encerramento da solicitação de cadastro de instituição",
+            "data": "2026-10-23"
+        },
+        {
+            "evento": "Início da submissão de propostas",
             "data": "2026-10-13"
         },
         {
-            "evento": "Análise Técnica das propostas",
+            "evento": "Encerramento da submissão de propostas",
+            "data": "2026-11-04"
+        },
+        {
+            "evento": "Início da Análise Técnica das propostas",
             "data": "2026-11-05"
+        },
+        {
+            "evento": "Encerramento da Análise Técnica das propostas",
+            "data": "2026-11-27"
         },
         {
             "evento": "Divulgação do resultado da Análise Técnica",
             "data": "2026-12-01"
         },
         {
-            "evento": "Interposição de recurso administrativo contra resultado da Análise Técnica",
+            "evento": "Início da interposição de recurso administrativo contra resultado da Análise Técnica",
             "data": "2026-12-01"
+        },
+        {
+            "evento": "Encerramento da interposição de recurso administrativo contra resultado da Análise Técnica",
+            "data": "2026-12-03"
         },
         {
             "evento": "Divulgação do resultado dos recursos da Análise Técnica",
             "data": "2026-12-04"
         },
         {
-            "evento": "Análise de Mérito das propostas",
+            "evento": "Início da Análise de Mérito das propostas",
             "data": "2026-12-07"
+        },
+        {
+            "evento": "Encerramento da Análise de Mérito das propostas",
+            "data": "2026-12-11"
         },
         {
             "evento": "Divulgação do resultado preliminar da Análise de Mérito",
             "data": "2026-12-15"
         },
         {
-            "evento": "Interposição de recurso administrativo contra resultado da Análise de Mérito",
+            "evento": "Início da interposição de recurso administrativo contra resultado da Análise de Mérito",
             "data": "2026-12-15"
+        },
+        {
+            "evento": "Encerramento da interposição de recurso administrativo contra resultado da Análise de Mérito",
+            "data": "2026-12-17"
         },
         {
             "evento": "Divulgação do resultado final",
             "data": "2026-12-22"
         },
         {
-            "evento": "Realização dos eventos",
+            "evento": "Início da realização dos eventos",
             "data": "2027-01-18"
+        },
+        {
+            "evento": "Encerramento da realização dos eventos",
+            "data": "2027-12-11"
         }
     ],
     "tags": [
-        "educação básica",
-        "eventos acadêmicos",
-        "fomento CAPES",
-        "ensino fundamental e médio",
-        "formação de professores",
-        "extensão universitária",
+        "educacao basica",
+        "formacao de professores",
+        "eventos academicos",
+        "extensao universitaria",
         "capes"
     ],
     "anexos": [
@@ -198,7 +224,12 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "estudante_graduacao",
+        "pos_graduando",
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -207,5 +238,14 @@
     "proxima_etapa": {
         "evento": "Divulgação do resultado da Análise Técnica",
         "data": "2026-12-01"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Instituições ou entidades públicas ou privadas sem fins lucrativos com atuação reconhecidamente contínua na formação de professores da educação básica, representadas por proponente em posição de liderança ou autoridade no evento."
     }
 }

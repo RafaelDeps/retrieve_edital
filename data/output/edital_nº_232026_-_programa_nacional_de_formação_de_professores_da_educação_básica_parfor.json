@@ -1,19 +1,19 @@
 {
-    "nome": "EDITAL Nº 23/2026 - ALTERAÇÃO DO PROGRAMA NACIONAL DE FORMAÇÃO DE PROFESSORES DA EDUCAÇÃO BÁSICA (PARFOR)",
-    "descrição": "Alteração do cronograma do Edital PARFOR para formação de professores da educação básica, visando ajustar prazos para planejamento de cursos, submissão de propostas pelas Instituições de Ensino Superior (IES), análise técnica, indicação de professores cursistas, pré-inscrições e início das turmas em 2027 e 2028.",
+    "nome": "EDITAL Nº 23/2026 - PROGRAMA NACIONAL DE FORMAÇÃO DE PROFESSORES DA EDUCAÇÃO BÁSICA (PARFOR)",
+    "descrição": "Seleção de propostas apresentadas por Instituições de Educação Superior (IES) para a oferta de cursos de licenciatura, com apoio da Capes para até 8.000 vagas, visando a formação de professores em exercício nas redes públicas de educação básica e redes comunitárias.",
     "orgão_fomento": "CAPES",
-    "categoria": "extensão",
+    "categoria": "outros",
     "status": "aberto",
-    "data_abertura": "2027-02-22",
-    "data_encerramento": "2027-03-10",
+    "data_abertura": "2026-11-18",
+    "data_encerramento": "2026-12-04",
     "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/educacao-basica/parfor/parfor",
     "cronograma": [
         {
             "evento": "Prazo de impugnação do edital",
-            "data": "5 dias corridos contados da data de publicação"
+            "data": "5 (cinco) dias corridos contados da data de publicação."
         },
         {
-            "evento": "Planejamento da oferta de cursos e vagas pelos Fóruns e IES",
+            "evento": "Planejamento da oferta de cursos e vagas pelos Fóruns e IES (Anexo III)",
             "data": "2026-11-03"
         },
         {
@@ -21,70 +21,124 @@
             "data": "2026-11-16"
         },
         {
-            "evento": "Envio de propostas no SiCapes pelas IES",
+            "evento": "Início do envio de propostas no SiCapes pelas IES",
+            "data": "2026-07-27"
+        },
+        {
+            "evento": "Encerramento do envio de propostas no SiCapes pelas IES",
             "data": "2026-11-17"
         },
         {
-            "evento": "Análise técnica das propostas",
+            "evento": "Início da análise técnica das propostas",
             "data": "2026-11-18"
+        },
+        {
+            "evento": "Encerramento da análise técnica das propostas",
+            "data": "2026-12-04"
         },
         {
             "evento": "Resultado preliminar",
             "data": "2026-12-08"
         },
         {
-            "evento": "Prazo recursal da análise técnica",
+            "evento": "Início do prazo recursal da análise técnica",
             "data": "2026-12-09"
+        },
+        {
+            "evento": "Encerramento do prazo recursal da análise técnica",
+            "data": "2026-12-15"
         },
         {
             "evento": "Resultado final",
             "data": "2026-12-18"
         },
         {
-            "evento": "Indicação dos professores cursistas pelas Secretarias de Educação",
+            "evento": "Início da indicação dos professores cursistas pelas Secretarias de Educação no Novo PAR",
             "data": "2027-01-05"
         },
         {
-            "evento": "Manifestação de interesse na Plataforma Freire pelos professores indicados",
+            "evento": "Encerramento da indicação dos professores cursistas pelas Secretarias de Educação no Novo PAR",
+            "data": "2027-02-15"
+        },
+        {
+            "evento": "Início da manifestação de interesse na Plataforma Freire pelos professores indicados",
             "data": "2027-02-22"
         },
         {
-            "evento": "Pré-inscrição dos professores da educação básica (vagas remanescentes)",
+            "evento": "Encerramento da manifestação de interesse na Plataforma Freire pelos professores indicados",
+            "data": "2027-03-10"
+        },
+        {
+            "evento": "Início da pré-inscrição dos professores da educação básica nos cursos do Parfor (Vagas remanescentes)",
             "data": "2027-03-16"
         },
         {
-            "evento": "Validação das pré-inscrições pelas Secretarias de Educação (vagas remanescentes)",
+            "evento": "Encerramento da pré-inscrição dos professores da educação básica nos cursos do Parfor (Vagas remanescentes)",
+            "data": "2027-04-09"
+        },
+        {
+            "evento": "Início da validação das pré-inscrições pelas Secretarias de Educação (Vagas remanescentes)",
             "data": "2027-04-14"
         },
         {
-            "evento": "Seleção dos candidatos pelas IES",
-            "data": "Conforme calendário divulgado por cada IES"
+            "evento": "Encerramento da validação das pré-inscrições pelas Secretarias de Educação (Vagas remanescentes)",
+            "data": "2027-04-30"
         },
         {
-            "evento": "Matrícula dos professores cursistas (Turmas 2027/2)",
-            "data": "2027-05-15"
+            "evento": "Seleção dos candidatos pelas Instituições de Educação Superior (IES)",
+            "data": "Conforme calendário divulgado por Cada IES"
+        },
+        {
+            "evento": "Início da matrícula dos professores cursistas na IES e na Plataforma Freire (Turmas 2027/2)",
+            "data": "2027-05-15",
+            "chamada": "Turmas 2027/2"
+        },
+        {
+            "evento": "Encerramento da matrícula dos professores cursistas na IES e na Plataforma Freire (Turmas 2027/2)",
+            "data": "2027-06-30",
+            "chamada": "Turmas 2027/2"
+        },
+        {
+            "evento": "Início da matrícula dos professores cursistas na IES e na Plataforma Freire (Turmas 2028/1)",
+            "data": "2028-01-03",
+            "chamada": "Turmas 2028/1"
+        },
+        {
+            "evento": "Encerramento da matrícula dos professores cursistas na IES e na Plataforma Freire (Turmas 2028/1)",
+            "data": "2028-03-03",
+            "chamada": "Turmas 2028/1"
         },
         {
             "evento": "Início dos cursos (Turmas 2027/2)",
-            "data": "2027-06-01"
+            "data": "2027-06-01",
+            "chamada": "Turmas 2027/2"
         },
         {
-            "evento": "Matrícula dos professores cursistas (Turmas 2028/1)",
-            "data": "2028-01-03"
+            "evento": "Fim do período de início dos cursos (Turmas 2027/2)",
+            "data": "2027-09-30",
+            "chamada": "Turmas 2027/2"
         },
         {
             "evento": "Início dos cursos (Turmas 2028/1)",
-            "data": "2028-01-04"
+            "data": "2028-01-04",
+            "chamada": "Turmas 2028/1"
+        },
+        {
+            "evento": "Fim do período de início dos cursos (Turmas 2028/1)",
+            "data": "2028-03-15",
+            "chamada": "Turmas 2028/1"
+        },
+        {
+            "evento": "Formalização dos instrumentos de repasse financeiro",
+            "data": "a partir da inserção das matrículas dos professores cursistas na Plataforma Freire"
         }
     ],
     "tags": [
+        "PARFOR",
+        "licenciatura",
         "formação de professores",
         "educação básica",
         "CAPES",
-        "PARFOR",
-        "ensino superior",
-        "cronograma alterado",
-        "submissão de propostas",
         "capes"
     ],
     "anexos": [
@@ -170,14 +224,39 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "capes",
-    "chamadas": [],
+    "chamadas": [
+        {
+            "nome": "Turmas 2027/2",
+            "abertura": "2027-05-15",
+            "encerramento": "2027-06-30"
+        },
+        {
+            "nome": "Turmas 2028/1",
+            "abertura": "2028-01-03",
+            "encerramento": "2028-03-03"
+        }
+    ],
     "proxima_etapa": {
-        "evento": "Resultado preliminar",
-        "data": "2026-12-08"
+        "evento": "Encerramento da análise técnica das propostas",
+        "data": "2026-12-04"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Instituições de Educação Superior (IES) públicas ou privadas sem fins lucrativos, devidamente credenciadas, com CI ou IGC igual ou superior a 3 e experiência em formação de professores."
     }
 }

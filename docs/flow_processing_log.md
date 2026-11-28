@@ -12,6 +12,14 @@ Documento operacional para registrar a data de processamento dos fluxos do proje
 
 | Data/Hora | Fluxo | Resultado | Observações |
 | :-- | :-- | :-- | :-- |
+| 2026-11-28 08:37:13 -03:00 | `COMUNIDADE` | Sucesso | Registry `comunidade`: 0 -> 0 (delta 0); `data/output/` com 422 JSONs; arquivos não-JSON: nenhum. Origem devolveu 1 itens brutos. |
+| 2026-11-28 08:37:12 -03:00 | `CNPQ` | Sucesso | Registry `cnpq`: 9 -> 9 (delta 0); `data/output/` com 422 JSONs; arquivos não-JSON: nenhum. Origem devolveu 9 itens brutos. www.gov.br recusou o acesso direto; 19 páginas buscadas pelo Jina. |
+| 2026-11-28 08:34:55 -03:00 | `CAPES` | Sucesso | Registry `capes`: 8 -> 8 (delta 0); `data/output/` com 414 JSONs; arquivos não-JSON: nenhum. Origem devolveu 30 itens brutos. www.gov.br recusou o acesso direto; 18 páginas buscadas pelo Jina. |
+| 2026-11-28 08:33:10 -03:00 | `PROEX_IFES` | Sucesso | Registry `proex_ifes`: 0 -> 0 (delta 0); `data/output/` com 412 JSONs; arquivos não-JSON: nenhum. Origem devolveu 9 itens brutos. |
+| 2026-11-28 08:33:08 -03:00 | `PRPPG_IFES` | Sucesso | Registry `prppg_ifes`: 3 -> 3 (delta 0); `data/output/` com 412 JSONs; arquivos não-JSON: nenhum. Origem devolveu 110 itens brutos. |
+| 2026-11-28 08:32:41 -03:00 | `CONIF` | Sucesso | Registry `conif`: 1 -> 1 (delta 0); `data/output/` com 412 JSONs; arquivos não-JSON: nenhum. Origem devolveu 6 itens brutos. |
+| 2026-11-28 08:32:26 -03:00 | `FINEP` | Sucesso | Registry `finep`: 18 -> 18 (delta 0); `data/output/` com 412 JSONs; arquivos não-JSON: nenhum. Origem devolveu 32 itens brutos. |
+| 2026-11-28 08:31:37 -03:00 | `FAPES` | Sucesso | Registry `fapes`: 22 -> 22 (delta 0); `data/output/` com 412 JSONs; arquivos não-JSON: nenhum. Origem devolveu 4 itens brutos. |
 | 2026-11-26 15:09:22 -03:00 | `COMUNIDADE` | Sucesso | Registry `comunidade`: 0 -> 0 (delta 0); `data/output/` com 571 JSONs; arquivos não-JSON: nenhum. Origem devolveu 1 itens brutos. |
 | 2026-11-26 15:09:19 -03:00 | `CNPQ` | Sucesso | Registry `cnpq`: 8 -> 9 (delta 1); `data/output/` com 571 JSONs; arquivos não-JSON: nenhum. Origem devolveu 9 itens brutos. www.gov.br recusou o acesso direto; 3 páginas buscadas pelo Jina. |
 | 2026-11-26 15:08:41 -03:00 | `CAPES` | Sucesso | Registry `capes`: 8 -> 8 (delta 0); `data/output/` com 570 JSONs; arquivos não-JSON: nenhum. Origem devolveu 30 itens brutos. www.gov.br recusou o acesso direto; 20 páginas buscadas pelo Jina. |

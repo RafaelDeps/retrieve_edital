@@ -1,0 +1,83 @@
+{
+    "nome": "CHAMADA TRANSNACIONAL CONJUNTA FOREST 2026 - DIRETRIZES DA FAPES",
+    "descrição": "Apoiamos projetos transnacionais de pesquisa e inovação relacionados às florestas, à silvicultura e ao setor de base florestal, fomentando a geração de novos conhecimentos e soluções práticas para a bioeconomia florestal sustentável e circular.",
+    "orgão_fomento": "FAPES",
+    "categoria": "pesquisa",
+    "status": "aberto",
+    "data_abertura": "2027-04-01",
+    "data_encerramento": "2026-12-02",
+    "link": "https://fapes.es.gov.br/media/Editais/diretrizes-forest-pathways-2026.pdf?v=1790870764000",
+    "cronograma": [
+        {
+            "evento": "Abertura da Chamada",
+            "data": "2026-09-15",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Encerramento do prazo da submissão da 1º fase",
+            "data": "2026-12-02",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Resultado da avaliação das pré-propostas",
+            "data": "2027-03-23",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Encerramento do prazo para submissão das propostas completas",
+            "data": "2027-06-02",
+            "chamada": "2ª chamada"
+        },
+        {
+            "evento": "Resultado da Chamada",
+            "data": "2027-09-21",
+            "chamada": "2ª chamada"
+        },
+        {
+            "evento": "Início dos projetos aprovados",
+            "data": "2027-04-01"
+        }
+    ],
+    "tags": [
+        "florestas",
+        "silvicultura",
+        "bioeconomia",
+        "pesquisa transnacional",
+        "inovação"
+    ],
+    "anexos": [],
+    "modalidade": "",
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
+    "ambito_geografico": "estadual-ES",
+    "valor_estimado": null,
+    "trl_exigido": "",
+    "fonte_key": "fapes",
+    "chamadas": [
+        {
+            "nome": "1ª chamada",
+            "abertura": "",
+            "encerramento": "2026-12-02"
+        },
+        {
+            "nome": "2ª chamada",
+            "abertura": "",
+            "encerramento": "2027-06-02"
+        }
+    ],
+    "proxima_etapa": {
+        "evento": "Encerramento do prazo da submissão da 1º fase",
+        "data": "2026-12-02"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências Agrárias"
+        ],
+        "requisitos_resumo": "Ser pesquisador doutor, coordenador do projeto, com vínculo ativo em IES/P no Espírito Santo, residir no estado e estar adimplente junto à Fapes."
+    }
+}

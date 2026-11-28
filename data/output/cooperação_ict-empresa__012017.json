@@ -20,11 +20,29 @@
     ],
     "anexos": [],
     "modalidade": "fluxo-contínuo",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "empresa",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "finep",
     "chamadas": [],
-    "proxima_etapa": null
+    "proxima_etapa": null,
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Projetos em cooperação entre ICTs brasileiras e empresas brasileiras e espanholas."
+    }
 }

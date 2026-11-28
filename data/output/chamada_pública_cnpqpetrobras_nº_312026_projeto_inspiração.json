@@ -1,6 +1,6 @@
 {
-    "nome": "CHAMADA PÚBLICA CNPQ/PETROBRAS Nº 31/2026 - PROJETO INSPIRAÇÃO",
-    "descrição": "Apoio a instituições científicas, tecnológicas e de inovação (ICT) e instituições de ensino superior (IES) para concessão de bolsas de Apoio Técnico em Extensão no País (ATP-B) a jovens negras estudantes do ensino médio, com duração de 36 meses em três ciclos. Objetiva integrar estudantes em atividades de pesquisa científica, tecnológica e inovação, com ênfase em petróleo, energia, tecnologias sociais e sustentabilidade, promovendo inclusão racial, equidade de gênero e divulgação científica em escolas públicas nos territórios de atuação da Petrobras.",
+    "nome": "CHAMADA PÚBLICA CNPQ/PETROBRAS Nº 31/2026 PROJETO INSPIRAÇÃO",
+    "descrição": "Apoiar instituições interessadas em integrar o Projeto InspirAÇÃO por meio da concessão de bolsas de Apoio Técnico em Extensão no País (ATP-B) a jovens negras estudantes do ensino médio, visando ampliar o acesso à cultura científica, estimular a formação para a indústria de energia e fomentar a equidade na ciência.",
     "orgão_fomento": "CNPQ",
     "categoria": "extensão",
     "status": "aberto",
@@ -21,12 +21,12 @@
             "data": "2026-10-26"
         },
         {
-            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq",
+            "evento": "Lançamento da Chamada no Diário Oficial da União e na página do CNPq na internet",
             "data": "2026-10-26"
         },
         {
-            "evento": "Prazo final para impugnação da Chamada (10 dias corridos após o lançamento)",
-            "data": "2026-10-26"
+            "evento": "Prazo final para impugnação da Chamada",
+            "data": "10 dias corridos após o lançamento da Chamada"
         },
         {
             "evento": "Data limite para submissão das propostas",
@@ -37,31 +37,27 @@
             "data": "2027-01-01"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "evento": "Divulgação do resultado preliminar do julgamento",
             "data": "2027-01-01"
         },
         {
-            "evento": "Prazo final para interposição de recurso administrativo (10 dias corridos após divulgação do resultado preliminar)",
-            "data": "texto original: 10 dias corridos após divulgação do resultado preliminar"
+            "evento": "Prazo final para interposição de recurso administrativo",
+            "data": "10 dias corridos após a divulgação do resultado preliminar"
         },
         {
-            "evento": "Divulgação do resultado final e publicação no Diário Oficial da União",
+            "evento": "Divulgação do resultado final",
             "data": "2027-02-01"
         },
         {
-            "evento": "Início da implementação das bolsas",
+            "evento": "Início da Implementação das bolsas",
             "data": "2027-03-01"
         }
     ],
     "tags": [
-        "bolsas de extensão",
-        "inclusão racial",
-        "ensino médio",
-        "pesquisa científica",
-        "energias renováveis",
-        "diversidade de gênero",
-        "educação pública",
-        "tecnologias sociais",
+        "Projeto InspirAÇÃO",
+        "Extensão no País",
+        "Ensino Médio",
+        "Inclusão Social",
         "Petrobras",
         "CNPq",
         "cnpq",
@@ -95,7 +91,11 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -104,5 +104,15 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-12-08"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Engenharias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas"
+        ],
+        "requisitos_resumo": "Ser Pró-Reitor/a de Extensão ou indicado por ela em IES/ICT com vínculo formal, com currículo Lattes atualizado e sem inadimplência com o CNPq ou Administração Pública."
     }
 }

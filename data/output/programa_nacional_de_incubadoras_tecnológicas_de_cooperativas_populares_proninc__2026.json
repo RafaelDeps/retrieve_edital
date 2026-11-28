@@ -98,7 +98,8 @@
     ],
     "modalidade": "",
     "publico_alvo": [
-        "ict-empresa"
+        "empresa",
+        "ict"
     ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
@@ -108,5 +109,17 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2027-01-14"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Proposta apresentada por Instituições Científicas, Tecnológicas e de Inovação (ICTs) públicas ou privadas sem fins lucrativos, com atuação conjunta de ITCP e NIT."
     }
 }

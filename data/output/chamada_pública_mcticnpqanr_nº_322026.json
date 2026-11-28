@@ -1,6 +1,6 @@
 {
-    "nome": "CHAMADA PÚBLICA MCTI/CNPQ/ANR Nº 32/2026 - COOPERAÇÃO BRASIL-FRANÇA EM PESQUISA CIENTÍFICA E INOVAÇÃO",
-    "descrição": "Seleção de até 4 projetos conjuntos de pesquisa entre grupos brasileiros e franceses, visando o desenvolvimento científico, tecnológico e inovação em duas áreas prioritárias: **Saúde/Uma Só Saúde (One Health)**, com ênfase em imunologia, doenças infecciosas e meio ambiente; e **Contínuo Digital**, abrangendo Computação de Alto Desempenho (HPC), Inteligência Artificial (IA) e Ciências Quânticas. A chamada busca fortalecer a cooperação bilateral, agregar valor à pesquisa estratégica e promover ações de divulgação científica para a sociedade.",
+    "nome": "CHAMADA PÚBLICA MCTI/CNPQ/ANR Nº 32/2026",
+    "descrição": "Selecionar até 4 (quatro) projetos conjuntos de pesquisa entre grupos brasileiros e franceses, que visem contribuir para o desenvolvimento científico, tecnológico e a inovação do país, nas áreas de Saúde/Uma Só Saúde (One Health) e Contínuo Digital (Digital Continuum): Computação de Alto Desempenho (HPC), Inteligência Artificial (IA) e Computação Quântica.",
     "orgão_fomento": "CNPQ",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -33,16 +33,24 @@
             "data": "2027-03-31"
         },
         {
-            "evento": "Período de Julgamento",
+            "evento": "Início de Período de Julgamento",
             "data": "2027-04-01"
         },
         {
-            "evento": "Divulgação do resultado do julgamento no Diário Oficial da União e na página do CNPq",
+            "evento": "Encerramento de Período de Julgamento",
+            "data": "2027-09-30"
+        },
+        {
+            "evento": "Divulgação do resultado do julgamento no Diário Oficial da União, por extrato, e na página do CNPq na internet",
             "data": "2027-10-01"
         },
         {
             "evento": "Prazo final para interposição de recurso administrativo",
             "data": "10 dias corridos após divulgação do resultado preliminar"
+        },
+        {
+            "evento": "Divulgação da decisão no Diário Oficial da União, por extrato, e na página do CNPq na internet",
+            "data": "2027-10-01"
         },
         {
             "evento": "Contratação das propostas aprovadas",
@@ -52,13 +60,9 @@
     "tags": [
         "cooperação internacional",
         "pesquisa científica",
-        "saúde pública",
         "inteligência artificial",
+        "saúde",
         "computação quântica",
-        "inovação tecnológica",
-        "One Health",
-        "HPC (High-Performance Computing)",
-        "financiamento bilateral",
         "cnpq",
         "chamada pública"
     ],
@@ -70,7 +74,10 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -79,5 +86,14 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2027-03-31"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Engenharias",
+            "Ciências da Saúde"
+        ],
+        "requisitos_resumo": "Possuir título de doutor, currículo Lattes atualizado e vínculo celetista ou estatutário com a instituição de execução do projeto."
     }
 }

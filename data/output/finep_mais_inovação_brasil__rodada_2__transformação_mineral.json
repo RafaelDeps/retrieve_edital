@@ -157,7 +157,8 @@
     ],
     "modalidade": "",
     "publico_alvo": [
-        "empresa"
+        "empresa",
+        "startup"
     ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
@@ -167,5 +168,13 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-11-30"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Engenharias"
+        ],
+        "requisitos_resumo": "Empresas em parceria obrigatória com Instituições Científicas, Tecnológicas e de Inovação (ICTs)."
     }
 }

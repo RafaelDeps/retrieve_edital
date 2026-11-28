@@ -88,8 +88,8 @@
     ],
     "modalidade": "",
     "publico_alvo": [
-        "ict-empresa",
-        "empresa"
+        "empresa",
+        "ict"
     ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
@@ -99,5 +99,12 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-12-08"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Agrárias"
+        ],
+        "requisitos_resumo": "ICTs públicas e privadas com experiência comprovada em pesquisa, desenvolvimento ou extensão tecnológica, em parceria formal prévia com cooperativa da agricultura familiar."
     }
 }

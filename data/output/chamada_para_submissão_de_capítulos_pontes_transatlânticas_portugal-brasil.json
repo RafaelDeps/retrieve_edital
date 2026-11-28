@@ -1,6 +1,6 @@
 {
     "nome": "CHAMADA PARA SUBMISSÃO DE CAPÍTULOS: PONTES TRANSATLÂNTICAS PORTUGAL-BRASIL",
-    "descrição": "Submissão, avaliação e publicação de capítulos para compor a obra coletiva “Pontes Transatlânticas Portugal-Brasil: experiências, desafios e oportunidades educacionais dos Institutos Politécnicos Superiores e das Instituições da Rede Federal de Educação Profissional, Científica e Tecnológica”, promovendo o intercâmbio de conhecimentos entre Brasil e Portugal.",
+    "descrição": "A presente chamada tem por objeto a submissão, avaliação e publicação de capítulos para compor a obra coletiva “Pontes Transatlânticas Portugal-Brasil: experiências, desafios e oportunidades educacionais dos Institutos Politécnicos Superiores e das Instituições da Rede Federal de Educação Profissional, Científica e Tecnológica”, promovendo o diálogo e o intercâmbio de conhecimentos entre Brasil e Portugal.",
     "orgão_fomento": "CONIF",
     "categoria": "pesquisa",
     "status": "aberto",
@@ -13,7 +13,7 @@
             "data": "2026-11-25"
         },
         {
-            "evento": "Definição da modalidade de seleção dos capítulos - editores associados",
+            "evento": "Indicação pelas instituições da modalidade de seleção dos capítulos - editores associados",
             "data": "2026-11-30"
         },
         {
@@ -22,23 +22,19 @@
             "chamada": "1ª chamada"
         },
         {
-            "evento": "Encerramento da submissão dos capítulos (1º período)",
+            "evento": "Encerramento da submissão dos capítulos",
             "data": "2026-12-18",
             "chamada": "1ª chamada"
         },
         {
-            "evento": "Recesso de fim de ano",
-            "data": "2026-12-19"
-        },
-        {
-            "evento": "Início da submissão dos capítulos (2º período)",
+            "evento": "Início da submissão dos capítulos",
             "data": "2027-01-11",
-            "chamada": "1ª chamada"
+            "chamada": "2ª chamada"
         },
         {
             "evento": "Encerramento da submissão dos capítulos",
             "data": "2027-01-26",
-            "chamada": "1ª chamada"
+            "chamada": "2ª chamada"
         },
         {
             "evento": "Início da avaliação dos capítulos",
@@ -55,6 +51,14 @@
         {
             "evento": "Encerramento da consolidação dos pareceres e definição da versão preliminar",
             "data": "2027-04-01"
+        },
+        {
+            "evento": "Início do recesso de fim de ano",
+            "data": "2026-12-19"
+        },
+        {
+            "evento": "Encerramento do recesso de fim de ano",
+            "data": "2027-01-10"
         },
         {
             "evento": "Início dos ajustes finais pelos(as) autores(as)",
@@ -74,15 +78,15 @@
         },
         {
             "evento": "Publicação e lançamento da obra",
-            "data": "2º semestre de 2027"
+            "data": "2027-07-01"
         }
     ],
     "tags": [
-        "educação",
         "cooperação internacional",
-        "pesquisa",
-        "publicação de capítulos",
+        "educação profissional",
         "ensino superior",
+        "publicação de capítulos",
+        "Brasil-Portugal",
         "conif",
         "2026"
     ],
@@ -94,7 +98,10 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -103,11 +110,31 @@
         {
             "nome": "1ª chamada",
             "abertura": "2026-11-25",
+            "encerramento": "2026-12-18"
+        },
+        {
+            "nome": "2ª chamada",
+            "abertura": "2027-01-11",
             "encerramento": "2027-01-26"
         }
     ],
     "proxima_etapa": {
-        "evento": "Definição da modalidade de seleção dos capítulos - editores associados",
+        "evento": "Indicação pelas instituições da modalidade de seleção dos capítulos - editores associados",
         "data": "2026-11-30"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Ser servidor das instituições convidadas da Rede Federal de Educação Profissional, Científica e Tecnológica do Brasil ou associadas ao CCISP em Portugal, com indicação institucional de um capítulo inédito."
     }
 }

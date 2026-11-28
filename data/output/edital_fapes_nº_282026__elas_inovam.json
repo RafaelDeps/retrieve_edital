@@ -1,110 +1,146 @@
 {
     "nome": "EDITAL FAPES Nº 28/2026 – ELAS INOVAM",
-    "descrição": "O edital visa apoiar o desenvolvimento de soluções inovadoras e a estruturação de negócios liderados por mulheres no Espírito Santo. Dividido em dois ciclos, o Ciclo 1 (Ideação) seleciona até 50 propostas para desenvolvimento de um Produto Mínimo Viável (MVP) e elaboração de um plano de ação, com até R$ 30 mil de subvenção por projeto e bolsa BCO. O Ciclo 2 (Consolidação) seleciona até 20 projetos para aprimorar as soluções, com até R$ 50 mil de subvenção e nova bolsa BCO. Os temas abrangem saúde, sustentabilidade, energias renováveis, transformação digital, educação e economia criativa. Inclui oficinas e mentorias em parceria com o Sebrae-ES e ações afirmativas para grupos específicos.",
+    "descrição": "Apoiar o desenvolvimento de soluções inovadoras e a estruturação de negócios liderados por mulheres, ampliando sua participação no ecossistema capixaba de inovação por meio de subvenção econômica e bolsas.",
     "orgão_fomento": "FAPES",
     "categoria": "inovação",
     "status": "aberto",
-    "data_abertura": "2027-05-01",
-    "data_encerramento": "",
+    "data_abertura": "2026-11-13",
+    "data_encerramento": "2026-12-22",
     "link": "https://fapes.es.gov.br/media/Editais/edital_fapes_n_28-2026_-_elas_inovam_-lancamento.pdf?v=1794337738000",
     "cronograma": [
         {
             "evento": "Publicação do edital",
-            "data": "2026-11-10"
+            "data": "2026-11-10",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Submissão para o Ciclo 1 (Ideação)",
-            "data": "2026-11-13"
+            "evento": "Início da submissão",
+            "data": "2026-11-13",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Resultado preliminar da seleção do Ciclo 1",
-            "data": "2027-01-29"
+            "evento": "Encerramento da submissão",
+            "data": "2026-12-22",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Recurso administrativo para o Ciclo 1",
-            "data": "2027-02-05"
+            "evento": "Resultado preliminar da seleção",
+            "data": "2027-01-29",
+            "chamada": "1ª chamada"
+        },
+        {
+            "evento": "Recurso administrativo",
+            "data": "2027-02-05",
+            "chamada": "1ª chamada"
         },
         {
             "evento": "Resultado final do Ciclo 1",
-            "data": "2027-03-01"
+            "data": "2027-03-01",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Constituição da empresa (quando necessária)",
-            "data": "2027-03-21"
+            "evento": "Constituição da empresa, quando necessária",
+            "data": "2027-03-21",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Contratação dos projetos selecionados no Ciclo 1",
-            "data": "2027-03-22"
+            "evento": "Contratação dos projetos selecionados",
+            "data": "2027-03-22",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Início da vigência dos projetos do Ciclo 1",
-            "data": "2027-05-01"
+            "evento": "Início da vigência dos projetos",
+            "data": "2027-05-01",
+            "chamada": "1ª chamada"
         },
         {
-            "evento": "Abertura do Ciclo 2 (Consolidação)",
-            "data": "2028-01-12"
+            "evento": "Abertura do Ciclo 2",
+            "data": "2028-01-12",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Submissão para o Ciclo 2 (Consolidação)",
-            "data": "2028-01-12"
+            "evento": "Início da submissão",
+            "data": "2028-01-12",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Resultado preliminar da seleção do Ciclo 2",
-            "data": "2028-03-06"
+            "evento": "Encerramento da submissão",
+            "data": "2028-02-04",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Recurso administrativo para o Ciclo 2",
-            "data": "2027-02-05"
+            "evento": "Resultado preliminar da seleção",
+            "data": "2028-03-06",
+            "chamada": "2ª chamada"
+        },
+        {
+            "evento": "Recurso administrativo",
+            "data": "2028-03-13",
+            "chamada": "2ª chamada"
         },
         {
             "evento": "Resultado final do Ciclo 2",
-            "data": "2028-03-30"
+            "data": "2028-03-30",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Contratação dos projetos selecionados no Ciclo 2",
-            "data": "2028-04-03"
+            "evento": "Contratação dos projetos selecionados",
+            "data": "2028-04-03",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Início da vigência dos projetos do Ciclo 2",
-            "data": "2028-05-01"
+            "evento": "Início da vigência dos projetos",
+            "data": "2028-05-01",
+            "chamada": "2ª chamada"
         }
     ],
     "tags": [
-        "empreendedorismo feminino",
-        "inovação tecnológica",
+        "mulheres",
+        "inovação",
         "subvenção econômica",
-        "produto mínimo viável (MVP)",
-        "ações afirmativas",
-        "sustentabilidade",
-        "transformação digital",
-        "negócios sociais"
+        "espírito santo",
+        "empreendedorismo"
     ],
-    "anexos": [
-        {
-            "titulo": "ANEXO I - FORMULÁRIO DE SUBMISSÃO - CICLO 1",
-            "link": "https://fapes.es.gov.br/media/Editais/anexo-i-formulario-submissao-ciclo1.docx?v=1794338025000",
-            "tipo": "anexo"
-        },
-        {
-            "titulo": "ANEXO II - FORMULÁRIO DE SUBMISSÃO - CICLO 2",
-            "link": "https://fapes.es.gov.br/media/Editais/anexo-ii-formulario-submissao-ciclo2.docx?v=1794338026000",
-            "tipo": "anexo"
-        },
-        {
-            "titulo": "ANEXO III - AUTODECLARAÇÃO DE AÇÕES AFIRMATIVAS",
-            "link": "https://fapes.es.gov.br/media/Editais/anexo-iiii-autodeclaracao-acoes-afirmativas.docx?v=1794338026000",
-            "tipo": "anexo"
-        }
-    ],
+    "anexos": [],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "empresa",
+        "startup"
+    ],
     "ambito_geografico": "estadual-ES",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "fapes",
-    "chamadas": [],
+    "chamadas": [
+        {
+            "nome": "1ª chamada",
+            "abertura": "2026-11-13",
+            "encerramento": "2026-12-22"
+        },
+        {
+            "nome": "2ª chamada",
+            "abertura": "2028-01-12",
+            "encerramento": "2028-02-04"
+        }
+    ],
     "proxima_etapa": {
-        "evento": "Resultado preliminar da seleção do Ciclo 1",
-        "data": "2027-01-29"
+        "evento": "Encerramento da submissão",
+        "data": "2026-12-22"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Mulheres com 18 anos ou mais, residentes no Espírito Santo, que assumirão a coordenação e a representação legal da empresa beneficiária."
     }
 }

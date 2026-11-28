@@ -1,8 +1,8 @@
 {
-    "nome": "CNPQ/MCTI Nº 36/2026 - APOIO A CURSOS DE CURTA DURAÇÃO EM BIODIVERSIDADE NO ÂMBITO DO CFBBA",
-    "descrição": "A Chamada Pública CNPq/MCTI Nº 36/2026 visa apoiar cursos de curta duração em biodiversidade, presencial ou híbrida, no Centro Franco-Brasileiro de Biodiversidade Amazônica (CFBBA). O objetivo é fortalecer a cooperação científica e tecnológica entre Brasil e França, promovendo intercâmbio de conhecimentos, formação de recursos humanos e desenvolvimento de pesquisas conjuntas em temas prioritários de biodiversidade, saúde, bioeconomia e sustentabilidade, com foco na região amazônica.",
+    "nome": "APOIO A CURSOS DE CURTA DURAÇÃO EM BIODIVERSIDADE, NO ÂMBITO DO CENTRO FRANCO-BRASILEIRO DE BIODIVERSIDADE AMAZÔNICA – CFBBA",
+    "descrição": "Apoiar a realização de cursos de curta duração em biodiversidade, a serem oferecidos no âmbito do Centro Franco-Brasileiro de Biodiversidade Amazônica (CFBBA), visando fortalecer a capacidade científica e tecnológica instalada no Brasil e na França por meio de intercâmbio, transferência de conhecimentos, execução de projetos conjuntos e formação de recursos humanos.",
     "orgão_fomento": "CNPQ",
-    "categoria": "extensão",
+    "categoria": "pesquisa",
     "status": "aberto",
     "data_abertura": "2026-11-03",
     "data_encerramento": "2027-02-12",
@@ -21,7 +21,7 @@
             "data": "2026-11-03"
         },
         {
-            "evento": "Lançamento da Chamada no Diário Oficial da União e página do CNPq",
+            "evento": "Lançamento da Chamada no Diário Oficial da União e página do CNPq na internet",
             "data": "2026-11-03"
         },
         {
@@ -33,7 +33,7 @@
             "data": "2027-02-12"
         },
         {
-            "evento": "Divulgação do resultado preliminar no Diário Oficial da União e página do CNPq",
+            "evento": "Divulgação do resultado preliminar no Diário Oficial da União e na página do CNPq na internet",
             "data": "2027-03-01"
         },
         {
@@ -41,21 +41,16 @@
             "data": "10 dias corridos após a divulgação do resultado preliminar"
         },
         {
-            "evento": "Divulgação do resultado final no Diário Oficial da União e página do CNPq",
+            "evento": "Divulgação do resultado final no Diário Oficial da União e na página do CNPq na internet",
             "data": "2027-04-01"
         }
     ],
     "tags": [
         "biodiversidade",
+        "amazônia",
         "cooperação internacional",
         "cursos de curta duração",
-        "CFBBA",
-        "Amazônia",
-        "pesquisa científica",
-        "França-Brasil",
-        "extensão universitária",
-        "inovação",
-        "pós-graduação",
+        "meio ambiente",
         "cnpq",
         "chamada pública"
     ],
@@ -64,10 +59,19 @@
             "titulo": "Chamada",
             "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-36-2026/copy_of_chamadapublica362026_CFBBA.pdf",
             "tipo": "pdf"
+        },
+        {
+            "titulo": "Retificação nº 01",
+            "link": "https://www.gov.br/cnpq/pt-br/chamadas/todas-as-chamadas/chamadas-2026/chamada-no-36-2026/Retificao1Chamada36_2026_CFBBA.pdf",
+            "tipo": "pdf"
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pos_graduando",
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -76,5 +80,14 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2027-02-12"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Biológicas",
+            "Ciências da Saúde",
+            "Ciências Agrárias"
+        ],
+        "requisitos_resumo": "Professor ou pesquisador brasileiro com currículo Lattes atualizado, vínculo formal com instituição no Amapá, Amazonas, Pará ou Roraima, e parceria com instituição francesa."
     }
 }

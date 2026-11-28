@@ -1,11 +1,11 @@
 {
     "nome": "EDITAL Nº 21/2026 - PROGRAMA DE DESENVOLVIMENTO DA PÓS-GRADUAÇÃO (PDPG) – PARCERIAS ESTRATÉGICAS NOS ESTADOS VI – REDE DE PESQUISA E DESENVOLVIMENTO DA REGIÃO NORDESTE",
-    "descrição": "Contribuir para a redução das assimetrias regionais no âmbito do Sistema Nacional de Pós-Graduação (SNPG) por meio do apoio a projetos de formação de recursos humanos de alto nível com foco na consolidação dos Programas de Pós-Graduação (PPGs), nucleação de novas áreas estratégicas, fortalecimento da interiorização da pós-graduação, expansão da produção científica e tecnológica e no fortalecimento das atividades de extensão na região nordeste do Brasil, promovendo a colaboração e sinergia entre Instituições de Ensino Superior, instituições de pesquisa, setor produtivo, organizações da sociedade civil e governos locais.",
+    "descrição": "Contribuir para a redução das assimetrias regionais no âmbito do Sistema Nacional de Pós-Graduação (SNPG) por meio do apoio a projetos de formação de recursos humanos de alto nível com foco na consolidação dos Programas de Pós-Graduação (PPGs), nucleação de novas áreas estratégicas, fortalecimento da interiorização da pós-graduação, expansão da produção científica e tecnológica e no fortalecimento das atividades de extensão na região nordeste do Brasil.",
     "orgão_fomento": "CAPES",
     "categoria": "pesquisa",
     "status": "aberto",
     "data_abertura": "2026-07-14",
-    "data_encerramento": "2026-11-30",
+    "data_encerramento": "2026-12-14",
     "link": "https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/bolsas/programas-estrategicos/desenvolvimento-regional/redes-de-pesquisa-e-desenvolvimento/programa-rede-de-pesquisa-e-desenvolvimento-da-regiao-nordeste",
     "cronograma": [
         {
@@ -18,56 +18,56 @@
         },
         {
             "evento": "Data limite para submissão das propostas",
-            "data": "2026-11-30"
+            "data": "2026-12-14"
         },
         {
             "evento": "Resultado da Análise Técnica",
-            "data": "2026-12-07"
-        },
-        {
-            "evento": "Prazo para envio de recurso referente à Análise Técnica",
-            "data": "5 (cinco) dias corridos após o recebimento da comunicação do indeferimento da análise técnica"
-        },
-        {
-            "evento": "Divulgação do Resultado Final da Análise Técnica",
             "data": "2026-12-21"
         },
         {
+            "evento": "Prazo para envio de recurso referente à Análise Técnica",
+            "data": "5 (cinco) dias corridos após o recebimento da comunicação do indeferimento"
+        },
+        {
+            "evento": "Divulgação do Resultado Final da Análise Técnica",
+            "data": "2027-01-04"
+        },
+        {
             "evento": "Divulgação do Resultado Preliminar das Propostas P1",
-            "data": "2027-02-26",
-            "chamada": "Propostas Prioritárias Estaduais (P1)"
+            "data": "2027-03-12",
+            "chamada": "1ª chamada"
         },
         {
             "evento": "Prazo para envio de recurso referente ao Resultado Preliminar das Propostas P1",
-            "data": "5 (cinco) dias corridos após a divulgação do resultado preliminar no DOU",
-            "chamada": "Propostas Prioritárias Estaduais (P1)"
+            "data": "5 (cinco) dias corridos após o recebimento da comunicação do indeferimento da análise de mérito.",
+            "chamada": "1ª chamada"
         },
         {
             "evento": "Divulgação da quantidade de vagas destinadas a Ampla Concorrência",
-            "data": "2027-03-19",
-            "chamada": "Ampla Concorrência"
+            "data": "2027-04-02",
+            "chamada": "2ª chamada"
         },
         {
-            "evento": "Divulgação do Resultado preliminar das propostas de Ampla Concorrência",
-            "data": "2027-04-15",
-            "chamada": "Ampla Concorrência"
+            "evento": "Divulgação do Resultado Preliminar das propostas de Ampla Concorrência",
+            "data": "2027-04-29",
+            "chamada": "2ª chamada"
         },
         {
             "evento": "Prazo para envio de recurso referente ao Resultado Preliminar das propostas de Ampla Concorrência",
-            "data": "5 (cinco) dias corridos após a divulgação do resultado preliminar no DOU",
-            "chamada": "Ampla Concorrência"
+            "data": "5 (cinco) dias corridos após o recebimento da comunicação do indeferimento da análise de mérito.",
+            "chamada": "2ª chamada"
         },
         {
             "evento": "Divulgação do Resultado Final no DOU",
-            "data": "2027-05-05"
+            "data": "2027-05-19"
         },
         {
             "evento": "Assinatura dos Acordos de Cooperação Técnica",
-            "data": "2027-05-05"
+            "data": "2027-05-19"
         },
         {
             "evento": "Início da implementação dos projetos",
-            "data": "2027-05-01"
+            "data": "2027-06-01"
         },
         {
             "evento": "Implementação das bolsas no exterior - Destino Hemisfério Norte",
@@ -75,18 +75,23 @@
         },
         {
             "evento": "Implementação das bolsas no exterior - Destino Hemisfério Sul",
-            "data": "2028-01-01"
+            "data": "2028-02-01"
         }
     ],
     "tags": [
-        "pós-graduação",
-        "região nordeste",
-        "pesquisa e desenvolvimento",
-        "assimetrias regionais",
-        "faps",
+        "pos-graduacao",
+        "nordeste",
+        "pesquisa",
+        "desenvolvimento",
+        "inovacao",
         "capes"
     ],
     "anexos": [
+        {
+            "titulo": "Alteração Edital nº 21/2026 - Programa de Desenvolvimento da Pós-Graduação (PDPG) – Parcerias Estratégicas nos Estados VI – Rede de Pesquisa e Desenvolvimento da Região Nordeste, formato, pdf, 62.0kb",
+            "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2935989_sei_2935908_edital_21_2026___alteracao.pdf/@@display-file/file",
+            "tipo": "anexo"
+        },
         {
             "titulo": "Alteração Edital nº 21/2026 - Programa de Desenvolvimento da Pós-Graduação (PDPG) – Parcerias Estratégicas nos Estados VI – Rede de Pesquisa e Desenvolvimento da Região Nordeste, formato, pdf, 69,6kb",
             "link": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/editais/edital_2894158_sei_2893573_edital_n__21_2026.pdf/@@display-file/file",
@@ -104,25 +109,44 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente",
+        "ict"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
     "fonte_key": "capes",
     "chamadas": [
         {
-            "nome": "Propostas Prioritárias Estaduais (P1)",
+            "nome": "1ª chamada",
             "abertura": "",
             "encerramento": ""
         },
         {
-            "nome": "Ampla Concorrência",
+            "nome": "2ª chamada",
             "abertura": "",
             "encerramento": ""
         }
     ],
     "proxima_etapa": {
         "evento": "Data limite para submissão das propostas",
-        "data": "2026-11-30"
+        "data": "2026-12-14"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Proponente deve ser o dirigente máximo de FAP vinculada ao CONFAP, articulando com IES a indicação de coordenador de projeto com vínculo efetivo em regime de dedicação exclusiva."
     }
 }

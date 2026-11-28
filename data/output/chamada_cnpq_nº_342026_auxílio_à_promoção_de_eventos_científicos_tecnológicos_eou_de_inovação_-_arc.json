@@ -1,8 +1,8 @@
 {
-    "nome": "CHAMADA CNPQ Nº 34/2026 - AUXÍLIO À PROMOÇÃO DE EVENTOS CIENTÍFICOS, TECNOLÓGICOS E/OU DE INOVAÇÃO (ARC)",
-    "descrição": "Apoiar a realização de eventos científicos, tecnológicos e de inovação de grande porte, com abrangência mundial, internacional ou nacional, que contribuam significativamente para o desenvolvimento científico, tecnológico e de inovação do Brasil. Inclui eventos promovidos por sociedades científicas mundiais, associações tradicionais ou não tradicionais, com foco em educação, divulgação científica e alinhamento aos eixos da Estratégia Nacional de Ciência, Tecnologia e Inovação (ENCTI) 2024-2034.",
+    "nome": "CHAMADA CNPQ Nº 34/2026 AUXÍLIO À PROMOÇÃO DE EVENTOS CIENTÍFICOS, TECNOLÓGICOS E/OU DE INOVAÇÃO - ARC",
+    "descrição": "Apoiar a realização no Brasil de eventos de grande porte, de abrangência mundial, internacional ou nacional, relacionados a ciência, tecnologia e inovação, tais como encontros, congressos e outros similares que visem contribuir significativamente para o desenvolvimento científico e tecnológico e a inovação do País.",
     "orgão_fomento": "CNPQ",
-    "categoria": "extensão",
+    "categoria": "pesquisa",
     "status": "aberto",
     "data_abertura": "2026-10-14",
     "data_encerramento": "2026-12-04",
@@ -33,11 +33,15 @@
             "data": "2026-12-04"
         },
         {
-            "evento": "Período de Julgamento",
+            "evento": "Início de Período de Julgamento",
             "data": "2027-02-01"
         },
         {
-            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União e na página do CNPq",
+            "evento": "Encerramento de Período de Julgamento",
+            "data": "2027-02-19"
+        },
+        {
+            "evento": "Divulgação do resultado preliminar do julgamento no Diário Oficial da União, por extrato, e na página do CNPq na internet",
             "data": "2027-03-15"
         },
         {
@@ -45,18 +49,15 @@
             "data": "2027-03-25"
         },
         {
-            "evento": "Divulgação da decisão final no Diário Oficial da União e na página do CNPq",
+            "evento": "Divulgação da decisão no Diário Oficial da União, por extrato, e na página do CNPq na internet",
             "data": "2027-04-30"
         }
     ],
     "tags": [
         "eventos científicos",
-        "inovação tecnológica",
-        "fomento CNPq",
-        "divulgação científica",
-        "Estratégia Nacional de CT&I",
-        "auxílio a eventos",
-        "presencial e híbrido",
+        "tecnologia e inovação",
+        "auxílio financeiro",
+        "congresso",
         "cnpq",
         "chamada pública"
     ],
@@ -73,7 +74,10 @@
         }
     ],
     "modalidade": "",
-    "publico_alvo": [],
+    "publico_alvo": [
+        "pesquisador",
+        "docente"
+    ],
     "ambito_geografico": "nacional",
     "valor_estimado": null,
     "trl_exigido": "",
@@ -82,5 +86,20 @@
     "proxima_etapa": {
         "evento": "Prazo para envio de propostas",
         "data": "2026-12-04"
+    },
+    "elegibilidade": {
+        "titulacao_minima": "doutorado",
+        "areas_conhecimento": [
+            "Ciências Exatas e da Terra",
+            "Ciências Biológicas",
+            "Engenharias",
+            "Ciências da Saúde",
+            "Ciências Agrárias",
+            "Ciências Sociais Aplicadas",
+            "Ciências Humanas",
+            "Linguística, Letras e Artes",
+            "Multidisciplinar"
+        ],
+        "requisitos_resumo": "Possuir título de Doutor, currículo Lattes atualizado, vínculo formal com a instituição de execução e ser coordenador do projeto."
     }
 }
